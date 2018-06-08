@@ -3,6 +3,11 @@ public class Inventar
     int[] rohstoffe;//0 holz, 1 lehm, 2 schaf, 3 weizen, 4 erz
     int[] entwicklungskarten; // 0 Ritter, 1 Siegpunkt, 2 Straßenbau, 3 Erfindung, 4 Monopol
 
+    static int[] strasse = {1,1,0,0,0};
+    static int[] siedlung = {1,1,1,1,0};
+    static int[] stadt = {0,0,0,1,1};
+    static int[] entwicklung = {0,0,1,1,1};
+
     public Inventar()
     {
         rohstoffe = new int[5];

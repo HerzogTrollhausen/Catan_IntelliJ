@@ -207,11 +207,12 @@ public class Main
 
     public static void entwicklungskarte(int typ, Spieler pSpieler)
     {
+        pSpieler.inv.entwicklungskarten[typ]--;
         switch (typ)
         {
             case 0:
             {
-                System.out.println("Hallo Git!");
+                rittermacht(++pSpieler.anzahlGelegteRitter);
             }
         }
     }

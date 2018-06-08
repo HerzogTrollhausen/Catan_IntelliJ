@@ -19,9 +19,8 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                Bandit.ausschicken();
-                Main.entwicklungskarte(0, Main.spieler());
-                Main.rittermacht(Main.spieler().anzahlGelegteRitter);
+                Bandit.ausschicken();//TODO
+                OnlineInterpreter.entwicklungskarteAusspielen(Main.spieler(), 0);
                 f.dispose();
             }
         });
@@ -64,7 +63,6 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
             public void actionPerformed(ActionEvent e)
             {
                 new Handel(7);
-                Main.spieler().inv.entwicklungskarten[3]--;
                 f.dispose();
             }
         });
@@ -82,7 +80,6 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
             public void actionPerformed(ActionEvent e)
             {
                 new Monopol();
-                Main.spieler().inv.entwicklungskarten[4]--;
                 f.dispose();
             }
         });

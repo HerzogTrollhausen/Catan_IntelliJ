@@ -62,7 +62,7 @@ public class Main
             }
             spielernr = spielernr == anzahlSpieler - 1 ? 0 : spielernr + 1;
             ernte(wurf);
-            bildschirm.spielerpanel.label.setText("Letzter Wurf: "+wurf);
+            bildschirm.spielerpanel.label.setText("Letzter Wurf: " + wurf);
         } else
         {
             spielernr = spielernr + fruehvor;
@@ -83,7 +83,7 @@ public class Main
         bildschirm.eckpanel.removeAll();
         welt.dunkel();
         anderePanelAkt();
-        if(lokal)
+        if (lokal)
         {
             ich = spielernr;
         }
@@ -207,12 +207,10 @@ public class Main
 
     public static void entwicklungskarte(int typ, Spieler pSpieler)
     {
-        switch (typ)
+        pSpieler.inv.entwicklungskarten[typ]--;
+        if (typ == 0)
         {
-            case 0:
-            {
-                System.out.println("Hallo Git!");
-            }
+            rittermacht(++pSpieler.anzahlGelegteRitter);
         }
     }
 }

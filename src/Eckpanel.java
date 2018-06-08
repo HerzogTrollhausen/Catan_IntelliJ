@@ -42,8 +42,8 @@ public class Eckpanel extends JPanel
                                     public void actionPerformed(ActionEvent e)
                                     {
                                         //Main.fruehsiedlung = true;
-                                        Client.senden("d"+Main.spieler().id+""+kante.feld1.x+""+kante.feld1.y+""+kante.pos);
-                                        Client.senden("h" + 0);
+                                        OnlineInterpreter.strasseBauen(Main.spieler(), kante);
+                                        OnlineInterpreter.wuerfel(0);
                                         //weg(kante);
                                         //Spielerpanel.akt();
                                     }
@@ -72,8 +72,8 @@ public class Eckpanel extends JPanel
                                         public void actionPerformed(ActionEvent e)
                                         {
                                             //TODO
-                                            Client.senden("d"+Main.spieler().id+""+kante.feld1.x+""+kante.feld1.y+""+kante.pos);
-                                            Client.senden("n"+Main.spieler().id+"1m1m0m0m0");
+                                            OnlineInterpreter.strasseBauen(Main.spieler(), kante);
+                                            OnlineInterpreter.bezahlen(Main.spieler(), Inventar.strasse);
                                         }
                                     });
                                 } else
@@ -183,8 +183,8 @@ public class Eckpanel extends JPanel
                                                          {
                                                              public void actionPerformed(ActionEvent e)
                                                              {
-                                                                 Client.senden("f"+Main.spieler().id+""+ecke.feld.x+""+ecke.feld.y+""+ecke.pos);
-                                                                 Client.senden("n"+Main.spieler().id+"0m0m0m2m3");
+                                                                 OnlineInterpreter.stadtBauen(Main.spieler(), ecke);
+                                                                 OnlineInterpreter.bezahlen(Main.spieler(), Inventar.stadt);
                                                                  leerEcke(ecke);
                                                              }
                                                          }
@@ -221,7 +221,7 @@ public class Eckpanel extends JPanel
                                                              {
                                                                  public void actionPerformed(ActionEvent e)
                                                                  {
-                                                                     Client.senden("e"+Main.spieler().id+""+ecke.feld.x+""+ecke.feld.y+""+ecke.pos);
+                                                                     OnlineInterpreter.siedlungBauen(Main.spieler(), ecke);
                                                                      Main.letzteSiedlung = ecke;
                                                                      Main.fruehsiedlung = false;
                                                                      Spielerpanel.akt();
@@ -244,8 +244,8 @@ public class Eckpanel extends JPanel
                                                                  {
                                                                      public void actionPerformed(ActionEvent e)
                                                                      {
-                                                                         Client.senden("n"+Main.spieler().id+"1m1m1m1m0");
-                                                                         Client.senden("e"+Main.spieler().id+""+ecke.feld.x+""+ecke.feld.y+""+ecke.pos);
+                                                                         OnlineInterpreter.bezahlen(Main.spieler(), Inventar.siedlung);
+                                                                         OnlineInterpreter.siedlungBauen(Main.spieler(), ecke);
                                                                          Spielerpanel.akt();
                                                                          leerEcke(ecke);
                                                                      }

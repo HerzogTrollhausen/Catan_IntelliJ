@@ -63,7 +63,7 @@ public class Bildschirm extends JPanel
                                         public void actionPerformed(ActionEvent ev)
                                         {
                                             //Main.nextPlayer();
-                                            Client.senden("h"+Main.wuerfel());
+                                            OnlineInterpreter.wuerfel(Main.wuerfel());
                                         }
                                     }
         );
@@ -132,7 +132,7 @@ public class Bildschirm extends JPanel
                 {
                 /*System.out.println("welt: "+welt);
                 System.out.println("welt.felder: "+welt.felder);
-                System.out.println("welt.felder[j][i]"+welt.felder[j][i]);*/
+                System.out.println("welt.felder[j][entwicklungskarteAuspielen]"+welt.felder[j][entwicklungskarteAuspielen]);*/
                     Welt.felder[i][j].draw(g2);
                 }
             }

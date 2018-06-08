@@ -84,7 +84,8 @@ public class OnlineInterpreter
             }
             case 'i'://i23: Spieler 2 spielt Entwicklungskarte vom Typ 3 aus
             {
-                break; //TODO
+                Main.entwicklungskarte(msg.charAt(2), Main.spieler[msg.charAt(1)]);
+                break;
             }
             case 'j'://j56: Räuber auf Feld 5|6
             {
@@ -148,6 +149,16 @@ public class OnlineInterpreter
             default:
                 System.out.println("Unpassende Nachricht: " + msg);
         }
+    }
+
+    public static void senden(String msg)
+    {
+        Client.senden(msg);
+    }
+
+    public static void entwicklungskarteAusspielen(Spieler spieler, int typ)
+    {
+        senden("i"+spieler.id+""+typ);
     }
 
 

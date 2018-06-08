@@ -25,7 +25,7 @@ public class Chat extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                Client.senden("aSpieler "+Main.ich+": "+field.getText());
+                OnlineInterpreter.chatNachricht("Spieler "+Main.ich+": "+field.getText());
                 field.setText("");
             }
         });

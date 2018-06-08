@@ -34,9 +34,9 @@ public class Kante extends RectangleImage
         /*if(wege == null)
         {
             wege = new Image[4];
-            for(int i = 0; i < 4; i++)
+            for(int entwicklungskarteAuspielen = 0; entwicklungskarteAuspielen < 4; entwicklungskarteAuspielen++)
             {
-                wege[i] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Kanten/Weg"+i+".gif"), Bildschirm.kanteb, Bildschirm.kanteh, false);
+                wege[entwicklungskarteAuspielen] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Kanten/Weg"+entwicklungskarteAuspielen+".gif"), Bildschirm.kanteb, Bildschirm.kanteh, false);
             }
         }*/
 

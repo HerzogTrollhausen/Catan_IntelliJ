@@ -45,7 +45,7 @@ public class Ecke extends RectangleImage
             {
                 for(int j = 0; j < 2; j++)
                 {
-                    //System.out.println("Bilder/Siedlungen/"+i+"_"+j+".gif");
+                    //System.out.println("Bilder/Siedlungen/"+entwicklungskarteAuspielen+"_"+j+".gif");
                     siedlungen[i][j] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Siedlungen/"+i+"_"+j+".gif"), Bildschirm.eckeb, Bildschirm.eckeh, false);
                 }
             }

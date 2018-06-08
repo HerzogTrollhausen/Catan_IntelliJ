@@ -32,7 +32,7 @@ public class Hauptmenue extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 Main.starter = true;
-                Client.senden("m");
+                OnlineInterpreter.spielStarten();
             }
         });
 
@@ -90,7 +90,7 @@ public class Hauptmenue extends JPanel
             {
 
                 Main.starter = true;
-                Client.senden("m");
+                OnlineInterpreter.spielStarten();
             }
         });
 

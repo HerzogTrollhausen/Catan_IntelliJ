@@ -20,8 +20,7 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
             public void actionPerformed(ActionEvent e)
             {
                 Bandit.ausschicken();
-                Main.spieler().inv.entwicklungskarten[0]--;
-                Main.spieler().anzahlGelegteRitter++;
+                Main.entwicklungskarte(0, Main.spieler());
                 Main.rittermacht(Main.spieler().anzahlGelegteRitter);
                 f.dispose();
             }

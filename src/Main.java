@@ -211,7 +211,7 @@ public class Main
         {
             case 0:
             {
-
+                System.out.println("Hallo Git!");
             }
         }
     }

@@ -13,12 +13,7 @@ public class Bandit
 
     static void hinsetzen(Feld feld1)
     {
-        if(feld != null)
-        {
-            feld.besetzt = false;
-        }
-        feld = feld1;
-        feld.besetzt = true;
+        OnlineInterpreter.raeuberVersetzen(feld1);
         amSetzen = false;
         feld.ausrauben();
         Main.bildschirm.naechster.setEnabled(true);

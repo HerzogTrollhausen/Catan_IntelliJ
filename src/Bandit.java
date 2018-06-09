@@ -8,15 +8,15 @@ public class Bandit
     {
         amSetzen = true;
         Main.bildschirm.naechster.setEnabled(false);
-        Main.bildschirm.naechster.setToolTipText(nuz.NAECHSTER_RAEUBER);
+        Main.bildschirm.naechster.setToolTipText(Nuz.NAECHSTER_RAEUBER);
     }
 
     static void hinsetzen(Feld feld1)
     {
         OnlineInterpreter.raeuberVersetzen(feld1);
         amSetzen = false;
-        feld.ausrauben();
+        new SpielerauswahlRaub(feld1);
         Main.bildschirm.naechster.setEnabled(true);
-        Main.bildschirm.naechster.setToolTipText(nuz.NAECHSTER_DEFAULT);
+        Main.bildschirm.naechster.setToolTipText(Nuz.NAECHSTER_DEFAULT);
     }
 }

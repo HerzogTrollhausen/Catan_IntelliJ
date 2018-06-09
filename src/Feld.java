@@ -1,23 +1,24 @@
 import java.awt.Image;
+
 /**
  * Ecke 0 ist oben links, danach im Uhrzeigersinn
  * Entsprechende Kante ist immer im Uhrzeigersinn der Ecke.
- * 
- * 
- *     1
- *    / \
- *   0   1
- *  /     \
+ * <p>
+ * <p>
+ * 1
+ * / \
+ * 0   1
+ * /     \
  * 0       2
  * |       |
  * 5       2
  * |       |
  * 5       3
- *  \     /
- *   4   3
- *    \ /
- *     4
- *     
+ * \     /
+ * 4   3
+ * \ /
+ * 4
+ * <p>
  * Felder gehen von links nach rechts
  */
 public class Feld extends RectangleImage
@@ -33,7 +34,7 @@ public class Feld extends RectangleImage
     static Image schaf = lade("Schaf");
     static Image schaf_hell = lade("Schaf_hell");
     static Image lehm = lade("Lehm");
-    static Image lehm_hell = lade ("Lehm_hell");
+    static Image lehm_hell = lade("Lehm_hell");
     static Image erz = lade("Erz");
     static Image erz_hell = lade("Erz_hell");
     static Image weizen = lade("Weizen");
@@ -48,11 +49,12 @@ public class Feld extends RectangleImage
     int y;
     int art = 6; // 0 Holz, 1 Lehm, 2 Schaf, 3 Weizen, 4 Erz, 5 Wueste, 6 Meer
     boolean hell;
+
     public Feld(double x, int y)
     {
-        super(FileManager.createResizedCopy(holz, Bildschirm.feldb, Bildschirm.feldh, false), Bildschirm.ox+Bildschirm.feldb*x+y*0.5*Bildschirm.feldb, Bildschirm.oy+y*(int)(Bildschirm.feldh*0.75));
+        super(FileManager.createResizedCopy(holz, Bildschirm.feldb, Bildschirm.feldh, false), Bildschirm.ox + Bildschirm.feldb * x + y * 0.5 * Bildschirm.feldb, Bildschirm.oy + y * (int) (Bildschirm.feldh * 0.75));
         //super(lade(art), Bildschirm.ox+Bildschirm.feldb*x+y*0.5*Bildschirm.feldb, Bildschirm.oy+y*(int)(Bildschirm.feldh*0.75));
-        this.x = (int)x;
+        this.x = (int) x;
         this.y = y;
         ecken = new Ecke[6];
         kanten = new Kante[6];
@@ -61,62 +63,62 @@ public class Feld extends RectangleImage
 
     public void refreshBild()
     {
-        img = geladen(art+(hell?"_hell":""));
+        img = geladen(art + (hell ? "_hell" : ""));
     }
 
     public static Image lade(String name)
     {
-        return FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/"+name+"-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
+        return FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/" + name + "-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
     }
 
     public static Image geladen(String name)
     {
-        switch(name)
+        switch (name)
         {
-            case "0": 
-            return holz;
+            case "0":
+                return holz;
             case "6":
-            return meer;
+                return meer;
             case "5":
-            return wueste;
+                return wueste;
             case "2":
-            return schaf;
+                return schaf;
             case "1":
-            return lehm;
-            case "4": 
-            return erz;
+                return lehm;
+            case "4":
+                return erz;
             case "3":
-            return weizen;
+                return weizen;
             case "0_hell":
-            return holz_hell;
+                return holz_hell;
             case "6_hell":
-            return meer_hell;
+                return meer_hell;
             case "5_hell":
-            return wueste_hell;
+                return wueste_hell;
             case "2_hell":
-            return schaf_hell;
+                return schaf_hell;
             case "1_hell":
-            return lehm_hell;
+                return lehm_hell;
             case "4_hell":
-            return erz_hell;
+                return erz_hell;
             case "3_hell":
-            return weizen_hell;
-            default: 
-            System.out.println("Im Switchzeug is was falsch: "+name);
-            return meer;
+                return weizen_hell;
+            default:
+                System.out.println("Im Switchzeug is was falsch: " + name);
+                return meer;
         }
     }
 
     public static boolean gerade(int z)
     {
-        return (double)z/2==(int)(z/2);
+        return (double) z / 2 == (int) (z / 2);
     }
 
     public void ecken()
     {
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
-            if(ecken[i] == null)
+            if (ecken[i] == null)
             {
                 ecken[i] = new Ecke(this, i);
             }
@@ -125,9 +127,9 @@ public class Feld extends RectangleImage
 
     public void kanten()
     {
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
-            if(kanten[i] == null)
+            if (kanten[i] == null)
             {
                 kanten[i] = new Kante(Kante.leer, this, i);
             }
@@ -138,24 +140,23 @@ public class Feld extends RectangleImage
     {
         art = Welt.felderArray[Welt.felderI];
         Welt.felderI++;
-        if(art != 6 && art != 5)
+        if (art != 6 && art != 5)
         {
             wert = Welt.plaettchenArray[Welt.plaettchenI];
             Welt.plaettchenI++;
-            Bildschirm.grafikobjekte.add(new Zahlplatte(this, wert, (rechteck.x+(rechteck.width/2))-(int)(0.5*(Bildschirm.feldb/Bildschirm.plattenr)), rechteck.y+rechteck.height/2-(int)(0.5*Bildschirm.feldh/Bildschirm.plattenr)));
+            Bildschirm.grafikobjekte.add(new Zahlplatte(this, wert, (rechteck.x + (rechteck.width / 2)) - (int) (0.5 * (Bildschirm.feldb / Bildschirm.plattenr)), rechteck.y + rechteck.height / 2 - (int) (0.5 * Bildschirm.feldh / Bildschirm.plattenr)));
         }
         refreshBild();
     }
 
     public static int weiter(int pos, int hoch)
     {
-        for(int i = 0; i < hoch; i++)
+        for (int i = 0; i < hoch; i++)
         {
-            if(pos < 5)
+            if (pos < 5)
             {
                 pos++;
-            }
-            else
+            } else
             {
                 pos = 0;
             }
@@ -165,13 +166,15 @@ public class Feld extends RectangleImage
 
     /**
      * Gibt den Index einer Kante im Kantenarray aus
+     *
      * @param kante
      * @return
      */
-    int getKante(Kante kante){
-        for(int i = 0; i < 6; i++)
+    int getKante(Kante kante)
+    {
+        for (int i = 0; i < 6; i++)
         {
-            if(kanten[i] == kante)
+            if (kanten[i] == kante)
             {
                 return i;
             }
@@ -180,31 +183,63 @@ public class Feld extends RectangleImage
         throw new IllegalArgumentException("Feld.java; int getKante(Kante kante): kante nicht gefunden.");
     }
 
-    void ausrauben()
+    void ausrauben(Spieler spieler)
     {
-        for(int i = 0; i < 6; i++)
+        int rand = (int) (Math.random() * spieler.inv.anzahlAnRohstoffen());
+        int[] r = spieler.inv.rohstoffe;
+        int untergrenze = 0;
+        for (int j = 0; j < 5; j++)
         {
-            if(ecken[i].getSpieler() != null && ecken[i].getSpieler() != Main.spieler())
+            if (rand >= untergrenze && rand <= untergrenze - 1 + r[j])
             {
-                int rand = (int)(Math.random()*ecken[i].getSpieler().inv.anzahlAnRohstoffen());
-                int[] r = ecken[i].getSpieler().inv.rohstoffe;
-                int untergrenze = 0;
-                for(int j = 0; j < 5; j++)
-                {
-                    if(rand >= untergrenze && rand <= untergrenze-1+r[j])
-                    {
-                        r[j]--;
-                        Main.spieler().inv.rohstoffe[j]++;
-                        new Fehler("Du hast ein "+Inventar.name(j)+" erbeutet!", "Raubzug");
-                        Main.anderePanelAkt();
-                        return;
-                    }
-                    else
-                    {
-                        untergrenze += r[j];
-                    }
-                }
+                //r[j]--;
+                int[] beute = new int[5];
+                beute[j] = 1;
+                OnlineInterpreter.bezahlen(spieler, beute);
+                OnlineInterpreter.bekommen(Main.spieler(), beute);
+                OnlineInterpreter.privatPopup(Main.spieler(), Nuz.RAUB_NOTIFICATION_TITLE,
+                        Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_1 + Inventar.name(j) + Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_2);
+                OnlineInterpreter.privatPopup(spieler, Nuz.RAUB_NOTIFICATION_TITLE,
+                        Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_1 + Inventar.name(j) + Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_2);
+                Main.anderePanelAkt();
+                return;
+            } else
+            {
+                untergrenze += r[j];
             }
         }
+
+
+    }
+
+    public int[] angrenzendeSpieler()
+    {
+        int[] tmp = new int[Main.anzahlSpieler];
+        for (int i = 0; i < 6; i++)
+        {
+            if (ecken[i].getSpieler() != null)
+            {
+                tmp[ecken[i].getSpieler().id]++;
+            }
+        }
+        int anzahlSpieler = 0;
+        for (int i = 0; i < tmp.length; i++)
+        {
+            if (tmp[i] != 0)
+            {
+                anzahlSpieler++;
+            }
+        }
+        int[] endlich = new int[anzahlSpieler];
+        int j = 0;
+        for (int i = 0; i < tmp.length; i++)
+        {
+            if (tmp[i] != 0)
+            {
+                endlich[j] = i;
+                j++;
+            }
+        }
+        return endlich;
     }
 }

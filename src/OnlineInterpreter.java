@@ -17,8 +17,8 @@ public class OnlineInterpreter
      * n20|0|0|12|3: Spieler 2 bezahlt 12 Weizen und 3 Erz
      * o20|0|0|12|3: Spieler 2 bekommt 12 Weizen und 3 Erz
      * p1Hallo: Chatnachricht an Spieler 1: Hallo
-     * qGruß: Popup an alle: Hallo
-     * r1Hallo: Popup an Spieler 1: Hallo
+     * qGruß#Hallo: Popup an alle: Titel Gruß, nachricht Hallo
+     * r1Gruß#Hallo: Popup an Spieler 1: Titel Gruß, Nachricht Hallo
      */
     public static void interpret(String msg)
     {
@@ -87,7 +87,7 @@ public class OnlineInterpreter
             }
             case 'i'://i23: Spieler 2 spielt Entwicklungskarte vom Typ 3 aus
             {
-                Main.entwicklungskarte(msg.charAt(2), Main.spieler[msg.charAt(1)]);
+                Main.entwicklungskarte(Integer.parseInt(""+msg.charAt(2)), Main.spieler[Integer.parseInt(""+msg.charAt(1))]);
                 break;
             }
             case 'j'://j56: Räuber auf Feld 5|6
@@ -167,7 +167,7 @@ public class OnlineInterpreter
             case 'q':
             {
                 String[] split = msg.substring(1).split("#");
-                new Fehler(split[1], split[2]);
+                new Fehler(split[0], split[1]);
                 break;
             }
             case 'r':
@@ -175,7 +175,7 @@ public class OnlineInterpreter
                 if(Integer.parseInt("" + msg.charAt(1)) == Main.ich)
                 {
                     String[] split = msg.substring(2).split("#");
-                    new Fehler(split[1], split[2]);
+                    new Fehler(split[0], split[1]);
                 }
                 break;
             }
@@ -269,6 +269,21 @@ public class OnlineInterpreter
             tmp.append(inv[i]).append("m");
         }
         senden(tmp.toString());
+    }
+
+    public static void privatChatNachricht(Spieler spieler, String msg)
+    {
+        senden("p"+spieler.id+msg);
+    }
+
+    public static void publicPopup(String titel, String nachricht)
+    {
+        senden("q"+nachricht+"#"+titel);
+    }
+
+    public static void privatPopup(Spieler spieler, String titel, String nachricht)
+    {
+        senden("r"+spieler.id+nachricht+"#"+titel);
     }
 
 

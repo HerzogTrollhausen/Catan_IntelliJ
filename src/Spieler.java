@@ -8,6 +8,7 @@ public class Spieler
     Color farbe;
     Inventar letzteErnte;
     byte id;//0 == rot, 1 == blau, 2 == weiß, 3 == orange
+    String name;
     int anzahlSiedlungen, anzahlStaedte, anzahlStrassen, anzahlGelegteRitter;
     public int rittermacht = 0;
     public int handelsstrasse;
@@ -15,6 +16,7 @@ public class Spieler
     public Spieler(byte id)
     {
         this.id = id;
+        name = ""+id;
         switch (id)
         {
             case 0:
@@ -29,7 +31,7 @@ public class Spieler
             case 3:
                 farbe = new Color(255, 140, 0);
         }
-        inv = new Inventar(5);
+        inv = new Inventar(4);
     }
 
     public void ernte(int wuerfel)

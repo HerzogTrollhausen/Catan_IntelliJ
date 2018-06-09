@@ -98,15 +98,15 @@ public class Inventar
         switch (nr)
         {
             case 0:
-                return "Holz";
+                return Nuz.HOLZ;
             case 1:
-                return "Lehm";
+                return Nuz.LEHM;
             case 2:
-                return "Schaf";
+                return Nuz.SCHAF;
             case 3:
-                return "Weizen";
+                return Nuz.WEIZEN;
             case 4:
-                return "Erz";
+                return Nuz.ERZ;
             default:
                 throw new IllegalArgumentException("" + nr);
                 //return "Default in Inventar.name(int)";
@@ -135,6 +135,7 @@ public class Inventar
                 throw new IllegalArgumentException("Rohstoffe gehen unter null");
             }
         }
+        Main.anderePanelAkt();
     }
 
     public int anzahlEntwicklungskarten(int typ)

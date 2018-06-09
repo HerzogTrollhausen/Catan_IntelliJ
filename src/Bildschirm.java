@@ -56,7 +56,7 @@ public class Bildschirm extends JPanel
         farbe.add(momentanSpielerLabel);
         add(farbe);
 
-        naechster = new JButton("Nächster Spieler");
+        naechster = new JButton(Nuz.NAECHSTER_DEFAULT);
         naechster.setBounds(f.getWidth() - 350, f.getHeight() - 170, 150, 170);
         naechster.addActionListener(new ActionListener()
                                     {

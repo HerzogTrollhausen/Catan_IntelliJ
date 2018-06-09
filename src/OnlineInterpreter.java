@@ -16,6 +16,9 @@ public class OnlineInterpreter
      * m: Starte das Spiel
      * n20|0|0|12|3: Spieler 2 bezahlt 12 Weizen und 3 Erz
      * o20|0|0|12|3: Spieler 2 bekommt 12 Weizen und 3 Erz
+     * p1Hallo: Chatnachricht an Spieler 1: Hallo
+     * qGruß: Popup an alle: Hallo
+     * r1Hallo: Popup an Spieler 1: Hallo
      */
     public static void interpret(String msg)
     {
@@ -89,10 +92,14 @@ public class OnlineInterpreter
             }
             case 'j'://j56: Räuber auf Feld 5|6
             {
-                int x = Integer.parseInt(""+msg.charAt(1));
-                int y = Integer.parseInt(""+msg.charAt(2));
-                Bandit.feld.besetzt = false;
-                Welt.felder[y][x].besetzt = false;
+                int x = Integer.parseInt("" + msg.charAt(1));
+                int y = Integer.parseInt("" + msg.charAt(2));
+                if (Bandit.feld != null)
+                {
+                    Bandit.feld.besetzt = false;
+                }
+                Welt.felder[y][x].besetzt = true;
+                Bandit.feld = Welt.felder[y][x];
                 break;
             }
             case 'k'://k2: ID wird auf 2 gesetzt
@@ -127,10 +134,10 @@ public class OnlineInterpreter
             }
             case 'n'://n20m0m0m12m3: Spieler 2 bezahlt 12 Weizen und 3 Erz
             {
-                Spieler s = Main.spieler[Integer.parseInt(""+msg.charAt(1))];
+                Spieler s = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                 String[] sArray = msg.substring(2).split("m");
                 int[] iArray = new int[5];
-                for(int i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     iArray[i] = Integer.parseInt(sArray[i]);
                 }
@@ -139,16 +146,40 @@ public class OnlineInterpreter
             }
             case 'o': //o20m0m0m12m3: Spieler 2 bekommt 12 Weizen und 3 Erz
             {
-                Spieler s = Main.spieler[Integer.parseInt(""+msg.charAt(1))];
+                Spieler s = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                 String[] sArray = msg.substring(2).split("m");
                 int[] iArray = new int[5];
-                for(int i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     iArray[i] = Integer.parseInt(sArray[i]);
                 }
                 s.inv.hinzu(iArray);
                 break;
             }
+            case 'p':
+            {
+                if (Integer.parseInt("" + msg.charAt(1)) == Main.ich)
+                {
+                    Main.bildschirm.chat.displayMessage(msg.substring(1));
+                }
+                break;
+            }
+            case 'q':
+            {
+                String[] split = msg.substring(1).split("#");
+                new Fehler(split[1], split[2]);
+                break;
+            }
+            case 'r':
+            {
+                if(Integer.parseInt("" + msg.charAt(1)) == Main.ich)
+                {
+                    String[] split = msg.substring(2).split("#");
+                    new Fehler(split[1], split[2]);
+                }
+                break;
+            }
+
             default:
                 System.out.println("Unpassende Nachricht: " + msg);
         }
@@ -161,32 +192,32 @@ public class OnlineInterpreter
 
     public static void chatNachricht(String msg)//a
     {
-        senden("a"+msg);
+        senden("a" + msg);
     }
 
     public static void felderstapel(String felder)
     {
-        senden("b"+felder);
+        senden("b" + felder);
     }
 
     public static void zahlenstapel(String zahlen)
     {
-        senden("c"+zahlen);
+        senden("c" + zahlen);
     }
 
     public static void strasseBauen(Spieler spieler, Kante kante)
     {
-        senden("d"+spieler.id+""+kante.feld1.x+""+kante.feld1.y+""+kante.pos);
+        senden("d" + spieler.id + "" + kante.feld1.x + "" + kante.feld1.y + "" + kante.pos);
     }
 
     public static void siedlungBauen(Spieler spieler, Ecke ecke)
     {
-        senden("e"+spieler.id+""+ecke.feld.x+""+ecke.feld.y+""+ecke.pos);
+        senden("e" + spieler.id + "" + ecke.feld.x + "" + ecke.feld.y + "" + ecke.pos);
     }
 
     public static void stadtBauen(Spieler spieler, Ecke ecke)
     {
-        senden("f"+spieler.id+""+ecke.feld.x+""+ecke.feld.y+""+ecke.pos);
+        senden("f" + spieler.id + "" + ecke.feld.x + "" + ecke.feld.y + "" + ecke.pos);
     }
 
     public static void entwicklungskarteZiehen(Spieler spieler, int karte)
@@ -196,18 +227,23 @@ public class OnlineInterpreter
 
     public static void wuerfel(int wurf)
     {
-        senden("h"+wurf);
+        senden("h" + wurf);
     }
 
 
     public static void entwicklungskarteAusspielen(Spieler spieler, int typ)
     {
-        senden("entwicklungskarteAuspielen"+spieler.id+""+typ);
+        senden("i" + spieler.id + "" + typ);
+    }
+
+    public static void raeuberVersetzen(Feld feld)
+    {
+        senden("j" + feld.x + "" + feld.y);
     }
 
     public static void hafenStapel(String haefen)
     {
-        senden("l"+haefen);
+        senden("l" + haefen);
     }
 
     public static void spielStarten()
@@ -218,7 +254,17 @@ public class OnlineInterpreter
     public static void bezahlen(Spieler spieler, int[] inv)
     {
         StringBuilder tmp = new StringBuilder("n" + spieler.id);
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
+        {
+            tmp.append(inv[i]).append("m");
+        }
+        senden(tmp.toString());
+    }
+
+    public static void bekommen(Spieler spieler, int[] inv)
+    {
+        StringBuilder tmp = new StringBuilder("o" + spieler.id);
+        for (int i = 0; i < 5; i++)
         {
             tmp.append(inv[i]).append("m");
         }

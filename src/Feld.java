@@ -1,4 +1,5 @@
 import java.awt.Image;
+import java.io.IOException;
 
 /**
  * Ecke 0 ist oben links, danach im Uhrzeigersinn
@@ -45,8 +46,8 @@ public class Feld extends RectangleImage
     Ecke[] ecken;
     Kante[] kanten;
     int wert;
-    int x;
-    int y;
+    private int x;
+    private int y;
     int art = 6; // 0 Holz, 1 Lehm, 2 Schaf, 3 Weizen, 4 Erz, 5 Wueste, 6 Meer
     boolean hell;
 
@@ -68,7 +69,30 @@ public class Feld extends RectangleImage
 
     public static Image lade(String name)
     {
-        return FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/" + name + "-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
+        try
+        {
+            return FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/" + name + "-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setEcke(Ecke ecke, int pos)
+    {
+        ecken[pos] = ecke;
+    }
+
+    public int getX()
+    {
+        return x;
+    }
+
+    public int getY()
+    {
+        return y;
     }
 
     public static Image geladen(String name)
@@ -131,7 +155,7 @@ public class Feld extends RectangleImage
         {
             if (kanten[i] == null)
             {
-                kanten[i] = new Kante(Kante.leer, this, i);
+                kanten[i] = new Kante(Buz.KANTE_LEER, this, i);
             }
         }
     }
@@ -201,7 +225,7 @@ public class Feld extends RectangleImage
                         Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_1 + Inventar.name(j) + Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_2);
                 OnlineInterpreter.privatPopup(spieler, Nuz.RAUB_NOTIFICATION_TITLE,
                         Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_1 + Inventar.name(j) + Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_2);
-                Main.anderePanelAkt();
+                Bildschirm.anderePanelAkt();
                 return;
             } else
             {

@@ -9,7 +9,7 @@ public class Client implements Runnable
     private Socket socket;//MAKE SOCKET INSTANCE VARIABLE
     static PrintWriter out;
 
-    public Client(Socket s)
+    Client(Socket s)
     {
         socket = s;//INSTANTIATE THE INSTANCE VARIABLE
         try

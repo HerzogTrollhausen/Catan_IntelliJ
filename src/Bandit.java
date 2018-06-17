@@ -1,14 +1,16 @@
+import javax.swing.*;
+
 public class Bandit
 {
     static boolean amSetzen = false;
     static Feld feld;
-    static Zahlplatte platte;
 
     static void ausschicken()
     {
         amSetzen = true;
-        Main.bildschirm.naechster.setEnabled(false);
-        Main.bildschirm.naechster.setToolTipText(Nuz.NAECHSTER_RAEUBER);
+        JButton naechster = Bildschirm.getNaechster();
+        naechster.setEnabled(false);
+        naechster.setToolTipText(Nuz.NAECHSTER_RAEUBER);
     }
 
     static void hinsetzen(Feld feld1)
@@ -16,7 +18,8 @@ public class Bandit
         OnlineInterpreter.raeuberVersetzen(feld1);
         amSetzen = false;
         new SpielerauswahlRaub(feld1);
-        Main.bildschirm.naechster.setEnabled(true);
-        Main.bildschirm.naechster.setToolTipText(Nuz.NAECHSTER_DEFAULT);
+        JButton naechster = Bildschirm.getNaechster();
+        naechster.setEnabled(true);
+        naechster.setToolTipText(Nuz.NAECHSTER_DEFAULT);
     }
 }

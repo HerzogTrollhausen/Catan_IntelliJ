@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class Bildschirm extends JPanel
 {
-    JFrame f;
+    private static JFrame f;
     static ArrayList<RectangleImage> grafikobjekte;
     static int ox = 0;
     static int oy = 0;
@@ -21,15 +19,12 @@ public class Bildschirm extends JPanel
     static int kanteb = 20;
     static int kanteh = 20;
     static double plattenr = 3;
-    Eckpanel eckpanel;
-    Spielerpanel spielerpanel;
-    Anderepanel[] anderePanel;
-    JPanel farbe;
-    Chat chat;
-    JButton naechster;
-    JButton handel;
-    JButton entwicklung;
-    JLabel momentanSpielerLabel;
+    private static Eckpanel eckpanel;
+    private static Spielerpanel spielerpanel;
+    private static Anderepanel[] anderePanel;
+    private static JPanel farbe;
+    private static JButton naechster;
+    private static JLabel momentanSpielerLabel;
 
     public Bildschirm(JFrame frame)
     {
@@ -39,7 +34,7 @@ public class Bildschirm extends JPanel
 
         setLayout(null);
         setBackground(new Color(4417163));
-        grafikobjekte = new ArrayList<RectangleImage>();
+        grafikobjekte = new ArrayList<>();
 
         eckpanel = new Eckpanel();
         eckpanel.setBounds(f.getWidth() - 600, 0, 600, 200);
@@ -58,64 +53,59 @@ public class Bildschirm extends JPanel
 
         naechster = new JButton(Nuz.NAECHSTER_DEFAULT);
         naechster.setBounds(f.getWidth() - 350, f.getHeight() - 170, 150, 170);
-        naechster.addActionListener(new ActionListener()
-                                    {
-                                        public void actionPerformed(ActionEvent ev)
-                                        {
-                                            //Main.nextPlayer();
-                                            OnlineInterpreter.wuerfel(Main.wuerfel());
-                                        }
-                                    }
+        naechster.addActionListener(ev ->
+                OnlineInterpreter.wuerfel(Main.wuerfel())
         );
         naechster.setEnabled(false);
         add(naechster);
 
-        handel = new JButton("4:1 Handel");
+        JButton handel = new JButton("4:1 Handel");
         handel.setBounds(f.getWidth() / 2 - 100, 0, 200, 100);
-        handel.addActionListener(new ActionListener()
-                                 {
-                                     public void actionPerformed(ActionEvent e)
-                                     {
-                                         new Handel(6);
-                                     }
-                                 }
+        handel.addActionListener(e -> new Handel(6)
         );
         add(handel);
 
-        entwicklung = new JButton("Entwicklung");
+        JButton entwicklung = new JButton("Entwicklung");
         {
             entwicklung.setBounds(0, 300, 200, 100);
         }
-        entwicklung.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                new Entwicklungskarten();
-            }
-        });
+        entwicklung.addActionListener(e -> new Entwicklungskarten());
         add(entwicklung);
 
         if (!Main.lokal)
         {
-            chat = new Chat();
+            Chat chat = new Chat();
             chat.setBounds(0, 600, 350, f.getHeight() - 600 - 50);
             add(chat);
         }
 
 
         farbe.setBackground(Main.spieler().farbe);
-        momentanSpielerLabel.setText("Momentaner Spieler: "+Main.spieler().id);
+        momentanSpielerLabel.setText("Momentaner Spieler: " + Main.spieler().id);
 
         addAnderePanel();
         //f.setVisible(true);
-        new Timer((int) 100 / 6, new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                repaint();
-            }
-        }).start();
+        new Timer( 100 / 6, e -> repaint()).start();
+    }
+
+    static JButton getNaechster()
+    {
+        return naechster;
+    }
+
+    static Eckpanel getEckpanel()
+    {
+        return eckpanel;
+    }
+
+    static Spielerpanel getSpielerpanel()
+    {
+        return spielerpanel;
+    }
+
+    static void setFarbeFarbe(Color zielFarbe)
+    {
+        farbe.setBackground(zielFarbe);
     }
 
 
@@ -137,13 +127,13 @@ public class Bildschirm extends JPanel
                 }
             }
 
-            for (int i = 0; i < grafikobjekte.size(); i++)
+            for (RectangleImage aGrafikobjekte : grafikobjekte)
             {
-                grafikobjekte.get(i).draw(g2);
+                aGrafikobjekte.draw(g2);
             }
         } catch (NullPointerException ex)
         {
-
+            ex.printStackTrace();
         }
     }
 
@@ -153,7 +143,7 @@ public class Bildschirm extends JPanel
         grafikobjekte.add(replacement);
     }
 
-    public void addAnderePanel()
+    private void addAnderePanel()
     {
         anderePanel = new Anderepanel[Main.anzahlSpieler];
         for (int i = 0; i < Main.anzahlSpieler; i++)
@@ -163,5 +153,34 @@ public class Bildschirm extends JPanel
             anderePanel[i].setVisible(true);
             add(anderePanel[i]);
         }
+    }
+
+    public static void setSpielerpanelLabelText(String s)
+    {
+        spielerpanel.label.setText(s);
+    }
+
+    public static void setMomentanSpielerLabelText(String s)
+    {
+        momentanSpielerLabel.setText(s);
+    }
+
+    public static void clearEckpanel()
+    {
+        eckpanel.removeAll();
+    }
+
+    public static void anderePanelAkt()
+    {
+        for (int i = 0; i < Main.anzahlSpieler; i++)
+        {
+            anderePanel[i].updateRohstoffe();
+        }
+    }
+
+    public static void start()
+    {
+        f.setVisible(true);
+        spielerpanel.start();
     }
 }

@@ -3,6 +3,7 @@ import java.awt.Image;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.io.IOException;
 
 public class Zahlplatte extends RectangleImage
 {
@@ -10,10 +11,34 @@ public class Zahlplatte extends RectangleImage
     private String inhalt;
     private Font font;
     private Color color;
-    private static Image kreis = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Kreis.gif"),
-            (int)(Bildschirm.feldb/Bildschirm.plattenr), (int)(Bildschirm.feldh/Bildschirm.plattenr), false);
-    private static Image kreis_bandit = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Kreis_bandit.gif"),
-            (int)(Bildschirm.feldb/Bildschirm.plattenr), (int)(Bildschirm.feldh/Bildschirm.plattenr), false);
+    private static Image kreis;
+
+    static
+    {
+        try
+        {
+            kreis = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Kreis.gif"),
+                        (int)(Bildschirm.feldb/Bildschirm.plattenr), (int)(Bildschirm.feldh/Bildschirm.plattenr), false);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static Image kreis_bandit;
+
+    static
+    {
+        try
+        {
+            kreis_bandit = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Kreis_bandit.gif"),
+                        (int)(Bildschirm.feldb/Bildschirm.plattenr), (int)(Bildschirm.feldh/Bildschirm.plattenr), false);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     Zahlplatte(Feld feld, int wert, int x, int y)
     {
         super(kreis, x, y);

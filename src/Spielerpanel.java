@@ -21,7 +21,7 @@ public class Spielerpanel extends JPanel
     {
         if(Main.frueh)
         {
-            Main.bildschirm.spielerpanel.start();
+            Bildschirm.getSpielerpanel().start();
         }
         else
         {
@@ -33,5 +33,6 @@ public class Spielerpanel extends JPanel
     {
         label.setText(Main.fruehsiedlung?"Du kannst noch "+(Main.fruehvor+3)/2+" Siedlungen bauen!":"Baue eine Straße an die Siedlung!");
         revalidate();
+        setVisible(true);
     }
 }

@@ -39,7 +39,7 @@ public class RectangleImage// extends JComponent
             //System.out.println("Klappt");
         } catch (NullPointerException e)
         {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

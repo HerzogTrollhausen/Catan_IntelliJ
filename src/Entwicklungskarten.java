@@ -101,7 +101,7 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
                 Main.spieler().inv.bezahl(new Inventar(3));
                 Main.spieler().inv.entwicklungskarten[stapel.randomZahl()]++;
                 kaufen.setEnabled(Main.spieler().inv.bezahlbar(new Inventar(3)));
-                Main.anderePanelAkt();
+                Bildschirm.anderePanelAkt();
                 f.dispose();
             }
         });

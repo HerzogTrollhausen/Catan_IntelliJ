@@ -25,7 +25,7 @@ public class Monopol extends JPanel
                     Main.spieler[i].inv.rohstoffe[r] = 0;
                 }
                 Main.spieler().inv.rohstoffe[r] = tmp;
-                Main.anderePanelAkt();
+                Bildschirm.anderePanelAkt();
                 f.dispose();
             }
         });

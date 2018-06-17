@@ -47,4 +47,10 @@ public class Hafen extends Kante
     {
         img = haefen[typ];
     }
+
+    @Override
+    public void buttonStuff()
+    {
+        super.buttonStuff();
+    }
 }

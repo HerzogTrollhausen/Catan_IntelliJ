@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 
 public class Kante extends RectangleImage
 {
-    static Image leer = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Kanten/Weg.gif"), Bildschirm.kanteb, Bildschirm.kanteh, false);
     static Image[] wege;
     Feld feld1, feld2;
     Ecke ecke1, ecke2;
@@ -57,7 +56,7 @@ public class Kante extends RectangleImage
         }
         if (feld2 != null)
         {
-            feld2.kanten[feld2.weiter(pos, 3)] = this;
+            feld2.kanten[Feld.weiter(pos, 3)] = this;
         }
 
         ecke1.addKanten(this);
@@ -94,11 +93,21 @@ public class Kante extends RectangleImage
         }
     }
 
+    public int getX()
+    {
+        return feld1.getX();
+    }
+
+    public int getY()
+    {
+        return feld1.getY();
+    }
+
     public void aktBild()
     {
         if (spieler == null)
         {
-            img = leer;
+            img = Buz.KANTE_LEER;
         } else
         {
             img = wege[spieler.id];
@@ -112,16 +121,9 @@ public class Kante extends RectangleImage
      */
     public boolean nachbar(Spieler gesucht)
     {
-        if (ecke1.siedlung != null && ecke1.siedlung.spieler == gesucht)
-        {
-            return true;
-        } else if (ecke2.siedlung != null && ecke2.siedlung.spieler == gesucht)
-        {
-            return true;
-        } else if (ecke1.nachbar(gesucht))
-        {
-            return true;
-        } else return ecke2.nachbar(gesucht);
+        Siedlung siedlung1 = ecke1.getSiedlung();
+        Siedlung siedlung2 = ecke2.getSiedlung();
+        return siedlung1 != null && siedlung1.spieler == gesucht || siedlung2 != null && siedlung2.spieler == gesucht || ecke1.nachbar(gesucht) || ecke2.nachbar(gesucht);
     }
 
     /**
@@ -167,23 +169,21 @@ public class Kante extends RectangleImage
 
         Kante tmp = this;
 
-        button.addActionListener(new ActionListener()
+        button.addActionListener(e ->
         {
-            public void actionPerformed(ActionEvent e)
+            Welt.dunkel();
+            if (feld1 != null)
             {
-                Main.welt.dunkel();
-                if (feld1 != null)
-                {
-                    feld1.hell = true;
-                    feld1.refreshBild();
-                }
-                if (feld2 != null)
-                {
-                    feld2.hell = true;
-                    feld2.refreshBild();
-                }
-                Main.bildschirm.eckpanel.weg(tmp);
+                feld1.hell = true;
+                feld1.refreshBild();
             }
+            if (feld2 != null)
+            {
+                feld2.hell = true;
+                feld2.refreshBild();
+            }
+            Eckpanel eckpanel = Bildschirm.getEckpanel();
+            eckpanel.weg(tmp);
         });
     }
 }

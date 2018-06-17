@@ -39,7 +39,7 @@ public class Handel extends JPanel
 
                                              Main.spieler().inv.hinzu(s1a);
 
-                                             Main.anderePanelAkt();
+                                             Bildschirm.anderePanelAkt();
                                              f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
                                          } else
                                          {
@@ -268,7 +268,7 @@ public class Handel extends JPanel
                                      }
                                      s1.inv.hinzu(s1a);
                                      s2.inv.hinzu(s2a);
-                                     Main.anderePanelAkt();
+                                     Bildschirm.anderePanelAkt();
                                      f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
                                  }
                              }

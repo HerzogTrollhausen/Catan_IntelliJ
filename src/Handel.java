@@ -1,7 +1,4 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -23,35 +20,33 @@ public class Handel extends JPanel
             add(zeilen[i]);
         }
         ja = new JButton("Ok");
-        ja.addActionListener(new ActionListener()
-                             {
-                                 public void actionPerformed(ActionEvent e)
-                                 {
-                                     try
-                                     {
-                                         if (isBankhandelErlaubt(art))
-                                         {
-                                             int[] s1a = new int[5];
-                                             for (int i = 0; i < 5; i++)
-                                             {
-                                                 s1a[i] = zeilen[i].wert();
-                                             }
+        ja.addActionListener(e -> {
+            try
+            {
+                if (isBankhandelErlaubt(art))
+                {
+                    int[] s1a = new int[5];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        s1a[i] = zeilen[i].wert();
+                    }
 
-                                             Main.spieler().inv.hinzu(s1a);
+                    OnlineInterpreter.bekommen(Main.ich(), s1a);
 
-                                             Bildschirm.anderePanelAkt();
-                                             f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
-                                         } else
-                                         {
-                                             new Fehler("Kein passendes Handelsverhältnis");
-                                         }
-                                     } catch (IllegalArgumentException ex)
-                                     {
-                                         new Fehler("Nicht genug Rohstoffe");
-                                     }
+                    Bildschirm.anderePanelAkt();
+                    f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
+                } else
+                {
+                    //new Fehler("Kein passendes Handelsverhältnis");
+                    JOptionPane.showMessageDialog(f, "Kein passendes Handelsverhältnis", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IllegalArgumentException ex)
+            {
+                JOptionPane.showMessageDialog(f, "Nicht genug Rohstoffe", "Fehler", JOptionPane.ERROR_MESSAGE);
 
-                                 }
-                             }
+            }
+
+        }
         );
         nein = new JButton("Abbrechen");
         nein.addActionListener(new ActionListener()
@@ -266,22 +261,21 @@ public class Handel extends JPanel
                                          s1a[i] = zeilen[i].wert();
                                          s2a[i] = zeilen[i].wert() * -1;
                                      }
-                                     s1.inv.hinzu(s1a);
-                                     s2.inv.hinzu(s2a);
-                                     Bildschirm.anderePanelAkt();
+                                     if(Main.lokal) {
+                                         OnlineInterpreter.bekommen(s1, s1a);
+                                         OnlineInterpreter.bekommen(s2, s2a);
+                                     }
+                                     else
+                                     {
+                                         OnlineInterpreter.spielerHandel(s1, s2, s2a);
+                                     }
                                      f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
                                  }
                              }
         );
 
         nein = new JButton("Abbrechen");
-        nein.addActionListener(new ActionListener()
-                               {
-                                   public void actionPerformed(ActionEvent e)
-                                   {
-                                       f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
-                                   }
-                               }
+        nein.addActionListener(e -> f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING))
         );
 
         buttons = new JPanel();

@@ -85,14 +85,6 @@ public class Inventar
         Bildschirm.anderePanelAkt();
     }
 
-    public void bezahl(Inventar ab)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            rohstoffe[i] = rohstoffe[i] - ab.rohstoffe[i];
-        }
-    }
-
     public static String name(int nr)
     {
         switch (nr)

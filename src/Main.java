@@ -163,7 +163,9 @@ public class Main
         {
             rittermacht = spieler();
             spieler().rittermacht = 2;
-            new Fehler("Du besitzt nun die Größte Rittermacht!", "Rittermacht");
+            //new Fehler("Du besitzt nun die Größte Rittermacht!", "Rittermacht");
+            JOptionPane.showMessageDialog(Bildschirm.getF(), "Du besitzt nun die größte Rittermacht", "Rittermacht",
+                    JOptionPane.INFORMATION_MESSAGE);
             Bildschirm.anderePanelAkt();
             return;
         }
@@ -171,7 +173,10 @@ public class Main
         {
             rittermacht.rittermacht = 0;
             spieler().rittermacht = 2;
-            new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermacht.id + " übernommen!");
+            //new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermacht.id + " übernommen!");
+            JOptionPane.showMessageDialog(Bildschirm.getF(), "Du hasst die größte Rittermacht von "+
+                    rittermacht.id+" übernommen", "Rittermacht",
+                    JOptionPane.INFORMATION_MESSAGE);
             rittermacht = spieler();
             Bildschirm.anderePanelAkt();
         }
@@ -203,6 +208,11 @@ public class Main
         bildschirm = new Bildschirm(fenster);
         //Client.senden("b"+Welt.stapelZahlen("Feld"));
         Welt.initWelt(3);
+    }
+
+    public static Spieler ich()
+    {
+        return spieler[ich];
     }
 
     public static void entwicklungskarte(int typ, Spieler pSpieler)

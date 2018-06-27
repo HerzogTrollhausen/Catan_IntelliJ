@@ -3,11 +3,16 @@ public class Stapel
     Knoten oben;
     Knoten zeiger;
 
-    public Stapel(String typ)
+    public static enum StapelTypen
+    {
+        Feld, Zahl, Hafen, Entwicklung;
+    }
+
+    public Stapel(StapelTypen typ)
     {
         switch (typ)
         {
-            case "Feld":
+            case Feld:
                 for (int i = 0; i < 4; i++)
                 {
                     add(0);
@@ -22,7 +27,7 @@ public class Stapel
                 add(5);
                 break;
 
-            case "Zahl":
+            case Zahl:
                 for (int i = 3; i < 7; i++)
                 {
                     add(i);
@@ -37,7 +42,7 @@ public class Stapel
                 add(12);
                 break;
 
-            case "Hafen":
+            case Hafen:
                 for (int i = 0; i < 9; i++)
                 {
                     if (i < 6)
@@ -48,7 +53,7 @@ public class Stapel
                 }
                 break;
 
-            case "Entwicklung":
+            case Entwicklung:
                 for (int i = 0; i < 14; i++)
                 {
                     add(0);

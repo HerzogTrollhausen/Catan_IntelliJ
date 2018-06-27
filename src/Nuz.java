@@ -13,4 +13,6 @@ public class Nuz
     public static final String SCHAF = "Schaf";
     public static final String WEIZEN = "Weizen";
     public static final String ERZ = "Erz";
+    public static final String PLAYER_TRADE_AGREE = "Zustimmen";
+    public static final String PLAYER_TRADE_REFUSE = "Ablehnen";
 }

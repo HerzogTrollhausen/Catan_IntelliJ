@@ -126,14 +126,13 @@ public class Bildschirm extends JPanel
                     Welt.felder[i][j].draw(g2);
                 }
             }
-
-            for (RectangleImage aGrafikobjekte : grafikobjekte)
+            for(int i = 0; i < grafikobjekte.size(); i++)
             {
-                aGrafikobjekte.draw(g2);
+                grafikobjekte.get(i).draw(g2);
             }
         } catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -141,6 +140,16 @@ public class Bildschirm extends JPanel
     {
         grafikobjekte.remove(toReplace);
         grafikobjekte.add(replacement);
+    }
+
+    static JFrame getF()
+    {
+        return f;
+    }
+
+    static void enableNaechster(boolean b)
+    {
+        naechster.setEnabled(b);
     }
 
     private void addAnderePanel()

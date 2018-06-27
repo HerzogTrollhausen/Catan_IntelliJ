@@ -3,7 +3,7 @@ public class Welt
     static Feld[][] felder;
     static private int yn;
     static private int xn;
-    static int[] haefenArray, felderArray, plaettchenArray;
+    static int[] haefenArray, felderArray, plaettchenArray, entwicklungsArray;
     static int plaettchenI, felderI;
 
     public static void initWelt(int basis)
@@ -77,21 +77,21 @@ public class Welt
         }
     }
 
-    public static String stapelZahlen(String typ)
+    public static String stapelZahlen(Stapel.StapelTypen typ)
     {
-        String tmp = "";
+        StringBuilder tmp = new StringBuilder();
         Stapel stapel = new Stapel(typ);
         while (stapel.oben != null)
         {
-            if (!typ.equals("Zahl"))
+            if (!typ.equals(Stapel.StapelTypen.Zahl))
             {
-                tmp = tmp + stapel.randomZahl();
+                tmp.append(stapel.randomZahl());
             } else
             {
-                tmp = tmp + Integer.toHexString(stapel.randomZahl());
+                tmp.append(Integer.toHexString(stapel.randomZahl()));
             }
         }
-        return tmp;
+        return tmp.toString();
     }
 
     private static void haefen(int[] a)

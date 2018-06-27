@@ -78,6 +78,12 @@ public class Spieler
         return tmp;
     }
 
+    public void ziehEntwicklungskarte(int nr)
+    {
+        int typ = Entwicklungskarten.stapel.get(nr, true).intInhalt;
+        inv.entwicklungskarten[typ]++;
+    }
+
 
     public int siegPunkte()
     {

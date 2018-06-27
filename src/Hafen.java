@@ -4,7 +4,7 @@ public class Hafen extends Kante
 {
     int typ; //0-4 entsprechendes Gut 2:1, 5 ist alles 3:1
     static Image[] haefen;
-    static Stapel hafenStapel = new Stapel("Hafen");
+    static Stapel hafenStapel = new Stapel(Stapel.StapelTypen.Hafen);
 
     public Hafen(Feld feld, int pos, int typ)
     {

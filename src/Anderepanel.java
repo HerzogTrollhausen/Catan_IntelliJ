@@ -10,7 +10,7 @@ public class Anderepanel extends JPanel
     private JLabel siegpunkte;
     private JButton handel;
     public static int width = 250;
-    public static int height = 250;
+    public static int height = 200;
     Anderepanel(Spieler spieler)
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

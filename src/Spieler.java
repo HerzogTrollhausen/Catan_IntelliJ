@@ -50,24 +50,40 @@ public class Spieler
         return inv.anzahlEntwicklungskarten(typ);
     }
 
-    int randomRohstoff()
+    static int randomRohstoff(int[] inv)
     {
-        int rand = (int) (Math.random() * inv.anzahlAnRohstoffen());
-        int[] r = inv.rohstoffe;
+        int rand = (int) (Math.random() * sumOfArray(inv));
         int untergrenze = 0;
         for (int j = 0; j < 5; j++)
         {
-            if (rand >= untergrenze && rand <= untergrenze - 1 + r[j])
+            if (rand >= untergrenze && rand <= untergrenze - 1 + inv[j])
             {
                 return j;
             }
             else
             {
-                untergrenze += r[j];
+                untergrenze += inv[j];
             }
         }
         return -1;
     }
+
+    private static int sumOfArray(int[] a)
+    {
+        int tmp = 0;
+        for (int anA : a)
+        {
+            tmp += anA;
+        }
+        return tmp;
+    }
+
+    public void ziehEntwicklungskarte(int nr)
+    {
+        int typ = Entwicklungskarten.stapel.get(nr, true).intInhalt;
+        inv.entwicklungskarten[typ]++;
+    }
+
 
     public int siegPunkte()
     {

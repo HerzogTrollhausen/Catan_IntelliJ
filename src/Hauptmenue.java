@@ -78,7 +78,8 @@ public class Hauptmenue extends JPanel
                 {
                     Main.mitServerVerbinden(hostField.getText(), Integer.parseInt(portField.getText()));
                 }catch (NumberFormatException ex){
-                    new Fehler("Bitte eine gültige Zahl eingeben");
+                    JOptionPane.showMessageDialog(Bildschirm.getF(), "Bitte eine gültige Zahl eingeben",
+                            "Ungültige Portnummer", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

@@ -82,15 +82,7 @@ public class Inventar
         {
             rohstoffe[i] = rohstoffe[i] - ab[i];
         }
-        Main.anderePanelAkt();
-    }
-
-    public void bezahl(Inventar ab)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            rohstoffe[i] = rohstoffe[i] - ab.rohstoffe[i];
-        }
+        Bildschirm.anderePanelAkt();
     }
 
     public static String name(int nr)
@@ -135,7 +127,7 @@ public class Inventar
                 throw new IllegalArgumentException("Rohstoffe gehen unter null");
             }
         }
-        Main.anderePanelAkt();
+        Bildschirm.anderePanelAkt();
     }
 
     public int anzahlEntwicklungskarten(int typ)

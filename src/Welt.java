@@ -1,12 +1,12 @@
 public class Welt
 {
     static Feld[][] felder;
-    int yn;
-    int xn;
-    static int[] haefenArray, felderArray, plaettchenArray;
+    static private int yn;
+    static private int xn;
+    static int[] haefenArray, felderArray, plaettchenArray, entwicklungsArray;
     static int plaettchenI, felderI;
 
-    public Welt(int basis)
+    public static void initWelt(int basis)
     {
         yn = basis * 2 + 1;
         xn = yn;
@@ -37,7 +37,17 @@ public class Welt
         haefen(haefenArray);
     }
 
-    public void dunkel()
+    public static boolean doesFeldExist(int x, int y)
+    {
+        return !(x < 0 || y < 0 || x >= felder[0].length || y >= felder.length);
+    }
+
+    public static Feld getFeld(int x, int y)
+    {
+        return felder[y][x];
+    }
+
+    public static void dunkel()
     {
         for (int i = 0; i < yn; i++)
         {
@@ -49,7 +59,7 @@ public class Welt
         }
     }
 
-    public void insel(int basis)
+    private static void insel(int basis)
     {
         for (int i = 0; i < basis; i++)
         {
@@ -67,24 +77,24 @@ public class Welt
         }
     }
 
-    public static String stapelZahlen(String typ)
+    public static String stapelZahlen(Stapel.StapelTypen typ)
     {
-        String tmp = "";
+        StringBuilder tmp = new StringBuilder();
         Stapel stapel = new Stapel(typ);
         while (stapel.oben != null)
         {
-            if (!typ.equals("Zahl"))
+            if (!typ.equals(Stapel.StapelTypen.Zahl))
             {
-                tmp = tmp + stapel.randomZahl();
+                tmp.append(stapel.randomZahl());
             } else
             {
-                tmp = tmp + Integer.toHexString(stapel.randomZahl());
+                tmp.append(Integer.toHexString(stapel.randomZahl()));
             }
         }
-        return tmp;
+        return tmp.toString();
     }
 
-    static void haefen(int[] a)
+    private static void haefen(int[] a)
     {
         kZH(4, 0, 4, a[0]);
         kZH(5, 1, 2, a[1]);
@@ -97,7 +107,7 @@ public class Welt
         kZH(2, 5, 4, a[8]);
     }
 
-    static void kZH(int x, int y, int pos, int typ)
+    private static void kZH(int x, int y, int pos, int typ)
     {
         felder[y][x].kanten[pos].zuHafen(typ);
     }
@@ -109,7 +119,7 @@ public class Welt
         Main.spieler[spieler].anzahlStrassen++;
         Main.fruehsiedlung = true;
         kante.aktBild();
-        Main.bildschirm.eckpanel.weg(kante);
+        Bildschirm.getEckpanel().weg(kante);
         if (Main.frueh)
         {
             Spielerpanel.akt();
@@ -121,9 +131,9 @@ public class Welt
         Ecke ecke = felder[y][x].ecken[pos];
         ecke.addSiedlung(Main.spieler[spieler]);
         Main.spieler[spieler].anzahlSiedlungen++;
-        if(Main.frueh)
+        if (Main.frueh)
         {
-            Main.anderePanelAkt();
+            Bildschirm.anderePanelAkt();
         }
     }
 

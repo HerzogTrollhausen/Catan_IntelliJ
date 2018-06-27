@@ -1,14 +1,14 @@
 public class Knoten
 {
     Knoten next;
-    String stringInhalt;
+    public String stringInhalt;
     int intInhalt;
-    public Knoten(String inhalt)
+    Knoten(String inhalt)
     {
         stringInhalt = inhalt;
     }
     
-    public Knoten(int inhalt)
+    Knoten(int inhalt)
     {
         intInhalt = inhalt;
     }

@@ -3,16 +3,13 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Eckpanel extends JPanel
 {
-    public JLabel desc, ex;
-    public JButton button;
-    String exString;
+    private JLabel desc;
+    private JButton button;
 
-    public Eckpanel()
+    Eckpanel()
     {
         setBackground(new Color(200, 200, 200));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,16 +34,13 @@ public class Eckpanel extends JPanel
                             if (fruehVerfuegbar(kante))
                             {
                                 desc.setText("Du kannst hier eine freie Straße bauen");
-                                button.addActionListener(new ActionListener()
+                                button.addActionListener(e ->
                                 {
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                        //Main.fruehsiedlung = true;
-                                        OnlineInterpreter.strasseBauen(Main.spieler(), kante);
-                                        OnlineInterpreter.wuerfel(0);
-                                        //weg(kante);
-                                        //Spielerpanel.akt();
-                                    }
+                                    //Main.fruehsiedlung = true;
+                                    OnlineInterpreter.strasseBauen(Main.spieler(), kante);
+                                    OnlineInterpreter.wuerfel(0);
+                                    //weg(kante);
+                                    //Spielerpanel.akt();
                                 });
                             } else
                             {
@@ -67,14 +61,11 @@ public class Eckpanel extends JPanel
                                 if (Main.spieler().inv.bezahlbar(new Inventar(0)))
                                 {
                                     desc.setText("Du kannst hier eine Straße bauen");
-                                    button.addActionListener(new ActionListener()
+                                    button.addActionListener(e ->
                                     {
-                                        public void actionPerformed(ActionEvent e)
-                                        {
-                                            //TODO
-                                            OnlineInterpreter.strasseBauen(Main.spieler(), kante);
-                                            OnlineInterpreter.bezahlen(Main.spieler(), Inventar.strasse);
-                                        }
+                                        //TODO
+                                        OnlineInterpreter.strasseBauen(Main.spieler(), kante);
+                                        OnlineInterpreter.bezahlen(Main.spieler(), Inventar.strasse);
                                     });
                                 } else
                                 {
@@ -84,18 +75,14 @@ public class Eckpanel extends JPanel
                             } else
                             {
                                 desc.setText("Du kannst noch " + (Main.strassenbauinprogress == 1 ? "eine" : Main.strassenbauinprogress) + " freie " + (Main.strassenbauinprogress == 1 ? "Straße" : "Straßen") + " bauen!");
-                                button.addActionListener(new ActionListener()
+                                button.addActionListener(e ->
                                 {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                        kante.spieler = Main.spieler();
-                                        Main.spieler().anzahlStrassen++;
-                                        Main.strassenbauinprogress--;
-                                        kante.aktBild();
-                                        weg(kante);
-                                        Spielerpanel.akt();
-                                    }
+                                    kante.spieler = Main.spieler();
+                                    Main.spieler().anzahlStrassen++;
+                                    Main.strassenbauinprogress--;
+                                    kante.aktBild();
+                                    weg(kante);
+                                    Spielerpanel.akt();
                                 });
                             }
                         } else
@@ -126,14 +113,7 @@ public class Eckpanel extends JPanel
                 desc.setText("<html>An diesem Hafen " + Hafen.stringAusTyp(hafenkante.typ) + " gehandelt.<br>" + desc.getText() + "</html");
                 JButton handelbutton = new JButton("Handel!");
                 handelbutton.setEnabled(kante.nachbar(Main.spieler()));
-                handelbutton.addActionListener(new ActionListener()
-                {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        new Handel(hafenkante.typ);
-                    }
-                });
+                handelbutton.addActionListener(e -> new Handel(hafenkante.typ));
                 add(handelbutton);
             }
 
@@ -143,18 +123,19 @@ public class Eckpanel extends JPanel
         revalidate();
     }
 
-    public static boolean fruehVerfuegbar(Kante kante)
+    private static boolean fruehVerfuegbar(Kante kante)
     {
         return kante.ecke1 == Main.letzteSiedlung || kante.ecke2 == Main.letzteSiedlung;
     }
 
     public void leerEcke(Ecke ecke)
     {
-        exString = "";
+        String exString = "";
         removeAll();
-        if (ecke.siedlung != null)
+        Siedlung siedlung = ecke.getSiedlung();
+        if (siedlung != null)
         {
-            desc = new JLabel(ecke.siedlung.descs[ecke.siedlung.art]);
+            desc = new JLabel(siedlung.descs[siedlung.art]);
         } else
         {
             desc = new JLabel("Eine leere Fläche");
@@ -164,12 +145,12 @@ public class Eckpanel extends JPanel
         {
             button = new JButton("Neue Siedlung bauen!");
 
-            if (ecke.siedlung != null && ecke.siedlung.spieler == Main.spieler())
+            if (siedlung != null && siedlung.spieler == Main.spieler())
             {
                 if (Main.spieler().anzahlStaedte < Main.maxStaedte)
                 {
                     button.setText("Siedlung zu Stadt ausbauen");
-                    if (ecke.siedlung.art != 1)
+                    if (siedlung.art != 1)
                     {
                         if (Main.frueh)
                         {
@@ -179,15 +160,12 @@ public class Eckpanel extends JPanel
                         {
                             if (Main.spieler().inv.bezahlbar(new Inventar(2)))
                             {
-                                button.addActionListener(new ActionListener()
-                                                         {
-                                                             public void actionPerformed(ActionEvent e)
-                                                             {
-                                                                 OnlineInterpreter.stadtBauen(Main.spieler(), ecke);
-                                                                 OnlineInterpreter.bezahlen(Main.spieler(), Inventar.stadt);
-                                                                 leerEcke(ecke);
-                                                             }
-                                                         }
+                                button.addActionListener(e ->
+                                        {
+                                            OnlineInterpreter.stadtBauen(Main.spieler(), ecke);
+                                            OnlineInterpreter.bezahlen(Main.spieler(), Inventar.stadt);
+                                            leerEcke(ecke);
+                                        }
                                 );
                             } else
                             {
@@ -211,23 +189,20 @@ public class Eckpanel extends JPanel
                 {
                     if (ecke.keinNachbar())
                     {
-                        if (ecke.siedlung == null || ecke.siedlung.spieler == Main.spieler())
+                        if (siedlung == null || siedlung.spieler == Main.spieler())
                         {
                             if (Main.frueh)
                             {
                                 if (Main.fruehsiedlung)
                                 {
-                                    button.addActionListener(new ActionListener()
-                                                             {
-                                                                 public void actionPerformed(ActionEvent e)
-                                                                 {
-                                                                     OnlineInterpreter.siedlungBauen(Main.spieler(), ecke);
-                                                                     Main.letzteSiedlung = ecke;
-                                                                     Main.fruehsiedlung = false;
-                                                                     Spielerpanel.akt();
-                                                                     leerEcke(ecke);
-                                                                 }
-                                                             }
+                                    button.addActionListener(e ->
+                                            {
+                                                OnlineInterpreter.siedlungBauen(Main.spieler(), ecke);
+                                                Main.letzteSiedlung = ecke;
+                                                Main.fruehsiedlung = false;
+                                                Spielerpanel.akt();
+                                                leerEcke(ecke);
+                                            }
                                     );
                                 } else
                                 {
@@ -240,16 +215,13 @@ public class Eckpanel extends JPanel
                                 {
                                     if (Main.spieler().inv.bezahlbar(new Inventar(1)))
                                     {
-                                        button.addActionListener(new ActionListener()
-                                                                 {
-                                                                     public void actionPerformed(ActionEvent e)
-                                                                     {
-                                                                         OnlineInterpreter.bezahlen(Main.spieler(), Inventar.siedlung);
-                                                                         OnlineInterpreter.siedlungBauen(Main.spieler(), ecke);
-                                                                         Spielerpanel.akt();
-                                                                         leerEcke(ecke);
-                                                                     }
-                                                                 }
+                                        button.addActionListener(e ->
+                                                {
+                                                    OnlineInterpreter.bezahlen(Main.spieler(), Inventar.siedlung);
+                                                    OnlineInterpreter.siedlungBauen(Main.spieler(), ecke);
+                                                    Spielerpanel.akt();
+                                                    leerEcke(ecke);
+                                                }
                                         );
                                     } else
                                     {
@@ -279,7 +251,7 @@ public class Eckpanel extends JPanel
                 }
             }
             add(button);
-            ex = new
+            JLabel ex = new
 
                     JLabel(exString);
 

@@ -1,33 +1,26 @@
 import javax.swing.*;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Chat extends JPanel
 {
-    JTextArea area;
-    JPanel unten;
-    JTextField field;
-    JButton button;
-    public Chat()
+    private static JTextArea area;
+    private JTextField field;
+
+    Chat()
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         area = new JTextArea();
         area.setEditable(false);
         area.setLineWrap(true);
         area.setAutoscrolls(true);
-        unten = new JPanel();
+        JPanel unten = new JPanel();
         field = new JTextField();
         field.setPreferredSize(new Dimension(200, 40));
-        button = new JButton("Senden");
-        button.addActionListener(new ActionListener()
+        JButton button = new JButton("Senden");
+        button.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                OnlineInterpreter.chatNachricht("Spieler "+Main.ich+": "+field.getText());
-                field.setText("");
-            }
+            OnlineInterpreter.chatNachricht("Spieler "+Main.ich+": "+field.getText());
+            field.setText("");
         });
         button.setMaximumSize(new Dimension(150, 40));
         unten.setMaximumSize(new Dimension(20000, 45));
@@ -37,7 +30,7 @@ public class Chat extends JPanel
         add(unten);
     }
 
-    public void displayMessage(String msg)
+    public static void displayMessage(String msg)
     {
         area.append('\n'+msg);
     }

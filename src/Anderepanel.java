@@ -3,36 +3,26 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 public class Anderepanel extends JPanel
 {
-    Spieler spieler;
-    JPanel farbe;
-    JLabel[] rohstoffe;
-    JLabel siegpunkte;
-    static int width = 250;
-    static int height = 200;
-    JButton handel;
-    public Anderepanel(Spieler spieler)
+    private Spieler spieler;
+    private JLabel[] rohstoffe;
+    private JLabel siegpunkte;
+    private JButton handel;
+    public static int width = 250;
+    public static int height = 200;
+    Anderepanel(Spieler spieler)
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.spieler = spieler;
-        farbe = new JPanel();
+        JPanel farbe = new JPanel();
         farbe.setMinimumSize(new Dimension(width, 50));
         farbe.setMaximumSize(new Dimension(width, 50));
         farbe.setBackground(spieler.farbe);
         
         farbe.setLayout(new BoxLayout(farbe, BoxLayout.Y_AXIS));
         handel = new JButton("Handel");
-        handel.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                
-                new Handel(Main.spieler(), spieler);
-            }
-        }
+        handel.addActionListener(e -> new Handel(Main.spieler(), spieler)
         );
         farbe.add(handel);
         
@@ -58,7 +48,7 @@ public class Anderepanel extends JPanel
             rohstoffe[i].setText(Inventar.name(i)+" : "+spieler.inv.rohstoffe[i] + (spieler.letzteErnte == null || spieler.letzteErnte.rohstoffe[i] == 0 
             ? "" : "(+"+spieler.letzteErnte.rohstoffe[i]+")"));
         }
-        spieler.letzteErnte = null;
+        //spieler.letzteErnte = null;
         siegpunkte.setText("Siegpunkte: "+spieler.siegPunkte());
     }
     

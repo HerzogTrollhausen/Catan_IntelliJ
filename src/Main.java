@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.Socket;
 
 public class Main
@@ -7,7 +8,6 @@ public class Main
     static Bildschirm bildschirm;
     static Spieler[] spieler;
     private static int spielernr = 0;
-    static Welt welt;
     static final byte anzahlSpieler = 2;
     static boolean frueh = true;
     static int fruehvor = 1;
@@ -26,7 +26,15 @@ public class Main
 
     public static void main(String[] args)
     {
-        ImagesLaden();
+        try
+        {
+            ImagesLaden();
+            Buz.init();
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
         spieler = new Spieler[anzahlSpieler];
         for (byte i = 0; i < anzahlSpieler; i++)
         {
@@ -58,11 +66,11 @@ public class Main
         {
             if (Main.spieler().siegPunkte() >= 10)
             {
-                new Fehler("Spieler " + Main.spieler().id + " hat gewonnen!", "Glückwunsch!");
+                //new Fehler("Spieler " + Main.spieler().id + " hat gewonnen!", "Glückwunsch!"); TODO
             }
             spielernr = spielernr == anzahlSpieler - 1 ? 0 : spielernr + 1;
             ernte(wurf);
-            bildschirm.spielerpanel.label.setText("Letzter Wurf: " + wurf);
+            Bildschirm.setSpielerpanelLabelText("Letzter Wurf: " + wurf);
         } else
         {
             spielernr = spielernr + fruehvor;
@@ -75,32 +83,25 @@ public class Main
             {
                 spielernr = 0;
                 frueh = false;
-                bildschirm.naechster.setEnabled(true);
+                Bildschirm.getNaechster().setEnabled(true);
             }
         }
-        bildschirm.farbe.setBackground(spieler().farbe);
-        bildschirm.momentanSpielerLabel.setText("Momentaner Spieler: " + spieler().id);
-        bildschirm.eckpanel.removeAll();
-        welt.dunkel();
-        anderePanelAkt();
+        Bildschirm.setFarbeFarbe(spieler().farbe);
+        Bildschirm.setMomentanSpielerLabelText("Momentaner Spieler: " + spieler().id);
+        Bildschirm.clearEckpanel();
+        Welt.dunkel();
+        Bildschirm.anderePanelAkt();
         if (lokal)
         {
             ich = spielernr;
         }
+        JButton naechster = Bildschirm.getNaechster();
         if (ich != spielernr || frueh)
         {
-            bildschirm.naechster.setEnabled(false);
+            naechster.setEnabled(false);
         } else
         {
-            bildschirm.naechster.setEnabled(true);
-        }
-    }
-
-    public static void anderePanelAkt()
-    {
-        for (int i = 0; i < anzahlSpieler; i++)
-        {
-            bildschirm.anderePanel[i].updateRohstoffe();
+            naechster.setEnabled(true);
         }
     }
 
@@ -117,30 +118,32 @@ public class Main
             {
                 spieler[i].ernte(wuerfel);
             }
-        } else
-        {
-            for (int i = 0; i < anzahlSpieler; i++)
-            {
-                if (spieler[i].inv.anzahlAnRohstoffen() > 7)
-                {
-                    for (int j = 0; j < spieler[i].inv.anzahlAnRohstoffen() / 2; j++)
-                    {
-                        if (spieler[i].randomRohstoff() >= 0)
-                        {
-                            spieler[i].inv.rohstoffe[spieler[i].randomRohstoff()]--;
-                        } else
-                        {
-                            throw new IllegalArgumentException("" + spieler[i].randomRohstoff());
-                        }
-                    }
-                }
-            }
-            anderePanelAkt();
-            Bandit.ausschicken();
         }
     }
 
-    private static void ImagesLaden()
+    public static void siebenSteuer()
+    {
+        for(int i = 0; i < anzahlSpieler; i++)
+        {
+            if (spieler[i].inv.anzahlAnRohstoffen() > 7)
+            {
+                int[] tmp = spieler[i].inv.rohstoffe.clone();
+                for (int j = 0; j < spieler[i].inv.anzahlAnRohstoffen() / 2; j++)
+                {
+                    if (Spieler.randomRohstoff(tmp) >= 0)
+                    {
+                        tmp[Spieler.randomRohstoff(tmp)]--;
+                    } else
+                    {
+                        throw new IllegalArgumentException("" + Spieler.randomRohstoff(tmp));
+                    }
+                }
+                OnlineInterpreter.setInventar(spieler[i], tmp);
+            }
+        }
+    }
+
+    private static void ImagesLaden() throws IOException
     {
         Kante.wege = new Image[4];
         for (int i = 0; i < 4; i++)
@@ -160,17 +163,22 @@ public class Main
         {
             rittermacht = spieler();
             spieler().rittermacht = 2;
-            new Fehler("Du besitzt nun die Größte Rittermacht!", "Rittermacht");
-            anderePanelAkt();
+            //new Fehler("Du besitzt nun die Größte Rittermacht!", "Rittermacht");
+            JOptionPane.showMessageDialog(Bildschirm.getF(), "Du besitzt nun die größte Rittermacht", "Rittermacht",
+                    JOptionPane.INFORMATION_MESSAGE);
+            Bildschirm.anderePanelAkt();
             return;
         }
         if (rittermacht != null && rittermacht.anzahlGelegteRitter < spieler().anzahlGelegteRitter)
         {
             rittermacht.rittermacht = 0;
             spieler().rittermacht = 2;
-            new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermacht.id + " übernommen!");
+            //new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermacht.id + " übernommen!");
+            JOptionPane.showMessageDialog(Bildschirm.getF(), "Du hasst die größte Rittermacht von "+
+                    rittermacht.id+" übernommen", "Rittermacht",
+                    JOptionPane.INFORMATION_MESSAGE);
             rittermacht = spieler();
-            anderePanelAkt();
+            Bildschirm.anderePanelAkt();
         }
     }
 
@@ -199,10 +207,12 @@ public class Main
     {
         bildschirm = new Bildschirm(fenster);
         //Client.senden("b"+Welt.stapelZahlen("Feld"));
-        welt = new Welt(3);
-        bildschirm.f.setVisible(true);
-        bildschirm.spielerpanel.start();
-        bildschirm.spielerpanel.setVisible(true);
+        Welt.initWelt(3);
+    }
+
+    public static Spieler ich()
+    {
+        return spieler[ich];
     }
 
     public static void entwicklungskarte(int typ, Spieler pSpieler)

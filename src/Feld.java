@@ -1,5 +1,6 @@
 import java.awt.Image;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Ecke 0 ist oben links, danach im Uhrzeigersinn
@@ -236,9 +237,9 @@ public class Feld extends RectangleImage
 
     }
 
-    public int[] angrenzendeSpieler()
+    public Spieler[] angrenzendeSpieler()
     {
-        int[] tmp = new int[Main.anzahlSpieler];
+        /*int[] tmp = new int[Main.anzahlSpieler];
         for (int i = 0; i < 6; i++)
         {
             if (ecken[i].getSpieler() != null)
@@ -264,6 +265,16 @@ public class Feld extends RectangleImage
                 j++;
             }
         }
-        return endlich;
+        return endlich;*/
+        ArrayList<Spieler> aL = new ArrayList<>();
+        for(int i = 0; i < 6; i++)
+        {
+            Spieler tmp = ecken[i].getSpieler();
+            if(tmp != null && !aL.contains(tmp))
+            {
+                aL.add(tmp);
+            }
+        }
+        return aL.toArray(new Spieler[0]);
     }
 }

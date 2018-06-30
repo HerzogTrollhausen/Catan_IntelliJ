@@ -8,16 +8,24 @@ public class Bandit
     static void ausschicken()
     {
         amSetzen = true;
-        JButton naechster = Bildschirm.getNaechster();
-        naechster.setEnabled(false);
-        naechster.setToolTipText(Nuz.NAECHSTER_RAEUBER);
+        Bildschirm.enableNaechster(false);
+        Bildschirm.getNaechster().setToolTipText(Nuz.NAECHSTER_RAEUBER);
     }
 
     static void hinsetzen(Feld feld1)
     {
         OnlineInterpreter.raeuberVersetzen(feld1);
         amSetzen = false;
-        new SpielerauswahlRaub(feld1);
+        Spieler[] auswahl = feld1.angrenzendeSpieler();
+        if(auswahl.length > 0)
+        {
+            Spieler ziel = (Spieler) JOptionPane.showInputDialog(Bildschirm.getF(), "Welchen Spieler willst du ausrauben?",
+                    "Raub", JOptionPane.QUESTION_MESSAGE, null, auswahl, auswahl[0]);
+            if (ziel != null)
+            {
+                feld1.ausrauben(ziel);
+            }
+        }
         JButton naechster = Bildschirm.getNaechster();
         naechster.setEnabled(true);
         naechster.setToolTipText(Nuz.NAECHSTER_DEFAULT);

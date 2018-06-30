@@ -8,7 +8,7 @@ public class Main
     static Bildschirm bildschirm;
     static Spieler[] spieler;
     private static int spielernr = 0;
-    static final byte anzahlSpieler = 2;
+    static byte anzahlSpieler = 4;
     static boolean frueh = true;
     static int fruehvor = 1;
     static boolean fruehsiedlung = true;

@@ -42,7 +42,7 @@ public class Anderepanel extends JPanel
     
     public void updateRohstoffe()
     {
-        handel.setVisible(spieler != Main.spieler());
+        handel.setVisible(spieler != Main.ich() && (spieler == Main.spieler() || Main.spieler() == Main.ich()));
         for(int i = 0; i < 5; i++)
         {
             rohstoffe[i].setText(Inventar.name(i)+" : "+spieler.inv.rohstoffe[i] + (spieler.letzteErnte == null || spieler.letzteErnte.rohstoffe[i] == 0 

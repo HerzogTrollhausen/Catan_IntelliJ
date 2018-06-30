@@ -13,13 +13,10 @@ public class Hauptmenue extends JPanel
     JButton settings;//TODO
     JButton quit;
 
-    JTextField hostField = new JTextField("localhost");
-    JTextField portField = new JTextField("6677");
-    JLabel hostLabel = new JLabel("Host:");
-    JLabel portLabel = new JLabel("Port");
-    JPanel hostPanel = new JPanel();
-    JPanel portPanel = new JPanel();
-    JButton hostPortButton = new JButton("Verbinden");
+    private static final String standardhost = "localhost";
+    private static final int standardport = 6677;
+    private static String host;
+    private static int port;
     JButton starten = new JButton("Starte... das... SPIEL DU HURENSOHN!!!");
 
     public Hauptmenue()
@@ -31,6 +28,7 @@ public class Hauptmenue extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                Main.lokal = true;
                 Main.starter = true;
                 OnlineInterpreter.spielStarten();
             }
@@ -42,17 +40,23 @@ public class Hauptmenue extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                remove(local);
-                remove(quit);
-                remove(online);
                 Main.lokal = false;
-                hostPanel.setMaximumSize(new Dimension(200, 40));
-                portPanel.setMaximumSize(new Dimension(200, 40));
-                add(hostPanel);
-                add(portPanel);
-                add(hostPortButton);
-                revalidate();
-                repaint();
+                host = (String)JOptionPane.showInputDialog(Bildschirm.getF(), "Hostname eingeben:", "Hostname",
+                        JOptionPane.QUESTION_MESSAGE, null, null, "localhost");
+                boolean erfolgreich = false;
+                while(!erfolgreich)
+                {
+                    try
+                    {
+                        port = Integer.parseInt((String) JOptionPane.showInputDialog(Bildschirm.getF(), "Portnummer eingeben:", "Port",
+                                JOptionPane.QUESTION_MESSAGE, null, null, "6677"));
+                        erfolgreich = true;
+                    } catch (NumberFormatException ex)
+                    {
+                        JOptionPane.showMessageDialog(Bildschirm.getF(), "Beim Host bitte eine Zahl eingeben!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                Main.mitServerVerbinden(host, port);
             }
         });
 
@@ -63,24 +67,6 @@ public class Hauptmenue extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 Main.fenster.dispose();
-            }
-        });
-        hostPanel.add(hostLabel);
-        hostPanel.add(hostField);
-        portPanel.add(portLabel);
-        portPanel.add(portField);
-        hostPortButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                try
-                {
-                    Main.mitServerVerbinden(hostField.getText(), Integer.parseInt(portField.getText()));
-                }catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(Bildschirm.getF(), "Bitte eine gültige Zahl eingeben",
-                            "Ungültige Portnummer", JOptionPane.ERROR_MESSAGE);
-                }
             }
         });
 

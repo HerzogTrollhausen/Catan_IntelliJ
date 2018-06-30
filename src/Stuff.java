@@ -1,15 +1,15 @@
+import javax.swing.*;
+import java.util.ArrayList;
+
 public class Stuff
 {
     public static void main(String[] args)
     {
-        int[] a = {1, 2, 3, 4};
-        int[] b = new int[4];
-        System.out.println(a[1]);//2
-        b = a.clone();
-        System.out.println(b[1]);
-        b[1] = 5;
-        System.out.println(a[1]);
-        System.out.println(b[1]);
+        Game[] games = new Game[2];
+        games[0] = new Game("Erstes Spiel", 0, 1, 4);
+        games[1] = new Game("Zweites Spiel", 1, 2, 3);
+        System.out.println(((Game)JOptionPane.showInputDialog(null, "message", "title",
+                JOptionPane.QUESTION_MESSAGE, null, games, games[0])).getID());
     }
 }
 

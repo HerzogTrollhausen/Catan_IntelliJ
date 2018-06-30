@@ -1,10 +1,9 @@
 import javax.swing.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Bildschirm extends JPanel
 {
@@ -85,7 +84,7 @@ public class Bildschirm extends JPanel
 
         addAnderePanel();
         //f.setVisible(true);
-        new Timer( 100 / 6, e -> repaint()).start();
+        new Timer(100 / 6, e -> repaint()).start();
     }
 
     static JButton getNaechster()
@@ -126,7 +125,7 @@ public class Bildschirm extends JPanel
                     Welt.felder[i][j].draw(g2);
                 }
             }
-            for(int i = 0; i < grafikobjekte.size(); i++)
+            for (int i = 0; i < grafikobjekte.size(); i++)
             {
                 grafikobjekte.get(i).draw(g2);
             }
@@ -149,6 +148,7 @@ public class Bildschirm extends JPanel
 
     static void enableNaechster(boolean b)
     {
+        System.out.println("Bildschirm.enableNaechster");
         naechster.setEnabled(b);
     }
 

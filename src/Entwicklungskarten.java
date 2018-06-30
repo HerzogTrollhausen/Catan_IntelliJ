@@ -16,7 +16,7 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         ritterbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Bandit.ausschicken();//TODO
+                Bandit.ausschicken();
                 OnlineInterpreter.entwicklungskarteAusspielen(Main.ich(), 0);
                 f.dispose();
             }

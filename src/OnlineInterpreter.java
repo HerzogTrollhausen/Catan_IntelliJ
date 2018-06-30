@@ -290,9 +290,17 @@ public class OnlineInterpreter
                 spielBeitreten(auswahl.getID());
                 break;
             }
+            case '?':
+            {
+                if(!Main.lokal)
+                {
+                    throw new IllegalArgumentException(msg);
+                }
+                break;
+            }
 
             default:
-                System.err.println("Unpassende Nachricht: " + msg);
+                throw new IllegalArgumentException("Unpassende Nachricht: " + msg);
         }
     }
 
@@ -365,6 +373,7 @@ public class OnlineInterpreter
     {
         if (wurf == 7)
         {
+            Bandit.ausschicken();
             Main.siebenSteuer();
         }
         senden("h" + wurf);
@@ -388,7 +397,19 @@ public class OnlineInterpreter
 
     public static void spielStarten()
     {
-        senden("?d");
+        if(Main.lokal)
+        {
+            senden("m"+JOptionPane.showInputDialog(Bildschirm.getF(), "Anzahl der Spieler", "4"));
+        }
+        else
+        {
+            senden("?d");
+        }
+    }
+
+    public static void spielVerlassen()
+    {
+        senden("?e");
     }
 
     public static void bezahlen(Spieler spieler, int[] inv)

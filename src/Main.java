@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -26,12 +28,28 @@ public class Main
 
     public static void main(String[] args)
     {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            try
+            {
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
         try
         {
             ImagesLaden();
             Buz.init();
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             ex.printStackTrace();
         }
@@ -41,8 +59,56 @@ public class Main
             spieler[i] = new Spieler(i);
         }
         fenster = new JFrame("Die Siedler von Catan");
+        fenster.addWindowListener(new WindowListener()
+        {
+            @Override
+            public void windowOpened(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                if(!lokal)
+                {
+                    OnlineInterpreter.spielVerlassen();
+                }
+                System.exit(-1);
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e)
+            {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e)
+            {
+
+            }
+        });
         fenster.setSize(1600, 900);
-        fenster.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        fenster.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         hauptmenue = new Hauptmenue();
         fenster.add(new Hauptmenue());
         fenster.setContentPane(hauptmenue);
@@ -99,7 +165,7 @@ public class Main
         if (ich != spielernr || frueh)
         {
             naechster.setEnabled(false);
-        } else
+        } else if(wurf != 7)
         {
             naechster.setEnabled(true);
         }
@@ -123,7 +189,7 @@ public class Main
 
     public static void siebenSteuer()
     {
-        for(int i = 0; i < anzahlSpieler; i++)
+        for (int i = 0; i < anzahlSpieler; i++)
         {
             if (spieler[i].inv.anzahlAnRohstoffen() > 7)
             {
@@ -174,8 +240,8 @@ public class Main
             rittermacht.rittermacht = 0;
             spieler().rittermacht = 2;
             //new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermacht.id + " übernommen!");
-            JOptionPane.showMessageDialog(Bildschirm.getF(), "Du hasst die größte Rittermacht von "+
-                    rittermacht.id+" übernommen", "Rittermacht",
+            JOptionPane.showMessageDialog(Bildschirm.getF(), "Du hasst die größte Rittermacht von " +
+                            rittermacht.id + " übernommen", "Rittermacht",
                     JOptionPane.INFORMATION_MESSAGE);
             rittermacht = spieler();
             Bildschirm.anderePanelAkt();

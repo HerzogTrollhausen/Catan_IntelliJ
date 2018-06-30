@@ -1,6 +1,9 @@
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 
-public class OnlineInterpreter {
+public class OnlineInterpreter
+{
     /**
      * aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"
      * b00332421: Felderstapel
@@ -14,17 +17,21 @@ public class OnlineInterpreter {
      * j56: Räuber auf Feld 5|6
      * k2: ID wird auf 2 gesetzt
      * l23104: Hafenstapel
-     * m: Starte das Spiel
+     * m3: Starte das Spiel mit 3 Spielern
      * n20m0m0m12m3: Spieler 2 bezahlt 12 Weizen und 3 Erz
      * o20m0m0m12m3: Spieler 2 bekommt 12 Weizen und 3 Erz
      * p1Hallo: Chatnachricht an Spieler 1: Hallo
      * qGruß#Hallo: Popup an alle: Titel Gruß, nachricht Hallo
      * r1Gruß#Hallo: Popup an Spieler 1: Titel Gruß, Nachricht Hallo
      * s20m0m0m12m3: Das Inventar von Spieler 2 wird auf 0 0 0 12 3 gesetzt
+     * t132m5m-3m0m0 : Handelsangebot von 1 zu 3, dass du dieses Inventar bekommst
+     * u34Erstes Spiel#12Zweites Spiel: Im Spiel "Erstes Spiel" gibt es 3 von 4 Spielern, im Spiel "Zweites Spiel" gibt es 1 von 2 Spielern
      */
-    public static void interpret(String msg) {
+    public static void interpret(String msg)
+    {
         System.out.println(msg);
-        switch (msg.charAt(0)) {
+        switch (msg.charAt(0))
+        {
             case 'a'://aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"
             {
                 Chat.displayMessage(msg.substring(1));
@@ -34,11 +41,13 @@ public class OnlineInterpreter {
             {
                 int[] a = new int[19];
                 char[] c = msg.toCharArray();
-                for (int i = 1; i < 20; i++) {
+                for (int i = 1; i < 20; i++)
+                {
                     a[i - 1] = Integer.parseInt("" + c[i]);
                 }
                 Welt.felderArray = a;
-                if (Main.starter) {
+                if (Main.starter)
+                {
                     zahlenstapel(Welt.stapelZahlen(Stapel.StapelTypen.Zahl));
                 }
                 break;
@@ -47,11 +56,13 @@ public class OnlineInterpreter {
             {
                 int[] a = new int[18];
                 char[] c = msg.toCharArray();
-                for (int i = 1; i < 19; i++) {
+                for (int i = 1; i < 19; i++)
+                {
                     a[i - 1] = Integer.parseInt("" + c[i], 16);
                 }
                 Welt.plaettchenArray = a;
-                if (Main.starter) {
+                if (Main.starter)
+                {
                     hafenStapel(Welt.stapelZahlen(Stapel.StapelTypen.Hafen));
                 }
                 break;
@@ -94,7 +105,8 @@ public class OnlineInterpreter {
             {
                 int x = Integer.parseInt("" + msg.charAt(1));//TODO: Ex machina angucken
                 int y = Integer.parseInt("" + msg.charAt(2));
-                if (Bandit.feld != null) {
+                if (Bandit.feld != null)
+                {
                     Bandit.feld.besetzt = false;
                 }
                 Welt.felder[y][x].besetzt = true;
@@ -104,7 +116,8 @@ public class OnlineInterpreter {
             case 'k'://k2: ID wird auf 2 gesetzt
             {
                 Main.ich = Integer.parseInt(msg.substring(1));
-                if (Main.ich == 0) {
+                if (Main.ich == 0)
+                {
                     Main.hauptmenue.add(Main.hauptmenue.starten);
                     Main.hauptmenue.revalidate();
                 }
@@ -114,16 +127,19 @@ public class OnlineInterpreter {
             {
                 int[] a = new int[9];
                 char[] c = msg.toCharArray();
-                for (int i = 1; i < 10; i++) {
+                for (int i = 1; i < 10; i++)
+                {
                     a[i - 1] = Integer.parseInt("" + c[i]);
                 }
                 Welt.haefenArray = a;
                 Main.start();
                 break;
             }
-            case 'm'://m: Starte das Spiel
+            case 'm'://m3: Starte das Spiel mit 3 Spielern
             {
-                if (Main.starter) {
+                Main.anzahlSpieler = (byte)Integer.parseInt(msg.charAt(1)+"");
+                if (Main.starter)
+                {
                     felderstapel(Welt.stapelZahlen(Stapel.StapelTypen.Feld));
                 }
                 break;
@@ -133,7 +149,8 @@ public class OnlineInterpreter {
                 Spieler s = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                 String[] sArray = msg.substring(2).split("m");
                 int[] iArray = new int[5];
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     iArray[i] = Integer.parseInt(sArray[i]);
                 }
                 s.inv.bezahl(iArray);
@@ -144,27 +161,33 @@ public class OnlineInterpreter {
                 Spieler s = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                 String[] sArray = msg.substring(2).split("m");
                 int[] iArray = new int[5];
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     iArray[i] = Integer.parseInt(sArray[i]);
                     System.out.println(iArray[i]);
                 }
                 s.inv.hinzu(iArray);
                 break;
             }
-            case 'p': {
-                if (Integer.parseInt("" + msg.charAt(1)) == Main.ich) {
+            case 'p':
+            {
+                if (Integer.parseInt("" + msg.charAt(1)) == Main.ich)
+                {
                     Chat.displayMessage(msg.substring(1));
                 }
                 break;
             }
-            case 'q': {
+            case 'q':
+            {
                 String[] split = msg.substring(1).split("#");
                 //new Fehler(split[0], split[1]);
                 JOptionPane.showMessageDialog(Bildschirm.getF(), split[0], split[1], JOptionPane.PLAIN_MESSAGE);
                 break;
             }
-            case 'r': {
-                if (Integer.parseInt("" + msg.charAt(1)) == Main.ich) {
+            case 'r':
+            {
+                if (Integer.parseInt("" + msg.charAt(1)) == Main.ich)
+                {
                     String[] split = msg.substring(2).split("#");
                     //new Fehler(split[0], split[1]);
                     JOptionPane.showMessageDialog(Bildschirm.getF(), split[0], split[1], JOptionPane.PLAIN_MESSAGE);
@@ -176,7 +199,8 @@ public class OnlineInterpreter {
                 Spieler s = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                 String[] sArray = msg.substring(2).split("m");
                 int[] iArray = new int[5];
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     iArray[i] = Integer.parseInt(sArray[i]);
                 }
                 s.inv.rohstoffe = iArray;
@@ -185,13 +209,16 @@ public class OnlineInterpreter {
             }
             case 't'://t132m5m-3m0m0 : Handelsangebot von 1 zu 3, dass du dieses Inventar bekommst
             {
-                if (Integer.parseInt("" + msg.charAt(2)) == Main.ich) {
-                    Spieler s1 = Main.spieler[Integer.parseInt(""+msg.charAt(1))];
+                if (Integer.parseInt("" + msg.charAt(2)) == Main.ich)
+                {
+                    Spieler s1 = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                     Spieler s2 = Main.ich();
                     int[] inv = msgToInv(msg.substring(3));
                     String optionMessage = "Wenn du dieses Angebot akzeptierst, bekommst du \n";
-                    for (int i = 0; i < 5; i++) {
-                        if (inv[i] != 0) {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (inv[i] != 0)
+                        {
                             optionMessage = optionMessage + inv[i] + Inventar.name(i) + "\n";
                         }
                     }
@@ -200,18 +227,68 @@ public class OnlineInterpreter {
                             JOptionPane.QUESTION_MESSAGE, null,
                             new String[]{Nuz.PLAYER_TRADE_AGREE, Nuz.PLAYER_TRADE_REFUSE}, Nuz.PLAYER_TRADE_AGREE);
                     System.out.println(abfrage);
-                    if(abfrage == 0)
+                    if (abfrage == 0)
                     {
                         int[] antiInv = new int[5];
-                        for(int i = 0; i < 5; i++)
+                        for (int i = 0; i < 5; i++)
                         {
-                            antiInv[i] = inv[i]*-1;
+                            antiInv[i] = inv[i] * -1;
                         }
                         OnlineInterpreter.bekommen(s1, antiInv);
                         OnlineInterpreter.bekommen(s2, inv);
                         break;
                     }
                 }
+                break;
+            }
+            case 'u'://u034Erstes Spiel#112Zweites Spiel: Im Spiel "Erstes Spiel" gibt es 3 von 4 Spielern, ID ist 0,
+                // im Spiel "Zweites Spiel" gibt es 1 von 2 Spielern, ID ist 1
+            {
+                if (msg.length() == 1)
+                {
+                    String name = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
+                            "Es gibt noch keine Spiele. Erstelle selber eins.",
+                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, "Name");
+                    int maxAnzahlSpieler = Integer.parseInt((String) JOptionPane.showInputDialog(Bildschirm.getF(),
+                            "Gib die maximale Anzahl der Spieler an",
+                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, 4));
+                    OnlineInterpreter.spielErstellen(name, maxAnzahlSpieler);
+                    break;
+                }
+                String[] sA = msg.substring(1).split("#");
+                for (String s : sA)
+                {
+                    String name = s.substring(3);
+                    int ID = Integer.parseInt("" + s.charAt(0));
+                    int momSpieler = Integer.parseInt("" + s.charAt(1));
+                    int maxSpieler = Integer.parseInt("" + s.charAt(2));
+                    Game.addGame(new Game(name, ID, momSpieler, maxSpieler));
+                }
+                int anzahlSpiele = Game.games.size();
+                int erstellenOderBeitreten = JOptionPane.showOptionDialog(Bildschirm.getF(),
+                        "Es " + (anzahlSpiele == 1 ? "existieren" : "existiert") + "bereits" + (anzahlSpiele == 1 ? "ein" : "" + anzahlSpiele) +
+                                "Spiel, /n/r willst du ein neues Erstellen oder einem alten beitreten?", "Neues Spiel?",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Erstellen", "Bestehendem Spiel beitreten"},
+                        "Bestehendem Spiel beitreten");
+                if (erstellenOderBeitreten == 0)
+                {
+                    String name = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
+                            "Benenne dein Spiel",
+                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, "Name");
+                    String maxAnzahlSpielerString = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
+                            "Gib die maximale Anzahl der Spieler an",
+                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, 4);
+                    if(maxAnzahlSpielerString != null)
+                    {
+                        int maxAnzahlSpieler = Integer.parseInt(maxAnzahlSpielerString);
+                        OnlineInterpreter.spielErstellen(name, maxAnzahlSpieler);
+                    }
+                    break;
+                }
+                Game auswahl = (Game) JOptionPane.showInputDialog(Bildschirm.getF(), "Wähle ein Spiel", "Spielauswahl",
+                        JOptionPane.INFORMATION_MESSAGE, null, Game.games.toArray(), Game.games.get(0));
+                spielBeitreten(auswahl.getID());
+                break;
             }
 
             default:
@@ -219,25 +296,31 @@ public class OnlineInterpreter {
         }
     }
 
-    private static void senden(String msg) {
+    private static void senden(String msg)
+    {
         Client.senden(msg);
     }
 
-    private static int[] msgToInv(String msg) {
+    private static int[] msgToInv(String msg)
+    {
         String[] sArray = msg.split("m");
         int[] iArray = new int[5];
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             iArray[i] = Integer.parseInt(sArray[i]);
         }
         return iArray;
     }
 
-    private static String invToMsg(int[] inv) {
-        if (inv.length != 5) {
+    private static String invToMsg(int[] inv)
+    {
+        if (inv.length != 5)
+        {
             throw new IllegalArgumentException("Ungültige Länge für ein Inventar-Array: " + inv.length);
         }
         StringBuilder tmp = new StringBuilder("");
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             tmp.append(inv[i]).append("m");
         }
         return (tmp.toString());
@@ -248,101 +331,136 @@ public class OnlineInterpreter {
         senden("a" + msg);
     }
 
-    public static void felderstapel(String felder) {
+    public static void felderstapel(String felder)
+    {
         senden("b" + felder);
     }
 
-    public static void zahlenstapel(String zahlen) {
+    public static void zahlenstapel(String zahlen)
+    {
         senden("c" + zahlen);
     }
 
-    public static void strasseBauen(Spieler spieler, Kante kante) {
+    public static void strasseBauen(Spieler spieler, Kante kante)
+    {
         senden("d" + spieler.id + "" + kante.getX() + "" + kante.getY() + "" + kante.pos);
     }
 
-    public static void siedlungBauen(Spieler spieler, Ecke ecke) {
+    public static void siedlungBauen(Spieler spieler, Ecke ecke)
+    {
         senden("e" + spieler.id + "" + ecke.getX() + "" + ecke.getY() + "" + ecke.pos);
     }
 
-    public static void stadtBauen(Spieler spieler, Ecke ecke) {
+    public static void stadtBauen(Spieler spieler, Ecke ecke)
+    {
         senden("f" + spieler.id + "" + ecke.getX() + "" + ecke.getY() + "" + ecke.pos);
     }
 
-    public static void entwicklungskarteZiehen(Spieler spieler, int karte) {
+    public static void entwicklungskarteZiehen(Spieler spieler, int karte)
+    {
         senden("g" + spieler.id + "" + karte);
     }
 
-    public static void wuerfel(int wurf) {
-        if (wurf == 7) {
+    public static void wuerfel(int wurf)
+    {
+        if (wurf == 7)
+        {
             Main.siebenSteuer();
         }
         senden("h" + wurf);
     }
 
 
-    public static void entwicklungskarteAusspielen(Spieler spieler, int typ) {
+    public static void entwicklungskarteAusspielen(Spieler spieler, int typ)
+    {
         senden("i" + spieler.id + "" + typ);
     }
 
-    public static void raeuberVersetzen(Feld feld) {
+    public static void raeuberVersetzen(Feld feld)
+    {
         senden("j" + feld.getX() + "" + feld.getY());
     }
 
-    public static void hafenStapel(String haefen) {
+    public static void hafenStapel(String haefen)
+    {
         senden("l" + haefen);
     }
 
-    public static void spielStarten() {
-        senden("m");
+    public static void spielStarten()
+    {
+        senden("?d");
     }
 
-    public static void bezahlen(Spieler spieler, int[] inv) {
-        if (inv.length != 5) {
+    public static void bezahlen(Spieler spieler, int[] inv)
+    {
+        if (inv.length != 5)
+        {
             throw new IllegalArgumentException("Ungültige Länge für ein Inventar-Array: " + inv.length);
         }
         StringBuilder tmp = new StringBuilder("n" + spieler.id);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             tmp.append(inv[i]).append("m");
         }
         senden(tmp.toString());
     }
 
-    public static void bekommen(Spieler spieler, int[] inv) {
-        if (inv.length != 5) {
+    public static void bekommen(Spieler spieler, int[] inv)
+    {
+        if (inv.length != 5)
+        {
             throw new IllegalArgumentException("Ungültige Länge für ein Inventar-Array: " + inv.length);
         }
         StringBuilder tmp = new StringBuilder("o" + spieler.id);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             tmp.append(inv[i]).append("m");
         }
         senden(tmp.toString());
     }
 
-    public static void privatChatNachricht(Spieler spieler, String msg) {
+    public static void privatChatNachricht(Spieler spieler, String msg)
+    {
         senden("p" + spieler.id + msg);
     }
 
-    public static void publicPopup(String titel, String nachricht) {
+    public static void publicPopup(String titel, String nachricht)
+    {
         senden("q" + nachricht + "#" + titel);
     }
 
-    public static void privatPopup(Spieler spieler, String titel, String nachricht) {
+    public static void privatPopup(Spieler spieler, String titel, String nachricht)
+    {
         senden("r" + spieler.id + nachricht + "#" + titel);
     }
 
-    public static void setInventar(Spieler spieler, int[] inv) {
-        if (inv.length != 5) {
+    public static void setInventar(Spieler spieler, int[] inv)
+    {
+        if (inv.length != 5)
+        {
             throw new IllegalArgumentException("Ungültige Länge für ein Inventar-Array: " + inv.length);
         }
         StringBuilder tmp = new StringBuilder("s" + spieler.id);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             tmp.append(inv[i]).append("m");
         }
         senden(tmp.toString());
     }
 
-    public static void spielerHandel(Spieler s1, Spieler s2, int[] inv) {
+    public static void spielerHandel(Spieler s1, Spieler s2, int[] inv)
+    {
         invToMsg(inv);
         senden("t" + s1.id + "" + s2.id + invToMsg(inv));
+    }
+
+    public static void spielErstellen(String name, int maxAnzahlSpieler)
+    {
+        senden("?b" + maxAnzahlSpieler + name);
+    }
+
+    public static void spielBeitreten(int ID)
+    {
+        senden("?c" + ID);
     }
 }

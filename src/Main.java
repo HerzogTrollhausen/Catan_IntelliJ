@@ -143,7 +143,6 @@ public class Main
             if (spielernr == anzahlSpieler)
             {
                 fruehvor = fruehvor * -1;
-                //Client.senden("h"+wurf);
                 nextPlayer(wurf);
             } else if (spielernr == -1)
             {

@@ -89,4 +89,9 @@ public class Spieler
     {
         return anzahlSiedlungen+2*anzahlStaedte+anzahlEntwicklungskarten(1)+rittermacht+handelsstrasse;
     }
+
+    public String toString()
+    {
+        return "Spieler "+id;
+    }
 }

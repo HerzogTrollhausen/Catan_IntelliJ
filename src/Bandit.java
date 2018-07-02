@@ -27,7 +27,7 @@ public class Bandit
             }
         }
         JButton naechster = Bildschirm.getNaechster();
-        naechster.setEnabled(true);
+        Bildschirm.enableNaechster(true);
         naechster.setToolTipText(Nuz.NAECHSTER_DEFAULT);
     }
 }

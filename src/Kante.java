@@ -1,16 +1,15 @@
 import java.awt.Image;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Kante extends RectangleImage
 {
     static Image[] wege;
+    @SuppressWarnings("WeakerAccess")
     Feld feld1, feld2;
     Ecke ecke1, ecke2;
     int pos;
 
-    JButton button;
+    private JButton button;
 
     Spieler spieler;
 
@@ -21,12 +20,12 @@ public class Kante extends RectangleImage
         return ecke == ecke1 ? ecke2 : ecke == ecke2 ? ecke1 : null;
     }
 
-    public Kante(Image img)
+    Kante(Image img)
     {
         super(img, 0, 0);
     }
 
-    public Kante(Image img, Feld feld, int pos)
+    Kante(Image img, Feld feld, int pos)
     {
         super(img, 0, 0);
 
@@ -142,7 +141,7 @@ public class Kante extends RectangleImage
      */
     public void zuHafen(int typ)
     {
-        Hafen tmp = new Hafen(this, typ);
+        Hafen tmp = new Hafen(typ);
         tmp.feld1 = feld1;
         tmp.feld2 = feld2;
         tmp.ecke1 = ecke1;

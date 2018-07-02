@@ -3,7 +3,7 @@ public class Welt
     static Feld[][] felder;
     static private int yn;
     static private int xn;
-    static int[] haefenArray, felderArray, plaettchenArray, entwicklungsArray;
+    static int[] haefenArray, felderArray, plaettchenArray;
     static int plaettchenI, felderI;
 
     public static void initWelt(int basis)

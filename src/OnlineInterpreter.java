@@ -1,5 +1,3 @@
-import jdk.nashorn.internal.scripts.JO;
-
 import javax.swing.*;
 
 public class OnlineInterpreter
@@ -214,15 +212,15 @@ public class OnlineInterpreter
                     Spieler s1 = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                     Spieler s2 = Main.ich();
                     int[] inv = msgToInv(msg.substring(3));
-                    String optionMessage = "Wenn du dieses Angebot akzeptierst, bekommst du \n";
+                    StringBuilder optionMessage = new StringBuilder("Wenn du dieses Angebot akzeptierst, bekommst du \n");
                     for (int i = 0; i < 5; i++)
                     {
                         if (inv[i] != 0)
                         {
-                            optionMessage = optionMessage + inv[i] + Inventar.name(i) + "\n";
+                            optionMessage.append(inv[i]).append(Inventar.name(i)).append("\n");
                         }
                     }
-                    int abfrage = JOptionPane.showOptionDialog(Bildschirm.getF(), optionMessage,
+                    int abfrage = JOptionPane.showOptionDialog(Bildschirm.getF(), optionMessage.toString(),
                             "Handelsangebot von " + msg.charAt(1), JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null,
                             new String[]{Nuz.PLAYER_TRADE_AGREE, Nuz.PLAYER_TRADE_REFUSE}, Nuz.PLAYER_TRADE_AGREE);
@@ -339,12 +337,12 @@ public class OnlineInterpreter
         senden("a" + msg);
     }
 
-    public static void felderstapel(String felder)
+    private static void felderstapel(String felder)
     {
         senden("b" + felder);
     }
 
-    public static void zahlenstapel(String zahlen)
+    private static void zahlenstapel(String zahlen)
     {
         senden("c" + zahlen);
     }
@@ -390,7 +388,7 @@ public class OnlineInterpreter
         senden("j" + feld.getX() + "" + feld.getY());
     }
 
-    public static void hafenStapel(String haefen)
+    private static void hafenStapel(String haefen)
     {
         senden("l" + haefen);
     }
@@ -440,11 +438,13 @@ public class OnlineInterpreter
         senden(tmp.toString());
     }
 
+    @SuppressWarnings("unused")
     public static void privatChatNachricht(Spieler spieler, String msg)
     {
         senden("p" + spieler.id + msg);
     }
 
+    @SuppressWarnings("unused")
     public static void publicPopup(String titel, String nachricht)
     {
         senden("q" + nachricht + "#" + titel);
@@ -475,11 +475,13 @@ public class OnlineInterpreter
         senden("t" + s1.id + "" + s2.id + invToMsg(inv));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static void spielErstellen(String name, int maxAnzahlSpieler)
     {
         senden("?b" + maxAnzahlSpieler + name);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static void spielBeitreten(int ID)
     {
         senden("?c" + ID);

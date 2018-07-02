@@ -132,7 +132,8 @@ public class Main
         {
             if (Main.spieler().siegPunkte() >= 10)
             {
-                //new Fehler("Spieler " + Main.spieler().id + " hat gewonnen!", "Glückwunsch!"); TODO
+                JOptionPane.showMessageDialog(Bildschirm.getF(), (spieler() == ich() ? "Du hast gewonnen! Glückwunsch!"
+                : spieler()+" hat gewonnen.")+" /l/n Ihr könnt noch weiterspielen, wenn ihr möchtet.");//TODO
             }
             spielernr = spielernr == anzahlSpieler - 1 ? 0 : spielernr + 1;
             ernte(wurf);
@@ -222,23 +223,23 @@ public class Main
         }
     }
 
-    public static void rittermacht(int anzahlGelegteRitter)
+    private static void rittermacht(int anzahlGelegteRitter)
     {
         if (rittermacht == null && anzahlGelegteRitter >= 3)
         {
             rittermacht = spieler();
-            spieler().rittermacht = 2;
+            spieler().rittermachtSiegpunkte = 2;
             //new Fehler("Du besitzt nun die Größte Rittermacht!", "Rittermacht");
             JOptionPane.showMessageDialog(Bildschirm.getF(), "Du besitzt nun die größte Rittermacht", "Rittermacht",
                     JOptionPane.INFORMATION_MESSAGE);
             Bildschirm.anderePanelAkt();
             return;
         }
-        if (rittermacht != null && rittermacht.anzahlGelegteRitter < spieler().anzahlGelegteRitter)
+        if (rittermacht != null && rittermacht.anzahlGelegteRitter < ich().anzahlGelegteRitter)
         {
-            rittermacht.rittermacht = 0;
-            spieler().rittermacht = 2;
-            //new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermacht.id + " übernommen!");
+            rittermacht.rittermachtSiegpunkte = 0;
+            spieler().rittermachtSiegpunkte = 2;
+            //new Fehler("Du hast die Größte Rittermacht von Spieler " + rittermachtSiegpunkte.id + " übernommen!");
             JOptionPane.showMessageDialog(Bildschirm.getF(), "Du hasst die größte Rittermacht von " +
                             rittermacht.id + " übernommen", "Rittermacht",
                     JOptionPane.INFORMATION_MESSAGE);

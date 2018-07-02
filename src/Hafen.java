@@ -4,20 +4,14 @@ public class Hafen extends Kante
 {
     int typ; //0-4 entsprechendes Gut 2:1, 5 ist alles 3:1
     static Image[] haefen;
-    static Stapel hafenStapel = new Stapel(Stapel.StapelTypen.Hafen);
 
-    public Hafen(Feld feld, int pos, int typ)
+    Hafen(int typ)
     {
         super(haefen[typ]);
         this.typ = typ;
         hafen = true;
         //img = FileManager.createResizedCopy(img, 50, 50, true);
         setSize(40, 40);
-    }
-
-    public Hafen(Kante kante, int typ)
-    {
-        this(kante.feld1, kante.pos, typ);
     }
 
     /**
@@ -35,11 +29,6 @@ public class Hafen extends Kante
             case 5: return "werden beliebige Rohstoffen im Verhältnis 3:1";
             default: throw new IllegalArgumentException("Hafen.java; String stringAusTyp(int typ); typ ist "+typ);
         }
-    }
-
-    public Hafen(Kante kante)
-    {
-        this(kante, hafenStapel.randomZahl());
     }
 
     @Override

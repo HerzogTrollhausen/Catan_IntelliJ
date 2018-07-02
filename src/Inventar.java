@@ -8,19 +8,13 @@ public class Inventar
     static int[] stadt = {0,0,0,1,1};
     static int[] entwicklung = {0,0,1,1,1};
 
-    public Inventar()
+    Inventar()
     {
         rohstoffe = new int[5];
         entwicklungskarten = new int[5];//0 holz, 1 lehm, 2 schaf, 3 weizen, 4 erz
     }
 
-    public Inventar(int[] arg)
-    {
-        rohstoffe = arg;
-        entwicklungskarten = new int[5];
-    }
-
-    public Inventar(int arg)//0 Straße, 1 Siedlung, 2 Stadt, 3 Entwicklung, 4 test
+    Inventar(int arg)//0 Straße, 1 Siedlung, 2 Stadt, 3 Entwicklung, 4 test
     {
         rohstoffe = new int[5];
         entwicklungskarten = new int[5];

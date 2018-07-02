@@ -4,19 +4,18 @@ import java.util.ArrayList;
 public class Spieler
 {
     Inventar inv;
-    ArrayList<Siedlung> siedlungen = new ArrayList<Siedlung>();
+    ArrayList<Siedlung> siedlungen = new ArrayList<>();
     Color farbe;
     Inventar letzteErnte;
     byte id;//0 == rot, 1 == blau, 2 == weiß, 3 == orange
-    String name;
     int anzahlSiedlungen, anzahlStaedte, anzahlStrassen, anzahlGelegteRitter;
-    public int rittermacht = 0;
-    public int handelsstrasse;
+    public int rittermachtSiegpunkte = 0;
+    @SuppressWarnings("WeakerAccess")
+    public int handelsstrasse = 0;
 
     public Spieler(byte id)
     {
         this.id = id;
-        name = ""+id;
         switch (id)
         {
             case 0:
@@ -34,12 +33,29 @@ public class Spieler
         inv = new Inventar(4);
     }
 
+    private String farbeString()
+    {
+        switch (id)
+        {
+            case 0:
+                return "Rot";
+            case 1:
+                return "Blau";
+            case 2:
+                return "Weiß";
+            case 3:
+                return "Orange";
+            default:
+                throw new IllegalArgumentException("Komische id: " + id);
+        }
+    }
+
     public void ernte(int wuerfel)
     {
         letzteErnte = new Inventar();
-        for (int i = 0; i < siedlungen.size(); i++)
+        for (Siedlung aSiedlungen : siedlungen)
         {
-            int[] tmp = siedlungen.get(i).ernte(wuerfel);
+            int[] tmp = aSiedlungen.ernte(wuerfel);
             inv.hinzu(tmp);
             letzteErnte.hinzu(tmp);
         }
@@ -59,8 +75,7 @@ public class Spieler
             if (rand >= untergrenze && rand <= untergrenze - 1 + inv[j])
             {
                 return j;
-            }
-            else
+            } else
             {
                 untergrenze += inv[j];
             }
@@ -87,11 +102,11 @@ public class Spieler
 
     public int siegPunkte()
     {
-        return anzahlSiedlungen+2*anzahlStaedte+anzahlEntwicklungskarten(1)+rittermacht+handelsstrasse;
+        return anzahlSiedlungen + 2 * anzahlStaedte + anzahlEntwicklungskarten(1) + rittermachtSiegpunkte + handelsstrasse;
     }
 
     public String toString()
     {
-        return "Spieler "+id;
+        return "Spieler " + id+ " ("+farbeString()+")";
     }
 }

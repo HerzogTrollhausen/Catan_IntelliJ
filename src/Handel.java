@@ -1,22 +1,20 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-public class Handel extends JPanel
+class Handel extends JPanel
 {
-    JFrame f;
-    Handelzeile[] zeilen;
-    JButton ja, nein;
-    JPanel buttons;
+    private JFrame f;
+    private Handelzeile[] zeilen;
+    private JButton ja, nein;
+    private JPanel buttons;
 
-    public Handel(int art) //0-4 spezial, 5 3:1, 6 4:1, 7 Erfindung
+    Handel(int art) //0-4 spezial, 5 3:1, 6 4:1, 7 Erfindung
     {
         framezeug();
         zeilen = new Handelzeile[5];
         for (int i = 0; i < 5; i++)
         {
-            zeilen[i] = new Handelzeile(i, 6, this);
+            zeilen[i] = new Handelzeile(i, 6);
             add(zeilen[i]);
         }
         ja = new JButton("Ok");
@@ -49,13 +47,7 @@ public class Handel extends JPanel
         }
         );
         nein = new JButton("Abbrechen");
-        nein.addActionListener(new ActionListener()
-                               {
-                                   public void actionPerformed(ActionEvent e)
-                                   {
-                                       f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
-                                   }
-                               }
+        nein.addActionListener(e -> f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING))
         );
 
         buttons = new JPanel();
@@ -74,7 +66,7 @@ public class Handel extends JPanel
     private boolean isBankhandelErlaubt(int art)
     {
         int konto = 0;
-        int anzahl = 0;
+        int anzahl;
         if(art == 5)
         {
             anzahl = 3;
@@ -91,13 +83,13 @@ public class Handel extends JPanel
         {
             return isRohstoffPortHandelErlaubt(art);
         }
-        for (int i = 0; i < zeilen.length; i++)
+        for (Handelzeile aZeilen : zeilen)
         {
-            if(zeilen[i].wert() < 0 && zeilen[i].wert() > anzahl*-1)
+            if (aZeilen.wert() < 0 && aZeilen.wert() > anzahl * -1)
             {
                 return false;
             }
-            konto += zeilen[i].wert() >= 0 ? zeilen[i].wert() : zeilen[i].wert() / anzahl;
+            konto += aZeilen.wert() >= 0 ? aZeilen.wert() : aZeilen.wert() / anzahl;
         }
         return konto == 0;
     }
@@ -105,15 +97,14 @@ public class Handel extends JPanel
     private boolean isErfindungErlaubt()
     {
         int konto = 0;
-        for(int i = 0; i < zeilen.length; i++)
+        for (Handelzeile aZeilen : zeilen)
         {
-            if(zeilen[i].wert() < 0)
+            if (aZeilen.wert() < 0)
             {
                 return false;
-            }
-            else
+            } else
             {
-                konto += zeilen[i].wert();
+                konto += aZeilen.wert();
             }
         }
         return konto == 2;
@@ -206,33 +197,7 @@ public class Handel extends JPanel
         return konto == 0;
     }
 
-    int bezahl()
-    {
-        int tmp = 0;
-        for (int i = 0; i < 5; i++)
-        {
-            if (zeilen[i].wert() < 0)
-            {
-                tmp = tmp - zeilen[i].wert();
-            }
-        }
-        return tmp;
-    }
-
-    int bekomm()
-    {
-        int tmp = 0;
-        for (int i = 0; i < 5; i++)
-        {
-            if (zeilen[i].wert() > 0)
-            {
-                tmp += zeilen[i].wert();
-            }
-        }
-        return tmp;
-    }
-
-    public void framezeug()
+    private void framezeug()
     {
         f = new JFrame("Handel zwischen Spielern");
         f.setContentPane(this);
@@ -240,7 +205,7 @@ public class Handel extends JPanel
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     }
 
-    public Handel(Spieler s1, Spieler s2)
+    Handel(Spieler s1, Spieler s2)
     {
         framezeug();
         zeilen = new Handelzeile[5];
@@ -250,28 +215,25 @@ public class Handel extends JPanel
             add(zeilen[i]);
         }
         ja = new JButton("Ok");
-        ja.addActionListener(new ActionListener()
-                             {
-                                 public void actionPerformed(ActionEvent e)
-                                 {
-                                     int[] s1a = new int[5];
-                                     int[] s2a = new int[5];
-                                     for (int i = 0; i < 5; i++)
-                                     {
-                                         s1a[i] = zeilen[i].wert();
-                                         s2a[i] = zeilen[i].wert() * -1;
-                                     }
-                                     if(Main.lokal) {
-                                         OnlineInterpreter.bekommen(s1, s1a);
-                                         OnlineInterpreter.bekommen(s2, s2a);
-                                     }
-                                     else
-                                     {
-                                         OnlineInterpreter.spielerHandel(s1, s2, s2a);
-                                     }
-                                     f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
-                                 }
-                             }
+        ja.addActionListener(e ->
+                {
+                    int[] s1a = new int[5];
+                    int[] s2a = new int[5];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        s1a[i] = zeilen[i].wert();
+                        s2a[i] = zeilen[i].wert() * -1;
+                    }
+                    if(Main.lokal) {
+                        OnlineInterpreter.bekommen(s1, s1a);
+                        OnlineInterpreter.bekommen(s2, s2a);
+                    }
+                    else
+                    {
+                        OnlineInterpreter.spielerHandel(s1, s2, s2a);
+                    }
+                    f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
+                }
         );
 
         nein = new JButton("Abbrechen");

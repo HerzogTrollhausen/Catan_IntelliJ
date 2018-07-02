@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+@SuppressWarnings("ALL")
 public class Stuff extends JPanel {
 
     public Stuff() {

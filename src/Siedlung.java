@@ -1,11 +1,11 @@
 public class Siedlung
 {
     Spieler spieler;
-    Ecke ecke;
+    private Ecke ecke;
     byte art;//0 Siedlung, 1 Stadt, 2 Metropole, 3 Fort, 4 Burg, 5 Kloster, 6 Kathedrale
 
     String[] descs;
-    public Siedlung(Ecke ecke, Spieler spieler)
+    Siedlung(Ecke ecke, Spieler spieler)
     {
         this.ecke = ecke;
         this.spieler = spieler;

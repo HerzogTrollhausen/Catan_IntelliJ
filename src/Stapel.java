@@ -1,14 +1,14 @@
 public class Stapel
 {
     Knoten oben;
-    Knoten zeiger;
+    private Knoten zeiger;
 
-    public static enum StapelTypen
+    public enum StapelTypen
     {
-        Feld, Zahl, Hafen, Entwicklung;
+        Feld, Zahl, Hafen, Entwicklung
     }
 
-    public Stapel(StapelTypen typ)
+    Stapel(StapelTypen typ)
     {
         switch (typ)
         {
@@ -82,11 +82,6 @@ public class Stapel
         oben = neu;
     }
 
-    public void add(String inhalt)
-    {
-        add(new Knoten(inhalt));
-    }
-
     public void add(int inhalt)
     {
         add(new Knoten(inhalt));
@@ -135,11 +130,6 @@ public class Stapel
             }
         }
         return tmp;
-    }
-
-    public int randomFeld() throws NullPointerException
-    {
-        return get((int) (Math.random() * zaehl()), true).intInhalt;
     }
 
     public int randomZahl() throws NullPointerException

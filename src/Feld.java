@@ -1,5 +1,4 @@
 import java.awt.Image;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -25,24 +24,6 @@ import java.util.ArrayList;
  */
 public class Feld extends RectangleImage
 {
-    static Image holz = lade("Holz");//FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Wald-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
-    static Image holz_hell = lade("Holz_hell");//FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Wald-hex_hell.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
-    //static Image meer = lade("Meer");
-    static Image meer = null;
-    //static Image meer_hell = lade("Meer_hell");
-    static Image meer_hell = null;
-    static Image wueste = lade("Wueste");
-    static Image wueste_hell = lade("Wueste_hell");
-    static Image schaf = lade("Schaf");
-    static Image schaf_hell = lade("Schaf_hell");
-    static Image lehm = lade("Lehm");
-    static Image lehm_hell = lade("Lehm_hell");
-    static Image erz = lade("Erz");
-    static Image erz_hell = lade("Erz_hell");
-    static Image weizen = lade("Weizen");
-    static Image weizen_hell = lade("Weizen_hell");
-    //static Stapel feldStapel = new Stapel("Feld");
-    //static Stapel zahlStapel = new Stapel("Zahl");
     boolean besetzt;
     Ecke[] ecken;
     Kante[] kanten;
@@ -54,7 +35,7 @@ public class Feld extends RectangleImage
 
     public Feld(double x, int y)
     {
-        super(FileManager.createResizedCopy(holz, Bildschirm.feldb, Bildschirm.feldh, false), Bildschirm.ox + Bildschirm.feldb * x + y * 0.5 * Bildschirm.feldb, Bildschirm.oy + y * (int) (Bildschirm.feldh * 0.75));
+        super(FileManager.createResizedCopy(Buz.FELD_HOLZ, Bildschirm.feldb, Bildschirm.feldh, false), Bildschirm.ox + Bildschirm.feldb * x + y * 0.5 * Bildschirm.feldb, Bildschirm.oy + y * (int) (Bildschirm.feldh * 0.75));
         //super(lade(art), Bildschirm.ox+Bildschirm.feldb*x+y*0.5*Bildschirm.feldb, Bildschirm.oy+y*(int)(Bildschirm.feldh*0.75));
         this.x = (int) x;
         this.y = y;
@@ -65,20 +46,7 @@ public class Feld extends RectangleImage
 
     public void refreshBild()
     {
-        img = geladen(art + (hell ? "_hell" : ""));
-    }
-
-    public static Image lade(String name)
-    {
-        try
-        {
-            return FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/" + name + "-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        img = geladen();
     }
 
     public void setEcke(Ecke ecke, int pos)
@@ -96,48 +64,29 @@ public class Feld extends RectangleImage
         return y;
     }
 
-    public static Image geladen(String name)
+    private Image geladen()
     {
-        switch (name)
+        switch (art)
         {
-            case "0":
-                return holz;
-            case "6":
-                return meer;
-            case "5":
-                return wueste;
-            case "2":
-                return schaf;
-            case "1":
-                return lehm;
-            case "4":
-                return erz;
-            case "3":
-                return weizen;
-            case "0_hell":
-                return holz_hell;
-            case "6_hell":
-                return meer_hell;
-            case "5_hell":
-                return wueste_hell;
-            case "2_hell":
-                return schaf_hell;
-            case "1_hell":
-                return lehm_hell;
-            case "4_hell":
-                return erz_hell;
-            case "3_hell":
-                return weizen_hell;
+            case 0:
+                return hell ? Buz.FELD_HOLZ_HELL : Buz.FELD_HOLZ;
+            case 6:
+                return hell ? Buz.FELD_MEER_HELL : Buz.FELD_MEER;
+            case 5:
+                return hell ? Buz.FELD_WUESTE_HELL : Buz.FELD_WUESTE;
+            case 2:
+                return hell ? Buz.FELD_WEIZEN_HELL : Buz.FELD_WEIZEN;
+            case 1:
+                return hell ? Buz.FELD_LEHM_HELL : Buz.FELD_LEHM;
+            case 4:
+                return hell ? Buz.FELD_ERZ_HELL : Buz.FELD_ERZ;
+            case 3:
+                return hell ? Buz.FELD_SCHAF_HELL : Buz.FELD_SCHAF;
             default:
-                System.out.println("Im Switchzeug is was falsch: " + name);
-                return meer;
+                throw new IllegalArgumentException("Im Switchzeug is was falsch: " + art+""+hell);
         }
     }
 
-    public static boolean gerade(int z)
-    {
-        return (double) z / 2 == (int) (z / 2);
-    }
 
     public void ecken()
     {
@@ -191,9 +140,6 @@ public class Feld extends RectangleImage
 
     /**
      * Gibt den Index einer Kante im Kantenarray aus
-     *
-     * @param kante
-     * @return
      */
     int getKante(Kante kante)
     {

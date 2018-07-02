@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -55,7 +54,7 @@ public class Bildschirm extends JPanel
         naechster.addActionListener(ev ->
                 OnlineInterpreter.wuerfel(Main.wuerfel())
         );
-        naechster.setEnabled(false);
+        enableNaechster(false);
         add(naechster);
 
         JButton handel = new JButton("4:1 Handel");
@@ -125,9 +124,9 @@ public class Bildschirm extends JPanel
                     Welt.felder[i][j].draw(g2);
                 }
             }
-            for (int i = 0; i < grafikobjekte.size(); i++)
+            for (RectangleImage aGrafikobjekte : grafikobjekte)
             {
-                grafikobjekte.get(i).draw(g2);
+                aGrafikobjekte.draw(g2);
             }
         } catch (NullPointerException ex)
         {
@@ -185,11 +184,5 @@ public class Bildschirm extends JPanel
         {
             anderePanel[i].updateRohstoffe();
         }
-    }
-
-    public static void start()
-    {
-        f.setVisible(true);
-        spielerpanel.start();
     }
 }

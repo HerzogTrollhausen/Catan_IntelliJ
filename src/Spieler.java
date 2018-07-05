@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Spieler
     public int rittermachtSiegpunkte = 0;
     @SuppressWarnings("WeakerAccess")
     public int handelsstrasse = 0;
+    ArrayList<Kante> strassen = new ArrayList<>();
 
     public Spieler(byte id)
     {
@@ -30,7 +32,7 @@ public class Spieler
             case 3:
                 farbe = new Color(255, 140, 0);
         }
-        inv = new Inventar(4);
+        inv = new Inventar(0);
     }
 
     private String farbeString()
@@ -103,6 +105,22 @@ public class Spieler
     public int siegPunkte()
     {
         return anzahlSiedlungen + 2 * anzahlStaedte + anzahlEntwicklungskarten(1) + rittermachtSiegpunkte + handelsstrasse;
+    }
+
+    public void handelsStrasseErmitteln()
+    {
+        int tmp = 0;
+        for(Kante aKante : strassen)
+        {
+            for(Kante bKante : strassen)
+            {
+                bKante.abgelaufen = false;
+            }
+            int tmpTiefe = aKante.tiefeFinden();
+            System.out.println(tmpTiefe);
+            tmp = Math.max(tmp, tmpTiefe);
+        }
+        JOptionPane.showMessageDialog(Bildschirm.getF(), tmp);
     }
 
     public String toString()

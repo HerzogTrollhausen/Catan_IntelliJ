@@ -4,22 +4,6 @@ import java.util.ArrayList;
 /**
  * Ecke 0 ist oben links, danach im Uhrzeigersinn
  * Entsprechende Kante ist immer im Uhrzeigersinn der Ecke.
- * <p>
- * <p>
- * 1
- * / \
- * 0   1
- * /     \
- * 0       2
- * |       |
- * 5       2
- * |       |
- * 5       3
- * \     /
- * 4   3
- * \ /
- * 4
- * <p>
  * Felder gehen von links nach rechts
  */
 public class Feld extends RectangleImage

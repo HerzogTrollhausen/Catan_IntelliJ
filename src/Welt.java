@@ -117,9 +117,11 @@ public class Welt
         Kante kante = felder[y][x].kanten[pos];
         kante.spieler = Main.spieler[spieler];
         Main.spieler[spieler].anzahlStrassen++;
+        Main.spieler[spieler].strassen.add(kante);
         Main.fruehsiedlung = true;
         kante.aktBild();
         Bildschirm.getEckpanel().weg(kante);
+        //Main.spieler[spieler].handelsStrasseErmitteln();//TODO
         if (Main.frueh)
         {
             Spielerpanel.akt();

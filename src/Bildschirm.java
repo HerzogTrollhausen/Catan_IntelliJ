@@ -147,7 +147,6 @@ public class Bildschirm extends JPanel
 
     static void enableNaechster(boolean b)
     {
-        System.out.println("Bildschirm.enableNaechster");
         naechster.setEnabled(b);
     }
 

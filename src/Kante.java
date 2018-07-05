@@ -1,4 +1,5 @@
 import java.awt.Image;
+import java.util.ArrayList;
 import javax.swing.JButton;
 
 public class Kante extends RectangleImage
@@ -7,6 +8,7 @@ public class Kante extends RectangleImage
     @SuppressWarnings("WeakerAccess")
     Feld feld1, feld2;
     Ecke ecke1, ecke2;
+    boolean abgelaufen;
     int pos;
 
     private JButton button;
@@ -184,5 +186,43 @@ public class Kante extends RectangleImage
             Eckpanel eckpanel = Bildschirm.getEckpanel();
             eckpanel.weg(tmp);
         });
+    }
+
+    private Kante[] nachbarStrassen()
+    {
+        if(spieler == null)
+        {
+            throw new IllegalStateException("nachbarStrassen wurde in einer strassenlosen Kante aufgerufen");
+        }
+        ArrayList<Kante> aL= new ArrayList<>();
+        Ecke tmpEcke = ecke1;
+        for(int i = 0; i < 2; i++)
+        {
+            for (Kante aKante : tmpEcke.kanten)
+            {
+                if (aKante.spieler == spieler && !aKante.abgelaufen)
+                {
+                    aL.add(aKante);
+                }
+            }
+            tmpEcke = ecke2;
+        }
+        return aL.toArray(new Kante[0]);
+    }
+
+    int tiefeFinden()
+    {
+        Kante[] kanten = nachbarStrassen();
+        int tmp = 0;
+        abgelaufen = true;
+        for(Kante aKante : kanten)
+        {
+            int aKanteTiefe = aKante.tiefeFinden();
+            if(aKanteTiefe > tmp)
+            {
+                tmp = aKanteTiefe;
+            }
+        }
+        return tmp+1;
     }
 }

@@ -79,26 +79,6 @@ public class Inventar
         Bildschirm.anderePanelAkt();
     }
 
-    public static String name(int nr)
-    {
-        switch (nr)
-        {
-            case 0:
-                return Nuz.HOLZ;
-            case 1:
-                return Nuz.LEHM;
-            case 2:
-                return Nuz.SCHAF;
-            case 3:
-                return Nuz.WEIZEN;
-            case 4:
-                return Nuz.ERZ;
-            default:
-                throw new IllegalArgumentException("" + nr);
-                //return "Default in Inventar.name(int)";
-        }
-    }
-
     public int anzahlAnRohstoffen()
     {
         int tmp = 0;

@@ -14,23 +14,6 @@ public class Hafen extends Kante
         setSize(40, 40);
     }
 
-    /**
-     * @param typ Hafentyp, um den es geht
-     * @return Ein String, der im Eckpanel genutzt wird, um die Hafenrolle genauer zu erklären
-     */
-    static String stringAusTyp(int typ){
-        switch (typ)
-        {
-            case 0: return "wird Holz im Verhältnis 2:1";
-            case 1: return "wird Lehm im Verhältnis 2:1";
-            case 2: return "werden Schafe im Verhältnis 2:1";
-            case 3: return "wird Weizen im Verhältnis 2:1";
-            case 4: return "wird Erz im Verhältnis 2:1";
-            case 5: return "werden beliebige Rohstoffen im Verhältnis 3:1";
-            default: throw new IllegalArgumentException("Hafen.java; String stringAusTyp(int typ); typ ist "+typ);
-        }
-    }
-
     @Override
     public void aktBild()
     {

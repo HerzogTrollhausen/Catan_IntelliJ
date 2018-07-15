@@ -21,7 +21,7 @@ public class Eckpanel extends JPanel
         if (Main.spieler().id == Main.ich)
         {
             desc = new JLabel();
-            button = new JButton("Neue Straße bauen");
+            button = new JButton(Nuz.ECKPANEL_NEUE_STRASSE_KNOPF);
 
             if (kante.spieler == null)
             {
@@ -33,7 +33,7 @@ public class Eckpanel extends JPanel
                         {
                             if (fruehVerfuegbar(kante))
                             {
-                                desc.setText("Du kannst hier eine freie Straße bauen");
+                                desc.setText(Nuz.ECKPANEL_FRUEHE_STRASSE);
                                 button.addActionListener(e ->
                                 {
                                     //Main.fruehsiedlung = true;
@@ -44,12 +44,12 @@ public class Eckpanel extends JPanel
                                 });
                             } else
                             {
-                                desc.setText("Baue eine Straße an die letzte Siedlung!");
+                                desc.setText(Nuz.ECKPANEL_FRUEHE_STRASSE_AN_SIEDLUNG);
                                 button.setEnabled(false);
                             }
                         } else
                         {
-                            desc.setText("Baue erst eine Siedlung!");
+                            desc.setText(Nuz.ECKPANEL_ERST_SIEDLUNG);
                             button.setEnabled(false);
                         }
                     } else
@@ -60,7 +60,7 @@ public class Eckpanel extends JPanel
                             {
                                 if (Main.spieler().inv.bezahlbar(new Inventar(0)))
                                 {
-                                    desc.setText("Du kannst hier eine Straße bauen");
+                                    desc.setText(Nuz.ECKPANEL_STRASSE_ERLAUBT);
                                     button.addActionListener(e ->
                                     {
                                         //TODO
@@ -69,12 +69,12 @@ public class Eckpanel extends JPanel
                                     });
                                 } else
                                 {
-                                    desc.setText("Du hast nicht genug Rohstoffe!");
+                                    desc.setText(Nuz.NICHT_GENUG_ROHSTOFFE);
                                     button.setEnabled(false);
                                 }
                             } else
                             {
-                                desc.setText("Du kannst noch " + (Main.strassenbauinprogress == 1 ? "eine" : Main.strassenbauinprogress) + " freie " + (Main.strassenbauinprogress == 1 ? "Straße" : "Straßen") + " bauen!");
+                                desc.setText(Nuz.strassenBauEntwicklung(Main.strassenbauinprogress));
                                 button.addActionListener(e ->
                                 {
                                     kante.spieler = Main.spieler();
@@ -87,31 +87,31 @@ public class Eckpanel extends JPanel
                             }
                         } else
                         {
-                            desc.setText("Du kannst nur an eigene Straßen und Siedlungen anbauen!");
+                            desc.setText(Nuz.ECKPANEL_NUR_AN_EIGENE_ANBAUEN);
                             button.setEnabled(false);
                         }
                     }
                 } else
                 {
-                    desc.setText("Keine Straßen mehr übrig!");
+                    desc.setText(Nuz.ECKPANEL_STRASSEN_VERBRAUCHT);
                     button.setEnabled(false);
                 }
             } else
             {
                 if (kante.spieler == Main.spieler())
                 {
-                    desc.setText("Dies ist bereits deine Straße!");
+                    desc.setText(Nuz.ECKPANEL_EIGENE_STRASSE);
                 } else
                 {
-                    desc.setText("Diese Straße gehört jemand anderem.");
+                    desc.setText(Nuz.ECKPANEL_FREMDE_STRASSE);
                 }
                 button.setEnabled(false);
             }
             if (kante.hafen)
             {
                 Hafen hafenkante = (Hafen) kante;
-                desc.setText("<html>An diesem Hafen " + Hafen.stringAusTyp(hafenkante.typ) + " gehandelt.<br>" + desc.getText() + "</html");
-                JButton handelbutton = new JButton("Handel!");
+                desc.setText(Nuz.hafenKante(hafenkante.typ,desc.getText()));
+                JButton handelbutton = new JButton(Nuz.HANDEL);
                 handelbutton.setEnabled(kante.nachbar(Main.spieler()));
                 handelbutton.addActionListener(e -> new Handel(hafenkante.typ));
                 add(handelbutton);
@@ -135,26 +135,26 @@ public class Eckpanel extends JPanel
         Siedlung siedlung = ecke.getSiedlung();
         if (siedlung != null)
         {
-            desc = new JLabel(siedlung.descs[siedlung.art]);
+            desc = new JLabel(Nuz.siedlungsTyp(siedlung.art));
         } else
         {
-            desc = new JLabel("Eine leere Fläche");
+            desc = new JLabel(Nuz.ECKPANEL_LEERE_FLAECHE);
         }
         add(desc);
         if (Main.spieler().id == Main.ich)
         {
-            button = new JButton("Neue Siedlung bauen!");
+            button = new JButton(Nuz.ECKPANEL_NEUE_SIEDLUNG_BAUEN);
 
             if (siedlung != null && siedlung.spieler == Main.spieler())
             {
                 if (Main.spieler().anzahlStaedte < Main.maxStaedte)
                 {
-                    button.setText("Siedlung zu Stadt ausbauen");
+                    button.setText(Nuz.ECKPANEL_ZU_STADT_AUSBAUEN);
                     if (siedlung.art != 1)
                     {
                         if (Main.frueh)
                         {
-                            exString = "Du kannst in der Startphase keine Siedlungen ausbauen!";
+                            exString = Nuz.ECKPANEL_AUSBAUEN_FRUEH;
                             button.setEnabled(false);
                         } else
                         {
@@ -169,18 +169,18 @@ public class Eckpanel extends JPanel
                                 );
                             } else
                             {
-                                exString = "Du hast nicht genug Rohstoffe!";
+                                exString = Nuz.NICHT_GENUG_ROHSTOFFE;
                                 button.setEnabled(false);
                             }
                         }
                     } else
                     {
-                        exString = "Dies ist schon eine Stadt!";
+                        exString = Nuz.ECKPANEL_BEREITS_STADT;
                         button.setEnabled(false);
                     }
                 } else
                 {
-                    exString = "Keine Städte mehr übrig";
+                    exString = Nuz.ECKPANEL_STAEDTE_VERBRAUCHT;
                     button.setEnabled(false);
                 }
             } else
@@ -206,7 +206,7 @@ public class Eckpanel extends JPanel
                                     );
                                 } else
                                 {
-                                    exString = "Baue jetzt eine Straße an die neu gebaute Siedlung!";
+                                    exString = Nuz.ECKPANEL_STRASSE_AN_SIEDLUNG;
                                     button.setEnabled(false);
                                 }
                             } else
@@ -225,28 +225,28 @@ public class Eckpanel extends JPanel
                                         );
                                     } else
                                     {
-                                        exString = "Du hast nicht genug Rohstoffe!";
+                                        exString = Nuz.NICHT_GENUG_ROHSTOFFE;
                                         button.setEnabled(false);
                                     }
                                 } else
                                 {
-                                    exString = "Du kannst Siedlungen nur an eigene Straßen bauen!";
+                                    exString = Nuz.ECKPANEL_SIEDLUNG_NUR_AN_EIGENE;
                                     button.setEnabled(false);
                                 }
                             }
                         } else
                         {
-                            exString = "Die Siedlung gehört jemand anderem!";
+                            exString = Nuz.ECKPANEL_FREMDE_SIEDLUNG;
                             button.setEnabled(false);
                         }
                     } else
                     {
-                        exString = "Es grenzen andere Siedlungen an dieses Feld an!";
+                        exString = Nuz.ECKPANEL_ANGRENZENDE_SIEDLUNG;
                         button.setEnabled(false);
                     }
                 } else
                 {
-                    exString = "Keine Siedlungen mehr übrig!";
+                    exString = Nuz.ECKPANEL_SIEDLUNGEN_VERBRAUCHT;
                     button.setEnabled(false);
                 }
             }

@@ -19,6 +19,8 @@ public class Buz
     public static Image FELD_MEER_HELL;
     public static Image FELD_WUESTE;
     public static Image FELD_WUESTE_HELL;
+    public static Image KREIS;
+    public static Image KREIS_BANDIT;
 
     public static void init() throws IOException
     {
@@ -38,5 +40,9 @@ public class Buz
         //FELD_MEER_HELL = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Meer_hell-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
         FELD_WUESTE = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Wueste-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
         FELD_WUESTE_HELL = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Wueste_hell-hex.gif"), Bildschirm.feldb, Bildschirm.feldh, false);
+        KREIS = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Kreis.gif"),
+                (int) (Bildschirm.feldb / Bildschirm.plattenr), (int) (Bildschirm.feldh / Bildschirm.plattenr), false);
+        KREIS_BANDIT = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Felder/Kreis_bandit.gif"),
+                (int)(Bildschirm.feldb/Bildschirm.plattenr), (int)(Bildschirm.feldh/Bildschirm.plattenr), false);
     }
 }

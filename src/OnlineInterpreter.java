@@ -27,7 +27,7 @@ public class OnlineInterpreter
      */
     public static void interpret(String msg)
     {
-        //System.out.println(msg);
+        System.out.println(msg);
         switch (msg.charAt(0))
         {
             case 'a'://aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"
@@ -212,16 +212,16 @@ public class OnlineInterpreter
                     Spieler s1 = Main.spieler[Integer.parseInt("" + msg.charAt(1))];
                     Spieler s2 = Main.ich();
                     int[] inv = msgToInv(msg.substring(3));
-                    StringBuilder optionMessage = new StringBuilder("Wenn du dieses Angebot akzeptierst, bekommst du \n");
+                    StringBuilder optionMessage = new StringBuilder(Nuz.HANDEL_ANGEBOTPOPUP_FRAGE);
                     for (int i = 0; i < 5; i++)
                     {
                         if (inv[i] != 0)
                         {
-                            optionMessage.append(inv[i]).append(Inventar.name(i)).append("\n");
+                            optionMessage.append(inv[i]).append(Nuz.rohstoffName(i, inv[i] != 1)).append("\n");
                         }
                     }
                     int abfrage = JOptionPane.showOptionDialog(Bildschirm.getF(), optionMessage.toString(),
-                            "Handelsangebot von " + msg.charAt(1), JOptionPane.YES_NO_OPTION,
+                            Nuz.HANDEL_ANGEBOTSPOPUP_TITEL + msg.charAt(1), JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null,
                             new String[]{Nuz.PLAYER_TRADE_AGREE, Nuz.PLAYER_TRADE_REFUSE}, Nuz.PLAYER_TRADE_AGREE);
                     System.out.println(abfrage);
@@ -245,11 +245,11 @@ public class OnlineInterpreter
                 if (msg.length() == 1)
                 {
                     String name = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
-                            "Es gibt noch keine Spiele. Erstelle selber eins.",
-                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, "Name");
+                            Nuz.ERSTES_SPIEL_FRAGE,
+                            Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, Nuz.DEFAULT_SPIEL_NAME);
                     int maxAnzahlSpieler = Integer.parseInt((String) JOptionPane.showInputDialog(Bildschirm.getF(),
-                            "Gib die maximale Anzahl der Spieler an",
-                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, 4));
+                            Nuz.SPIEL_ERSTELLEN_ZAHL,
+                            Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, 4));
                     OnlineInterpreter.spielErstellen(name, maxAnzahlSpieler);
                     break;
                 }
@@ -264,18 +264,18 @@ public class OnlineInterpreter
                 }
                 int anzahlSpiele = Game.games.size();
                 int erstellenOderBeitreten = JOptionPane.showOptionDialog(Bildschirm.getF(),
-                        "Es " + (anzahlSpiele == 1 ? "existieren" : "existiert") + "bereits" + (anzahlSpiele == 1 ? "ein" : "" + anzahlSpiele) +
-                                "Spiel, /n/r willst du ein neues Erstellen oder einem alten beitreten?", "Neues Spiel?",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Erstellen", "Bestehendem Spiel beitreten"},
-                        "Bestehendem Spiel beitreten");
+                        Nuz.spielErstellenOderBeitretenFrage(anzahlSpiele), Nuz.SPIEL_ERSTELLEN_ODER_BEITRETEN_TITEL,
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                        new String[]{Nuz.SPIEL_ERSTELLEN_TITEL, Nuz.SPIEL_ERSTELLEN_ODER_BEITRETEN_BEITRETEN},
+                        Nuz.SPIEL_ERSTELLEN_ODER_BEITRETEN_BEITRETEN);
                 if (erstellenOderBeitreten == 0)
                 {
                     String name = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
-                            "Benenne dein Spiel",
-                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, "Name");
+                            Nuz.SPIEL_ERSTELLEN_NAME,
+                            Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, Nuz.DEFAULT_SPIEL_NAME);
                     String maxAnzahlSpielerString = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
-                            "Gib die maximale Anzahl der Spieler an",
-                            "Spiel erstellen", JOptionPane.QUESTION_MESSAGE, null, null, 4);
+                            Nuz.SPIEL_ERSTELLEN_ZAHL,
+                            Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, 4);
                     if(maxAnzahlSpielerString != null)
                     {
                         int maxAnzahlSpieler = Integer.parseInt(maxAnzahlSpielerString);
@@ -283,7 +283,7 @@ public class OnlineInterpreter
                     }
                     break;
                 }
-                Game auswahl = (Game) JOptionPane.showInputDialog(Bildschirm.getF(), "Wähle ein Spiel", "Spielauswahl",
+                Game auswahl = (Game) JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.SPIEL_AUSWAEHLEN_FRAGE, Nuz.SPIEL_AUSWAEHLEN_TITEL,
                         JOptionPane.INFORMATION_MESSAGE, null, Game.games.toArray(), Game.games.get(0));
                 spielBeitreten(auswahl.getID());
                 break;
@@ -397,7 +397,7 @@ public class OnlineInterpreter
     {
         if(Main.lokal)
         {
-            senden("m"+JOptionPane.showInputDialog(Bildschirm.getF(), "Anzahl der Spieler", "4"));
+            senden("m"+JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.LOKAL_SPIELERANZAHL_AUSWAEHLEN_FRAGE, "4"));
         }
         else
         {

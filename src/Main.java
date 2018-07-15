@@ -58,7 +58,7 @@ public class Main
         {
             spieler[i] = new Spieler(i);
         }
-        fenster = new JFrame("Die Siedler von Catan");
+        fenster = new JFrame(Nuz.HAUPTTITEL);
         fenster.addWindowListener(new WindowListener()
         {
             @Override
@@ -132,12 +132,11 @@ public class Main
         {
             if (Main.spieler().siegPunkte() >= 10)
             {
-                JOptionPane.showMessageDialog(Bildschirm.getF(), (spieler() == ich() ? "Du hast gewonnen! Glückwunsch!"
-                : spieler()+" hat gewonnen.")+" /l/n Ihr könnt noch weiterspielen, wenn ihr möchtet.");//TODO
+                JOptionPane.showMessageDialog(Bildschirm.getF(), Nuz.gewonnenNachricht(spieler() == ich(), spieler()));//TODO
             }
             spielernr = spielernr == anzahlSpieler - 1 ? 0 : spielernr + 1;
             ernte(wurf);
-            Bildschirm.setSpielerpanelLabelText("Letzter Wurf: " + wurf);
+            Bildschirm.setSpielerpanelLabelText(Nuz.LETZTER_WURF + wurf);
         } else
         {
             spielernr = spielernr + fruehvor;
@@ -153,7 +152,7 @@ public class Main
             }
         }
         Bildschirm.setFarbeFarbe(spieler().farbe);
-        Bildschirm.setMomentanSpielerLabelText("Momentaner Spieler: " + spieler().id);
+        Bildschirm.setMomentanSpielerLabelText(Nuz.BILDSCHIRM_MOM_SPIELER + spieler().id);
         Bildschirm.clearEckpanel();
         Welt.dunkel();
         Bildschirm.anderePanelAkt();
@@ -255,8 +254,6 @@ public class Main
 
             Socket s = new Socket(Host, port);//CONNECT TO THE SERVER
 
-            System.out.println("You connected to " + Host);//IF CONNECTED THEN PRINT IT OUT
-
             Client client = new Client(s);//START NEW CLIENT OBJECT
 
             Thread t = new Thread(client);//INITIATE NEW THREAD
@@ -264,8 +261,7 @@ public class Main
 
         } catch (Exception noServer)//IF DIDNT CONNECT PRINT THAT THEY DIDNT
         {
-            System.out.println("The server might not be up at this time.");
-            System.out.println("Please try again later.");
+            JOptionPane.showMessageDialog(Bildschirm.getF(), Nuz.VERBINDUNG_FEHLGESCHLAGEN, Nuz.FEHLER, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -274,6 +270,7 @@ public class Main
         bildschirm = new Bildschirm(fenster);
         //Client.senden("b"+Welt.stapelZahlen("Feld"));
         Welt.initWelt(3);
+        bildschirm.setVisible(true);
     }
 
     public static Spieler ich()

@@ -59,13 +59,13 @@ public class Feld extends RectangleImage
             case 5:
                 return hell ? Buz.FELD_WUESTE_HELL : Buz.FELD_WUESTE;
             case 2:
-                return hell ? Buz.FELD_WEIZEN_HELL : Buz.FELD_WEIZEN;
+                return hell ? Buz.FELD_SCHAF_HELL : Buz.FELD_SCHAF;
             case 1:
                 return hell ? Buz.FELD_LEHM_HELL : Buz.FELD_LEHM;
             case 4:
                 return hell ? Buz.FELD_ERZ_HELL : Buz.FELD_ERZ;
             case 3:
-                return hell ? Buz.FELD_SCHAF_HELL : Buz.FELD_SCHAF;
+                return hell ? Buz.FELD_WEIZEN_HELL : Buz.FELD_WEIZEN;
             default:
                 throw new IllegalArgumentException("Im Switchzeug is was falsch: " + art+""+hell);
         }
@@ -134,7 +134,6 @@ public class Feld extends RectangleImage
                 return i;
             }
         }
-        System.err.println("Feld.java; int getKante(Kante kante): kante nicht gefunden.");
         throw new IllegalArgumentException("Feld.java; int getKante(Kante kante): kante nicht gefunden.");
     }
 
@@ -153,9 +152,9 @@ public class Feld extends RectangleImage
                 OnlineInterpreter.bezahlen(spieler, beute);
                 OnlineInterpreter.bekommen(Main.spieler(), beute);
                 OnlineInterpreter.privatPopup(Main.spieler(), Nuz.RAUB_NOTIFICATION_TITLE,
-                        Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_1 + Inventar.name(j) + Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_2);
+                        Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_1 + Nuz.rohstoffName(j, true) + Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_2);
                 OnlineInterpreter.privatPopup(spieler, Nuz.RAUB_NOTIFICATION_TITLE,
-                        Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_1 + Inventar.name(j) + Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_2);
+                        Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_1 + Nuz.rohstoffName(j, true) + Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_2);
                 Bildschirm.anderePanelAkt();
                 return;
             } else

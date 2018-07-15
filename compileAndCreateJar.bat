@@ -4,5 +4,5 @@ javac -d ..\meinOutput Main.java
 cd ..\meinOutput
 jar cfm ..\Catan.jar ..\src\Manifest *.class
 cd ..
-jar cfM Catan.zip Catan.jar Bilder -C src .
+jar cfM Catan.zip Catan.jar Bilder
 pause

@@ -112,7 +112,7 @@ public class Ecke extends RectangleImage
             siedlung = new Siedlung(this, spieler);
         } else
         {
-            System.out.println("Hier existiert schon eine Siedlung!");
+            throw new IllegalStateException("Hier wird versucht, eine Siedlung zu erstellen, wo es schon eine gibt");
         }
         aktBild();
     }
@@ -144,7 +144,6 @@ public class Ecke extends RectangleImage
                 return;
             }
         }
-        System.err.println("Ecke.java; void addKanten(Kante kante): Alle Kanten voll!");
         throw new IllegalArgumentException("Ecke.java; void addKanten(Kante kante): Alle Kanten voll!");
     }
 
@@ -272,7 +271,6 @@ public class Ecke extends RectangleImage
                 return i;
             }
         }
-        System.err.println("Ecke.java; int getKante(Kante kante): kante nicht gefunden.");
         throw new IllegalArgumentException("Ecke.java; int getKante(Kante kante): kante nicht gefunden.");
     }
 }

@@ -16,11 +16,11 @@ public class Chat extends JPanel
         JPanel unten = new JPanel();
         field = new JTextField();
         field.setPreferredSize(new Dimension(200, 40));
-        JButton button = new JButton("Senden");
+        JButton button = new JButton(Nuz.CHAT_SENDEN);
         button.addActionListener(e ->
         {
-            OnlineInterpreter.chatNachricht("Spieler "+Main.ich+": "+field.getText());
-            field.setText("");
+            OnlineInterpreter.chatNachricht(Main.ich()+": "+field.getText());
+            field.setText(null);
         });
         button.setMaximumSize(new Dimension(150, 40));
         unten.setMaximumSize(new Dimension(20000, 45));

@@ -10,6 +10,7 @@ class Handel extends JPanel
 
     Handel(int art) //0-4 spezial, 5 3:1, 6 4:1, 7 Erfindung
     {
+        f = new JFrame(Nuz.bankhandelTitel(art));
         framezeug();
         zeilen = new Handelzeile[5];
         for (int i = 0; i < 5; i++)
@@ -17,7 +18,7 @@ class Handel extends JPanel
             zeilen[i] = new Handelzeile(i, 6);
             add(zeilen[i]);
         }
-        ja = new JButton("Ok");
+        ja = new JButton(Nuz.OK);
         ja.addActionListener(e -> {
             try
             {
@@ -36,17 +37,17 @@ class Handel extends JPanel
                 } else
                 {
                     //new Fehler("Kein passendes Handelsverhältnis");
-                    JOptionPane.showMessageDialog(f, "Kein passendes Handelsverhältnis", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(f, Nuz.HANDEL_KEIN_VERHAELTNIS, Nuz.FEHLER, JOptionPane.ERROR_MESSAGE);
                 }
             } catch (IllegalArgumentException ex)
             {
-                JOptionPane.showMessageDialog(f, "Nicht genug Rohstoffe", "Fehler", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(f, Nuz.NICHT_GENUG_ROHSTOFFE, Nuz.FEHLER, JOptionPane.ERROR_MESSAGE);
 
             }
 
         }
         );
-        nein = new JButton("Abbrechen");
+        nein = new JButton(Nuz.ABBRECHEN);
         nein.addActionListener(e -> f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING))
         );
 
@@ -130,7 +131,6 @@ class Handel extends JPanel
                     {
                         if(festgelegt)
                         {
-                            System.out.println("!= art; portZuSonstigem, wert < 0, festgelegt");
                             return false;
                         }
                         else
@@ -145,7 +145,6 @@ class Handel extends JPanel
                 {
                     if(zeilen[i].wert() > 0)
                     {
-                        System.out.println("!= art, !portZuSonstigem, wert > 0");
                         return false;
                     }
                     else
@@ -162,7 +161,6 @@ class Handel extends JPanel
                     {
                         if(festgelegt)
                         {
-                            System.out.println("==art, portZuSonstigem, wert > 0, festgelegt");
                             return false;
                         }
                         else
@@ -183,7 +181,6 @@ class Handel extends JPanel
                 {
                     if(zeilen[i].wert() < 0)
                     {
-                        System.out.println("==art, !portZuSonstigem, wert < 0");
                         return false;
                     }
                     else
@@ -199,7 +196,6 @@ class Handel extends JPanel
 
     private void framezeug()
     {
-        f = new JFrame("Handel zwischen Spielern");
         f.setContentPane(this);
         f.setSize(350, 500);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -207,6 +203,7 @@ class Handel extends JPanel
 
     Handel(Spieler s1, Spieler s2)
     {
+        f = new JFrame(Nuz.spielerhandelTitel(s1, s2));
         framezeug();
         zeilen = new Handelzeile[5];
         for (int i = 0; i < 5; i++)
@@ -214,7 +211,7 @@ class Handel extends JPanel
             zeilen[i] = new Handelzeile(i, s1, s2);
             add(zeilen[i]);
         }
-        ja = new JButton("Ok");
+        ja = new JButton(Nuz.OK);
         ja.addActionListener(e ->
                 {
                     int[] s1a = new int[5];
@@ -236,7 +233,7 @@ class Handel extends JPanel
                 }
         );
 
-        nein = new JButton("Abbrechen");
+        nein = new JButton(Nuz.ABBRECHEN);
         nein.addActionListener(e -> f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING))
         );
 

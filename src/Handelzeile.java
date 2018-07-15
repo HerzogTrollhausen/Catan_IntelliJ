@@ -18,7 +18,7 @@ public class Handelzeile extends JPanel
 
     private void normal(Spieler s1, int gut)
     {
-        JLabel name = new JLabel(Inventar.name(gut) + ":");
+        JLabel name = new JLabel(Nuz.rohstoffName(gut, true) + ":");
         add(name);
         JLabel linkslabel = new JLabel("" + s1.inv.rohstoffe[gut]);
         add(linkslabel);

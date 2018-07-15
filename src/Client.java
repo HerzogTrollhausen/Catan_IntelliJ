@@ -7,7 +7,9 @@ public class Client implements Runnable
 {
 
     private Socket socket;//MAKE SOCKET INSTANCE VARIABLE
-    static PrintWriter out;
+    private static PrintWriter out;
+    @SuppressWarnings("FieldCanBeLocal")
+    private boolean running = true;
 
     Client(Socket s)
     {
@@ -28,7 +30,7 @@ public class Client implements Runnable
         {
             Scanner in = new Scanner(socket.getInputStream());//GET THE CLIENTS INPUT STREAM (USED TO READ DATA SENT FROM THE SERVER)
 
-            while (true)//WHILE THE PROGRAM IS RUNNING
+            while (running)//WHILE THE PROGRAM IS RUNNING
             {
                 if (in.hasNext())//IF THE SERVER SENT US SOMETHING
                     OnlineInterpreter.interpret(in.nextLine());//PRINT IT OUT

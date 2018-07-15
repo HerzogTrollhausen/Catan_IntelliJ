@@ -32,24 +32,7 @@ public class Spieler
             case 3:
                 farbe = new Color(255, 140, 0);
         }
-        inv = new Inventar(0);
-    }
-
-    private String farbeString()
-    {
-        switch (id)
-        {
-            case 0:
-                return "Rot";
-            case 1:
-                return "Blau";
-            case 2:
-                return "Weiß";
-            case 3:
-                return "Orange";
-            default:
-                throw new IllegalArgumentException("Komische id: " + id);
-        }
+        inv = new Inventar();
     }
 
     public void ernte(int wuerfel)
@@ -125,6 +108,6 @@ public class Spieler
 
     public String toString()
     {
-        return "Spieler " + id+ " ("+farbeString()+")";
+        return Nuz.spielerToString(id);
     }
 }

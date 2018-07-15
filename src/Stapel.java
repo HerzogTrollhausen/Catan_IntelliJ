@@ -71,8 +71,7 @@ public class Stapel
                 break;
 
             default:
-                System.out.println("Falscher \"Typ\" im Stapel");
-                throw new IllegalArgumentException("Falscher Typ im Stapel");
+                throw new IllegalArgumentException("Falscher Typ im Stapel: "+typ);
         }
     }
 

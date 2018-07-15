@@ -27,7 +27,7 @@ public class Spielerpanel extends JPanel
 
     private void start()
     {
-        label.setText(Main.fruehsiedlung?"Du kannst noch "+(Main.fruehvor+3)/2+" Siedlungen bauen!":"Baue eine Straße an die Siedlung!");
+        label.setText(Main.fruehsiedlung?Nuz.verbleibendeFruehSiedlungenSpielerpanel((Main.fruehvor+3)/2):Nuz.ECKPANEL_STRASSE_AN_SIEDLUNG);
         revalidate();
         setVisible(true);
     }

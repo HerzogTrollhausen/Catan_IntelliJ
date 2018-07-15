@@ -3,19 +3,11 @@ public class Siedlung
     Spieler spieler;
     private Ecke ecke;
     byte art;//0 Siedlung, 1 Stadt, 2 Metropole, 3 Fort, 4 Burg, 5 Kloster, 6 Kathedrale
-
-    String[] descs;
     Siedlung(Ecke ecke, Spieler spieler)
     {
         this.ecke = ecke;
         this.spieler = spieler;
         spieler.siedlungen.add(this);
-        if(descs == null)
-        {
-            descs = new String[7];
-            descs[0] = "Eine einfache Siedlung.";
-            descs[1] = "Eine Stadt, produziert das Doppelte.";
-        }
     }
 
     public void zuStadt()

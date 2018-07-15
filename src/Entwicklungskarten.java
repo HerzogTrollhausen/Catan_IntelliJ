@@ -8,9 +8,9 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
     Entwicklungskarten() {
         framezeug();
         JPanel ritterpanel = new JPanel();
-        JLabel ritterlabel = new JLabel("Ritter: " + Main.ich().anzahlEntwicklungskarten(0));
-        JButton ritterbutton = new JButton("Ausschicken!");
-        JLabel ausgeschicktlabel = new JLabel("Ausgeschickt: " + Main.ich().anzahlGelegteRitter);
+        JLabel ritterlabel = new JLabel(Nuz.ENTWICKLUNG_RITTERLABEL+ Main.ich().anzahlEntwicklungskarten(0));
+        JButton ritterbutton = new JButton(Nuz.ENTWICKLUNG_RITTERBUTTON);
+        JLabel ausgeschicktlabel = new JLabel(Nuz.ENTWICKLUNG_AUSGESCHICKT+ Main.ich().anzahlGelegteRitter);
         ritterbutton.addActionListener(e ->
         {
             Bandit.ausschicken();
@@ -21,18 +21,16 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
             ritterbutton.setEnabled(false);
         }
 
-        JLabel rittermachtlabel = new JLabel("Setze drei Ritter ein, um die Größte Rittermacht für 2 Siegpunkte zu bekommen");
+        JLabel rittermachtlabel = new JLabel(Nuz.ENTWICKLUNG_RITTERMACHTLABEL_BASIS);
         if (Main.rittermacht != null) {
-            rittermachtlabel.setText("Die größte Rittermacht hat Spieler "
-                    + Main.rittermacht.id + " mit " + Main.rittermacht.anzahlGelegteRitter + " gelegten Rittern.");
+            rittermachtlabel.setText(Nuz.ritterMachtLabelSpieler(Main.rittermacht, Main.rittermacht.anzahlGelegteRitter));
         }
 
         JPanel strassenbaupanel = new JPanel();
-        JLabel strassenbaulabel = new JLabel("Straßenbau: " + Main.ich().anzahlEntwicklungskarten(2));
-        JButton strassenbaubutton = new JButton("Bauen!");
+        JLabel strassenbaulabel = new JLabel(Nuz.ENTWICKLUNG_STRASSENBAULABEL + Main.ich().anzahlEntwicklungskarten(2));
+        JButton strassenbaubutton = new JButton(Nuz.ENTWICKLUNG_STRASSENBAUBUTTON);
         strassenbaubutton.addActionListener(e ->
         {
-            Main.strassenbau();
             OnlineInterpreter.entwicklungskarteAusspielen(Main.ich(), 2);
             Bildschirm.enableNaechster(false);
             f.dispose();
@@ -42,8 +40,8 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         }
 
         JPanel erfindungpanel = new JPanel();
-        JLabel erfindunglabel = new JLabel("Erfindung: " + Main.ich().anzahlEntwicklungskarten(3));
-        JButton erfindungbutton = new JButton("2 Karten nehmen!");
+        JLabel erfindunglabel = new JLabel(Nuz.ENTWICKLUNG_ERFINDUNGLABEL + Main.ich().anzahlEntwicklungskarten(3));
+        JButton erfindungbutton = new JButton(Nuz.ENTWICKLUNG_ERFINDUNGBUTTON);
         erfindungbutton.addActionListener(e ->
         {
             new Handel(7);
@@ -55,17 +53,17 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         }
 
         JPanel monopolpanel = new JPanel();
-        JLabel monopollabel = new JLabel("Monopol: " + Main.ich().anzahlEntwicklungskarten(4));
-        JButton monopolbutton = new JButton("Monopol aussuchen!");
+        JLabel monopollabel = new JLabel(Nuz.ENTWICKLUNG_MONOPOLLABEL + Main.ich().anzahlEntwicklungskarten(4));
+        JButton monopolbutton = new JButton(Nuz.ENTWICKLUNG_MONOPOLBUTTON);
         monopolbutton.addActionListener(e ->
         {
             //new Monopol();
             String[] a = new String[5];
             for(int i = 0; i < 5; i++)
             {
-                a[i] = Inventar.name(i);
+                a[i] = Nuz.rohstoffName(i, true);
             }
-            int typ = JOptionPane.showOptionDialog(f, "Auf welches Gut willst du ein Monopol anmelden?", "Monopol",
+            int typ = JOptionPane.showOptionDialog(f, Nuz.ENTWICKLUNG_MONOPOL_POPUP_FRAGE, Nuz.ENTWICKLUNG_MONOPOL_POPUP_TITEL,
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, a, a[0]);
             int tmp = 0;
             for(int i = 0; i < Main.anzahlSpieler; i++)
@@ -86,9 +84,9 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         }
 
         JPanel siegpunktpanel = new JPanel();
-        JLabel siegpunktlabel = new JLabel("Siegpunktkarten: " + Main.ich().anzahlEntwicklungskarten(1));
+        JLabel siegpunktlabel = new JLabel(Nuz.ENTWICKLUNG_SIEGPUNKTLABEL + Main.ich().anzahlEntwicklungskarten(1));
 
-        JButton kaufen = new JButton("Entwicklungskarte kaufen");
+        JButton kaufen = new JButton(Nuz.ENTWICKLUNG_KAUFEN);
         kaufen.setEnabled(Main.ich().inv.bezahlbar(new Inventar(3)));
         kaufen.addActionListener(e -> {
             OnlineInterpreter.bezahlen(Main.spieler[Main.ich], Inventar.entwicklung);
@@ -121,7 +119,7 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
     }
 
     private void framezeug() {
-        f = new JFrame("Entwicklungskarten");
+        f = new JFrame(Nuz.ENTWICKLUNG_TITEL);
         f.setContentPane(this);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     }

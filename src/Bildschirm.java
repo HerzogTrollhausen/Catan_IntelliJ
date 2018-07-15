@@ -29,6 +29,7 @@ public class Bildschirm extends JPanel
 
         f = frame;
         f.setContentPane(this);
+        setVisible(false);
 
         setLayout(null);
         setBackground(new Color(4417163));
@@ -57,13 +58,13 @@ public class Bildschirm extends JPanel
         enableNaechster(false);
         add(naechster);
 
-        JButton handel = new JButton("4:1 Handel");
+        JButton handel = new JButton(Nuz.BILDSCHIRM_4_HANDEL);
         handel.setBounds(f.getWidth() / 2 - 100, 0, 200, 100);
         handel.addActionListener(e -> new Handel(6)
         );
         add(handel);
 
-        JButton entwicklung = new JButton("Entwicklung");
+        JButton entwicklung = new JButton(Nuz.BILDSCHIRM_ENTWICKLUNG);
         {
             entwicklung.setBounds(0, 300, 200, 100);
         }
@@ -79,7 +80,7 @@ public class Bildschirm extends JPanel
 
 
         farbe.setBackground(Main.spieler().farbe);
-        momentanSpielerLabel.setText("Momentaner Spieler: " + Main.spieler().id);
+        momentanSpielerLabel.setText(Nuz.BILDSCHIRM_MOM_SPIELER + Main.spieler().id);
 
         addAnderePanel();
         //f.setVisible(true);

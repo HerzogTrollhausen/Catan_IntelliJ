@@ -19,8 +19,8 @@ public class Bandit
         Spieler[] auswahl = feld1.angrenzendeSpieler();
         if(auswahl.length > 0)
         {
-            Spieler ziel = (Spieler) JOptionPane.showInputDialog(Bildschirm.getF(), "Welchen Spieler willst du ausrauben?",
-                    "Raub", JOptionPane.QUESTION_MESSAGE, null, auswahl, auswahl[0]);
+            Spieler ziel = (Spieler) JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.RAUB_ATTACKER_WELCHEN_SPIELER,
+                    Nuz.RAUB_NOTIFICATION_TITLE, JOptionPane.QUESTION_MESSAGE, null, auswahl, auswahl[0]);
             if (ziel != null)
             {
                 feld1.ausrauben(ziel);

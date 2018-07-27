@@ -10,11 +10,6 @@ public class Stuff{
 
     public static void main(String[] args)
     {
-        ArrayList<Object> aL= new ArrayList<>();
-        Object[] aR = aL.toArray();
-        for(Object aO : aR)
-        {
-            System.out.println(aO);
-        }
+        System.out.println(0x4f);
     }
 }

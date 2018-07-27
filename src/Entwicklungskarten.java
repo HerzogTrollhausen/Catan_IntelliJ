@@ -118,6 +118,8 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
 
     }
 
+    
+
     private void framezeug() {
         f = new JFrame(Nuz.ENTWICKLUNG_TITEL);
         f.setContentPane(this);

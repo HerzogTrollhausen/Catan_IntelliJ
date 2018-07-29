@@ -146,9 +146,7 @@ public class Main
                 nextPlayer(wurf);
             } else if (spielernr == -1)
             {
-                spielernr = 0;
-                frueh = false;
-                Bildschirm.getNaechster().setEnabled(true);
+                beendeFrueh();
             }
         }
         Bildschirm.setFarbeFarbe(spieler().farbe);
@@ -168,6 +166,14 @@ public class Main
         {
             naechster.setEnabled(true);
         }
+    }
+
+    private static void beendeFrueh()
+    {
+        spielernr = 0;
+        frueh = false;
+        Bildschirm.getNaechster().setEnabled(true);
+        Bildschirm.entwicklung.setEnabled(true);
     }
 
     public static int wuerfel()

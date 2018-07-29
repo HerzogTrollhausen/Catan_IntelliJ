@@ -32,8 +32,10 @@ public class Spieler
             case 3:
                 farbe = new Color(255, 140, 0);
         }
-        inv = new Inventar();
+        inv = new Inventar(Inventar.Inventararten.TEST);
     }
+
+
 
     public void ernte(int wuerfel)
     {

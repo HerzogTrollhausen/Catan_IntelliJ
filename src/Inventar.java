@@ -7,6 +7,13 @@ public class Inventar
     static int[] siedlung = {1,1,1,1,0};
     static int[] stadt = {0,0,0,1,1};
     static int[] entwicklung = {0,0,1,1,1};
+    private static int[] test = {10,10,10,10,10};
+    private static int[] start = {1,1,1,1,1};
+
+    public static enum Inventararten
+    {
+        START, TEST, STRASSE, SIEDLUNG, STADT, ENTWICKLUNG
+    }
 
     Inventar()
     {
@@ -14,46 +21,30 @@ public class Inventar
         entwicklungskarten = new int[5];//0 holz, 1 lehm, 2 schaf, 3 weizen, 4 erz
     }
 
-    Inventar(int arg)//0 Straße, 1 Siedlung, 2 Stadt, 3 Entwicklung, 4 test
+    Inventar(Inventararten arg)//0 Straße, 1 Siedlung, 2 Stadt, 3 Entwicklung, 4 test
     {
         rohstoffe = new int[5];
         entwicklungskarten = new int[5];
         switch (arg)
         {
-            case 1:
-                rohstoffe[3] = 1;
-                rohstoffe[2] = 1;
-                rohstoffe[0] = 1;
-                rohstoffe[1] = 1;
+            case SIEDLUNG:
+                rohstoffe = siedlung;
                 break;
-            case 0:
-                rohstoffe[0] = 1;
-                rohstoffe[1] = 1;
+            case STRASSE:
+                rohstoffe = strasse;
                 break;
-            case 2:
-                rohstoffe[3] = 2;
-                rohstoffe[4] = 3;
+            case STADT:
+                rohstoffe = stadt;
                 break;
-            case 3:
-                rohstoffe[2] = 1;
-                rohstoffe[3] = 1;
-                rohstoffe[4] = 1;
+            case ENTWICKLUNG:
+                rohstoffe = entwicklung;
                 break;
-            case 4:
-                for (int i = 0; i < 5; i++)
-                {
-                    rohstoffe[i] = 10;
-                }
-                for (int i = 0; i < 5; i++)
-                {
-                    entwicklungskarten[i] = 10;
-                }
+            case TEST:
+                rohstoffe = test;
+                entwicklungskarten = test;
                 break;
-            case 5:
-                for (int i = 0; i < 5; i++)
-                {
-                    rohstoffe[i] = 1;
-                }
+            case START:
+                rohstoffe = start;
                 break;
         }
     }

@@ -58,7 +58,7 @@ public class Eckpanel extends JPanel
                         {
                             if (Main.strassenbauinprogress == 0)
                             {
-                                if (Main.spieler().inv.bezahlbar(new Inventar(0)))
+                                if (Main.spieler().inv.bezahlbar(new Inventar(Inventar.Inventararten.STRASSE)))
                                 {
                                     desc.setText(Nuz.ECKPANEL_STRASSE_ERLAUBT);
                                     button.addActionListener(e ->
@@ -158,7 +158,7 @@ public class Eckpanel extends JPanel
                             button.setEnabled(false);
                         } else
                         {
-                            if (Main.spieler().inv.bezahlbar(new Inventar(2)))
+                            if (Main.spieler().inv.bezahlbar(new Inventar(Inventar.Inventararten.STADT)))
                             {
                                 button.addActionListener(e ->
                                         {
@@ -213,7 +213,7 @@ public class Eckpanel extends JPanel
                             {
                                 if (ecke.nachbar(Main.spieler()))
                                 {
-                                    if (Main.spieler().inv.bezahlbar(new Inventar(1)))
+                                    if (Main.spieler().inv.bezahlbar(new Inventar(Inventar.Inventararten.SIEDLUNG)))
                                     {
                                         button.addActionListener(e ->
                                                 {

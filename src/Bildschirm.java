@@ -23,6 +23,7 @@ public class Bildschirm extends JPanel
     private static JPanel farbe;
     private static JButton naechster;
     private static JLabel momentanSpielerLabel;
+    public static JButton entwicklung;
 
     public Bildschirm(JFrame frame)
     {
@@ -64,11 +65,12 @@ public class Bildschirm extends JPanel
         );
         add(handel);
 
-        JButton entwicklung = new JButton(Nuz.BILDSCHIRM_ENTWICKLUNG);
+        entwicklung = new JButton(Nuz.BILDSCHIRM_ENTWICKLUNG);
         {
             entwicklung.setBounds(0, 300, 200, 100);
         }
         entwicklung.addActionListener(e -> new Entwicklungskarten());
+        entwicklung.setEnabled(false);
         add(entwicklung);
 
         if (!Main.lokal)

@@ -87,7 +87,7 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         JLabel siegpunktlabel = new JLabel(Nuz.ENTWICKLUNG_SIEGPUNKTLABEL + Main.ich().anzahlEntwicklungskarten(1));
 
         JButton kaufen = new JButton(Nuz.ENTWICKLUNG_KAUFEN);
-        kaufen.setEnabled(Main.ich().inv.bezahlbar(new Inventar(3)));
+        kaufen.setEnabled(Main.ich().inv.bezahlbar(new Inventar(Inventar.Inventararten.ENTWICKLUNG)));
         kaufen.addActionListener(e -> {
             OnlineInterpreter.bezahlen(Main.spieler[Main.ich], Inventar.entwicklung);
             OnlineInterpreter.entwicklungskarteZiehen(Main.spieler[Main.ich], (int) (Math.random() * Entwicklungskarten.stapel.zaehl()));

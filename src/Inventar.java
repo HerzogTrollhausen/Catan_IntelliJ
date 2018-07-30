@@ -3,14 +3,16 @@ public class Inventar
     int[] rohstoffe;//0 holz, 1 lehm, 2 schaf, 3 weizen, 4 erz
     int[] entwicklungskarten; // 0 Ritter, 1 Siegpunkt, 2 Straßenbau, 3 Erfindung, 4 Monopol
 
-    static int[] strasse = {1,1,0,0,0};
-    static int[] siedlung = {1,1,1,1,0};
-    static int[] stadt = {0,0,0,1,1};
-    static int[] entwicklung = {0,0,1,1,1};
-    private static int[] test = {10,10,10,10,10};
-    private static int[] start = {1,1,1,1,1};
+    static int[] strasse = {1, 1, 0, 0, 0};
+    static int[] siedlung = {1, 1, 1, 1, 0};
+    static int[] stadt = {0, 0, 0, 1, 1};
+    static int[] entwicklung = {0, 0, 1, 1, 1};
+    private static int[] test = {10, 10, 10, 10, 10};
+    private static int[] start = {1, 1, 1, 1, 1};
 
-    public static enum Inventararten
+    Spieler spieler;
+
+    public enum Inventararten
     {
         START, TEST, STRASSE, SIEDLUNG, STADT, ENTWICKLUNG
     }
@@ -21,6 +23,13 @@ public class Inventar
         entwicklungskarten = new int[5];//0 holz, 1 lehm, 2 schaf, 3 weizen, 4 erz
     }
 
+
+    Inventar(Inventararten arg, Spieler spieler)
+    {
+        this(arg);
+        this.spieler = spieler;
+    }
+
     Inventar(Inventararten arg)//0 Straße, 1 Siedlung, 2 Stadt, 3 Entwicklung, 4 test
     {
         rohstoffe = new int[5];
@@ -28,23 +37,23 @@ public class Inventar
         switch (arg)
         {
             case SIEDLUNG:
-                rohstoffe = siedlung;
+                rohstoffe = siedlung.clone();
                 break;
             case STRASSE:
-                rohstoffe = strasse;
+                rohstoffe = strasse.clone();
                 break;
             case STADT:
-                rohstoffe = stadt;
+                rohstoffe = stadt.clone();
                 break;
             case ENTWICKLUNG:
-                rohstoffe = entwicklung;
+                rohstoffe = entwicklung.clone();
                 break;
             case TEST:
-                rohstoffe = test;
-                entwicklungskarten = test;
+                rohstoffe = test.clone();
+                entwicklungskarten = test.clone();
                 break;
             case START:
-                rohstoffe = start;
+                rohstoffe = start.clone();
                 break;
         }
     }
@@ -90,7 +99,7 @@ public class Inventar
             } else
             {
                 throw new IllegalArgumentException("Rohstoffe gehen unter null");
-            }
+        }
         }
         Bildschirm.anderePanelAkt();
     }

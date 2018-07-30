@@ -32,7 +32,7 @@ public class Spieler
             case 3:
                 farbe = new Color(255, 140, 0);
         }
-        inv = new Inventar(Inventar.Inventararten.TEST);
+        inv = new Inventar(Inventar.Inventararten.TEST, this);
     }
 
 

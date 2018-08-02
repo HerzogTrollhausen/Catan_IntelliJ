@@ -3,6 +3,14 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.*;
 
 public class FileManager implements java.io.Serializable
@@ -28,5 +36,18 @@ public class FileManager implements java.io.Serializable
         g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
         g.dispose();
         return scaledBI;
+    }
+
+    public static void writeToFile(String path, ArrayList<String> text)
+    {
+        try
+        {
+            Path file = Paths.get(path);
+            Files.write(file, text, StandardCharsets.US_ASCII, StandardOpenOption.CREATE);
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }

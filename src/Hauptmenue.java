@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.io.*;
 
 /**
  * TODO: Das ganze sehr, sehr viel hübscher machen, "Zurück"-Knöpfe etc., Settings
@@ -19,18 +20,46 @@ public class Hauptmenue extends JPanel
         local.addActionListener(e ->
         {
             Main.lokal = true;
-            Main.starter = true;
-            OnlineInterpreter.spielStarten();
+            String[] options = {"Neues Spiel", "Spiel laden"};
+            int wahl = JOptionPane.showOptionDialog(Main.fenster, "Willst du ein neues Spiel starten oder ein altes laden?",
+                    "Neues Spiel?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+                    options[0]);
+            if (wahl == 0)
+            {
+                Main.starter = true;
+                OnlineInterpreter.spielStarten();
+            } else
+            {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setCurrentDirectory(new File(Nuz.SAVEGAME_LOCATION));
+                int fileChooserReturn = chooser.showOpenDialog(Main.fenster);
+                if(fileChooserReturn == JFileChooser.APPROVE_OPTION)
+                {
+                    try
+                    {
+                        File file = chooser.getSelectedFile();
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                        String tmp;
+                        while((tmp = bufferedReader.readLine()) != null)
+                        {
+                            OnlineInterpreter.interpret(tmp);
+                        }
+                    } catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                }
+            }
         });
 
         JButton online = new JButton(Nuz.HAUPTMENUE_ONLINEBUTTON);
         online.addActionListener(e ->
         {
             Main.lokal = false;
-            host = (String)JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.HAUPTMENUE_HOSTPOPUP_FRAGE, Nuz.HAUPTMENUE_HOSTPOPUP_TITEL,
+            host = (String) JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.HAUPTMENUE_HOSTPOPUP_FRAGE, Nuz.HAUPTMENUE_HOSTPOPUP_TITEL,
                     JOptionPane.QUESTION_MESSAGE, null, null, standardhost);
             boolean erfolgreich = false;
-            while(!erfolgreich)
+            while (!erfolgreich)
             {
                 try
                 {

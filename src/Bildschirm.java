@@ -80,6 +80,11 @@ public class Bildschirm extends JPanel
             add(chat);
         }
 
+        Optionspanel optionspanel = new Optionspanel();
+        optionspanel.setBounds(f.getWidth()-optionspanel.getWidth(), (f.getHeight()-optionspanel.getHeight())/2,
+                optionspanel.getWidth(), optionspanel.getHeight());
+        add(optionspanel);
+
 
         farbe.setBackground(Main.spieler().farbe);
         momentanSpielerLabel.setText(Nuz.BILDSCHIRM_MOM_SPIELER + Main.spieler().id);

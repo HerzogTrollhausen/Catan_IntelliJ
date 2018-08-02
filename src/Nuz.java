@@ -24,6 +24,7 @@ public class Nuz
     public static final String WEIZEN = "Weizen";
     @SuppressWarnings("WeakerAccess")
     public static final String ERZ = "Erz";
+    public static final String HAFEN_DESC_3_1 = "beliebige Güter im Verhältnis 3:1 gehandelt";
     public static final String PLAYER_TRADE_AGREE = "Zustimmen";
     public static final String PLAYER_TRADE_REFUSE = "Ablehnen";
     public static final String HANDEL = "Handel";
@@ -92,6 +93,8 @@ public class Nuz
     public static final String LOKAL_SPIELERANZAHL_AUSWAEHLEN_FRAGE = "Anzahl der Spieler";
     public static final String LETZTER_WURF = "Letzter Wurf: ";
     public static final String VERBINDUNG_FEHLGESCHLAGEN = "Verbindung zum Server fehlgeschlagen.";
+    public static final String SAVEGAME_LOCATION = System.getenv("USERPROFILE")+"/Documents/Catan_savegames";
+    public static final String SPEICHERN_BUTTON = "Speichern";
 
 
     public static String gewonnenNachricht(boolean gewonnen, Spieler gewinner)
@@ -174,7 +177,7 @@ public class Nuz
     public static String hafenKante(int typ, String alterInhalt)
     {
         return "<html>An diesem Hafen "
-                + (typ == 2 ? "wird " : "werden") + rohstoffName(typ, true) + " im Verh\u00e4ltnis 2:1"
+                + (typ == 2 ? "werden " : "wird ") + rohstoffName(typ, true) + " im Verh\u00e4ltnis 2:1"
                 + " gehandelt.<br>" + alterInhalt + "</hml>";
     }
 
@@ -229,6 +232,8 @@ public class Nuz
                 return WEIZEN;
             case 4:
                 return ERZ;
+            case 5:
+                return HAFEN_DESC_3_1;
             default:
                 throw new IllegalArgumentException("" + nr);
                 //return "Default in Inventar.name(int)";

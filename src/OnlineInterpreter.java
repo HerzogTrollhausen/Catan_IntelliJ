@@ -1,7 +1,11 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class OnlineInterpreter
 {
+
+    static ArrayList<String> log = new ArrayList<>();
+
     /**
      * aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"
      * b00332421: Felderstapel
@@ -28,6 +32,7 @@ public class OnlineInterpreter
     public static void interpret(String msg)
     {
         System.out.println(msg);
+        log.add(msg);
         switch (msg.charAt(0))
         {
             case 'a'://aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"

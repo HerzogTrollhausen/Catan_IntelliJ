@@ -7,7 +7,7 @@ public class Spielerpanel extends JPanel
 
     Spielerpanel()
     {
-        setBackground(Main.spieler[Main.ich].farbe);
+        setBackground(Main.ich().farbe);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         label = new JLabel();
         add(label);
@@ -27,6 +27,7 @@ public class Spielerpanel extends JPanel
 
     private void start()
     {
+        setBackground(Main.ich().farbe);
         label.setText(Main.fruehsiedlung?Nuz.verbleibendeFruehSiedlungenSpielerpanel((Main.fruehvor+3)/2):Nuz.ECKPANEL_STRASSE_AN_SIEDLUNG);
         revalidate();
         setVisible(true);

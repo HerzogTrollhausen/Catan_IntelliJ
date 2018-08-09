@@ -34,6 +34,7 @@ public class OnlineInterpreter
      * s20m0m0m12m3: Das Inventar von Spieler 2 wird auf 0 0 0 12 3 gesetzt
      * t132m5m-3m0m0 : Handelsangebot von 1 zu 3, dass du dieses Inventar bekommst
      * u34Erstes Spiel#12Zweites Spiel: Im Spiel "Erstes Spiel" gibt es 3 von 4 Spielern, im Spiel "Zweites Spiel" gibt es 1 von 2 Spielern
+     * v: Frueh wird auf false gestellt
      */
     public static void interpret(String msg)
     {
@@ -127,7 +128,7 @@ public class OnlineInterpreter
             }
             case 'k'://k2: ID wird auf 2 gesetzt
             {
-                Main.ich = Integer.parseInt(msg.substring(1));
+                Main.setIch(Integer.parseInt(msg.substring(1)));
                 if (Main.ich == 0)
                 {
                     Main.hauptmenue.add(Main.hauptmenue.starten);
@@ -300,6 +301,10 @@ public class OnlineInterpreter
                         JOptionPane.INFORMATION_MESSAGE, null, Game.games.toArray(), Game.games.get(0));
                 spielBeitreten(auswahl.getID());
                 break;
+            }
+            case 'v':
+            {
+                Main.beendeFrueh();
             }
             case '?':
             {
@@ -535,7 +540,7 @@ public class OnlineInterpreter
     public static void spielerHandel(Spieler s1, Spieler s2, int[] inv)
     {
         invToMsg(inv);
-        senden("t" + s1.id + "" + s2.id + invToMsg(inv));
+        senden("t" + s1 + "" + s2 + invToMsg(inv));
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -548,5 +553,10 @@ public class OnlineInterpreter
     public static void spielBeitreten(int ID)
     {
         senden("?c" + ID);
+    }
+
+    public static void fruehBeenden()
+    {
+        senden("v");
     }
 }

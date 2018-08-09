@@ -20,7 +20,7 @@ public class Main
     static int maxSiedlungen = 5;
     static int maxStaedte = 4;
     static Spieler rittermacht;
-    static int ich;
+    public static int ich;
     static boolean lokal = true;
     static JFrame fenster;
     static Hauptmenue hauptmenue;
@@ -126,6 +126,12 @@ public class Main
         return spieler[spielernr];
     }
 
+    public static void setIch(int i)
+    {
+        ich = i;
+        Bildschirm.enableNaechster();
+    }
+
     public static void nextPlayer(int wurf)
     {
         if (!frueh)
@@ -146,6 +152,7 @@ public class Main
                 nextPlayer(wurf);
             } else if (spielernr == -1)
             {
+                //OnlineInterpreter.fruehBeenden();
                 beendeFrueh();
             }
         }
@@ -158,18 +165,23 @@ public class Main
         {
             ich = spielernr;
         }
-        JButton naechster = Bildschirm.getNaechster();
         if (ich != spielernr || frueh)
         {
-            naechster.setEnabled(false);
+            Bildschirm.getNaechster().setEnabled(false);
         } else if(wurf != 7)
         {
-            naechster.setEnabled(true);
+            Bildschirm.getNaechster().setEnabled(true);
         }
     }
 
-    private static void beendeFrueh()
+    static boolean dran()
     {
+        return ich == spielernr;
+    }
+
+    public static void beendeFrueh()
+    {
+        JOptionPane.showMessageDialog(fenster, "Fr\u00fchphase ist vorbei");
         spielernr = 0;
         frueh = false;
         Bildschirm.getNaechster().setEnabled(true);

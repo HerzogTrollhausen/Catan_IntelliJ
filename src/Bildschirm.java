@@ -56,7 +56,7 @@ public class Bildschirm extends JPanel
         naechster.addActionListener(ev ->
                 OnlineInterpreter.wuerfel(Main.wuerfel())
         );
-        enableNaechster(false);
+        naechster.setEnabled(true);
         add(naechster);
 
         JButton handel = new JButton(Nuz.BILDSCHIRM_4_HANDEL);
@@ -153,9 +153,10 @@ public class Bildschirm extends JPanel
         return f;
     }
 
-    static void enableNaechster(boolean b)
+    static void enableNaechster()
     {
-        naechster.setEnabled(b);
+        if(naechster != null)
+        naechster.setEnabled(!Main.frueh && Main.dran() && (Main.strassenbauinprogress == 0) && !Bandit.amSetzen);
     }
 
     private void addAnderePanel()

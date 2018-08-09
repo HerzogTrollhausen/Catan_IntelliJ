@@ -32,7 +32,8 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         strassenbaubutton.addActionListener(e ->
         {
             OnlineInterpreter.entwicklungskarteAusspielen(Main.ich(), 2);
-            Bildschirm.enableNaechster(false);
+            Main.strassenbau();
+            Bildschirm.enableNaechster();
             f.dispose();
         });
         if (Main.ich().anzahlEntwicklungskarten(2) == 0) {
@@ -89,8 +90,8 @@ public class Entwicklungskarten extends JPanel// 14 Ritter, 6 Fortschritt, 5 Sie
         JButton kaufen = new JButton(Nuz.ENTWICKLUNG_KAUFEN);
         kaufen.setEnabled(Main.ich().inv.bezahlbar(new Inventar(Inventar.Inventararten.ENTWICKLUNG)));
         kaufen.addActionListener(e -> {
-            OnlineInterpreter.bezahlen(Main.spieler[Main.ich], Inventar.entwicklung);
-            OnlineInterpreter.entwicklungskarteZiehen(Main.spieler[Main.ich], (int) (Math.random() * Entwicklungskarten.stapel.zaehl()));
+            OnlineInterpreter.bezahlen(Main.ich(), Inventar.entwicklung);
+            OnlineInterpreter.entwicklungskarteZiehen(Main.ich(), (int) (Math.random() * Entwicklungskarten.stapel.zaehl()));
             f.dispose();
         });
         add(kaufen);

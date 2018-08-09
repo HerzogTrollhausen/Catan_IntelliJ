@@ -8,7 +8,7 @@ public class Bandit
     static void ausschicken()
     {
         amSetzen = true;
-        Bildschirm.enableNaechster(false);
+        Bildschirm.enableNaechster();
         Bildschirm.getNaechster().setToolTipText(Nuz.NAECHSTER_RAEUBER);
     }
 
@@ -27,7 +27,7 @@ public class Bandit
             }
         }
         JButton naechster = Bildschirm.getNaechster();
-        Bildschirm.enableNaechster(true);
+        Bildschirm.enableNaechster();
         naechster.setToolTipText(Nuz.NAECHSTER_DEFAULT);
     }
 }

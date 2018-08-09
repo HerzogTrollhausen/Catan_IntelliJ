@@ -35,19 +35,7 @@ public class Hauptmenue extends JPanel
                 int fileChooserReturn = chooser.showOpenDialog(Main.fenster);
                 if(fileChooserReturn == JFileChooser.APPROVE_OPTION)
                 {
-                    try
-                    {
-                        File file = chooser.getSelectedFile();
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                        String tmp;
-                        while((tmp = bufferedReader.readLine()) != null)
-                        {
-                            OnlineInterpreter.interpret(tmp);
-                        }
-                    } catch (IOException ex)
-                    {
-                        ex.printStackTrace();
-                    }
+                    OnlineInterpreter.readSaveFile(chooser.getSelectedFile());
                 }
             }
         });

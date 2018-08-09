@@ -1,10 +1,16 @@
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OnlineInterpreter
 {
 
     static ArrayList<String> log = new ArrayList<>();
+    private static boolean saveToLog = false;
 
     /**
      * aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"
@@ -32,7 +38,10 @@ public class OnlineInterpreter
     public static void interpret(String msg)
     {
         System.out.println(msg);
-        log.add(msg);
+        if (saveToLog)
+        {
+            log.add(msg);
+        }
         switch (msg.charAt(0))
         {
             case 'a'://aHallo wie geht's denn so?: Chatnachricht "Hallo wie geht's denn so"
@@ -140,7 +149,9 @@ public class OnlineInterpreter
             }
             case 'm'://m3: Starte das Spiel mit 3 Spielern
             {
-                Main.anzahlSpieler = (byte)Integer.parseInt(msg.charAt(1)+"");
+                log.add(msg);
+                saveToLog = true;
+                Main.anzahlSpieler = (byte) Integer.parseInt(msg.charAt(1) + "");
                 if (Main.starter)
                 {
                     felderstapel(Welt.stapelZahlen(Stapel.StapelTypen.Feld));
@@ -252,10 +263,7 @@ public class OnlineInterpreter
                     String name = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
                             Nuz.ERSTES_SPIEL_FRAGE,
                             Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, Nuz.DEFAULT_SPIEL_NAME);
-                    int maxAnzahlSpieler = Integer.parseInt((String) JOptionPane.showInputDialog(Bildschirm.getF(),
-                            Nuz.SPIEL_ERSTELLEN_ZAHL,
-                            Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, 4));
-                    OnlineInterpreter.spielErstellen(name, maxAnzahlSpieler);
+                    mpSpielErstellenOderLaden(name);
                     break;
                 }
                 String[] sA = msg.substring(1).split("#");
@@ -281,7 +289,7 @@ public class OnlineInterpreter
                     String maxAnzahlSpielerString = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
                             Nuz.SPIEL_ERSTELLEN_ZAHL,
                             Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, 4);
-                    if(maxAnzahlSpielerString != null)
+                    if (maxAnzahlSpielerString != null)
                     {
                         int maxAnzahlSpieler = Integer.parseInt(maxAnzahlSpielerString);
                         OnlineInterpreter.spielErstellen(name, maxAnzahlSpieler);
@@ -295,7 +303,7 @@ public class OnlineInterpreter
             }
             case '?':
             {
-                if(!Main.lokal)
+                if (!Main.lokal)
                 {
                     throw new IllegalArgumentException(msg);
                 }
@@ -310,6 +318,57 @@ public class OnlineInterpreter
     private static void senden(String msg)
     {
         Client.senden(msg);
+    }
+
+    private static void mpSpielErstellenOderLaden(String name)
+    {
+        int erstellenOderLadenResult = JOptionPane.showOptionDialog(Main.fenster, "Möchtest du ein neues Spiel" +
+                        " erstellen oder ein altes laden?", "Erstellen oder laden?", JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, new String[]{"Neu erstellen", "Laden"}, "Neu erstellen");
+        if (erstellenOderLadenResult == 0)
+        {
+            String maxAnzahlSpielerString = (String) JOptionPane.showInputDialog(Bildschirm.getF(),
+                    Nuz.SPIEL_ERSTELLEN_ZAHL,
+                    Nuz.SPIEL_ERSTELLEN_TITEL, JOptionPane.QUESTION_MESSAGE, null, null, 4);
+            if (maxAnzahlSpielerString != null)
+            {
+                int maxAnzahlSpieler = Integer.parseInt(maxAnzahlSpielerString);
+                OnlineInterpreter.spielErstellen(name, maxAnzahlSpieler);
+            }
+        }
+        else if(erstellenOderLadenResult == 1)
+        {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File(Nuz.SAVEGAME_LOCATION));
+            int fileSelecterReturn = chooser.showSaveDialog(Main.fenster);
+            if(fileSelecterReturn == JFileChooser.APPROVE_OPTION)
+            {
+                List<String> list = readSaveFile(chooser.getSelectedFile());
+                senden("?b4"+name);
+                for(String aString : list)
+                {
+                    senden(aString);
+                }
+            }
+        }
+    }
+
+    public static List<String> readSaveFile(File file)
+    {
+        ArrayList<String> list = new ArrayList<>();
+        try
+        {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String tmp;
+            while((tmp = bufferedReader.readLine()) != null)
+            {
+                list.add(tmp);
+            }
+        } catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        return list;
     }
 
     private static int[] msgToInv(String msg)
@@ -400,11 +459,10 @@ public class OnlineInterpreter
 
     public static void spielStarten()
     {
-        if(Main.lokal)
+        if (Main.lokal)
         {
-            senden("m"+JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.LOKAL_SPIELERANZAHL_AUSWAEHLEN_FRAGE, "4"));
-        }
-        else
+            senden("m" + JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.LOKAL_SPIELERANZAHL_AUSWAEHLEN_FRAGE, "4"));
+        } else
         {
             senden("?d");
         }

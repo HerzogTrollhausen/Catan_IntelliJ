@@ -16,11 +16,11 @@ public class Optionspanel extends JPanel
         {
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File(Nuz.SAVEGAME_LOCATION));
-            int fileSelecterReturn = chooser.showOpenDialog(Main.fenster);
+            int fileSelecterReturn = chooser.showSaveDialog(Main.fenster);
             if(fileSelecterReturn == JFileChooser.APPROVE_OPTION)
             {
                 File file = chooser.getSelectedFile();
-                String path = file.getPath();
+                String path = file.getPath()+".catan";
                 FileManager.writeToFile(path, OnlineInterpreter.log);
             }
         });

@@ -34,9 +34,8 @@ public class OnlineInterpreter
      * s20m0m0m12m3: Das Inventar von Spieler 2 wird auf 0 0 0 12 3 gesetzt
      * t132m5m-3m0m0 : Handelsangebot von 1 zu 3, dass du dieses Inventar bekommst
      * u34Erstes Spiel#12Zweites Spiel: Im Spiel "Erstes Spiel" gibt es 3 von 4 Spielern, im Spiel "Zweites Spiel" gibt es 1 von 2 Spielern
-     * v: Frueh wird auf false gestellt
      */
-    public static void interpret(String msg)
+    static void interpret(String msg)
     {
         System.out.println(msg);
         if (saveToLog)
@@ -358,7 +357,7 @@ public class OnlineInterpreter
         }
     }
 
-    public static List<String> readSaveFile(File file)
+    static List<String> readSaveFile(File file)
     {
         ArrayList<String> list = new ArrayList<>();
         try
@@ -393,7 +392,7 @@ public class OnlineInterpreter
         {
             throw new IllegalArgumentException("Ungültige Länge für ein Inventar-Array: " + inv.length);
         }
-        StringBuilder tmp = new StringBuilder("");
+        StringBuilder tmp = new StringBuilder();
         for (int i = 0; i < 5; i++)
         {
             tmp.append(inv[i]).append("m");
@@ -401,7 +400,7 @@ public class OnlineInterpreter
         return (tmp.toString());
     }
 
-    public static void chatNachricht(String msg)//a
+    static void chatNachricht(String msg)//a
     {
         senden("a" + msg);
     }
@@ -416,27 +415,27 @@ public class OnlineInterpreter
         senden("c" + zahlen);
     }
 
-    public static void strasseBauen(Spieler spieler, Kante kante)
+    static void strasseBauen(Spieler spieler, Kante kante)
     {
         senden("d" + spieler.id + "" + kante.getX() + "" + kante.getY() + "" + kante.pos);
     }
 
-    public static void siedlungBauen(Spieler spieler, Ecke ecke)
+    static void siedlungBauen(Spieler spieler, Ecke ecke)
     {
         senden("e" + spieler.id + "" + ecke.getX() + "" + ecke.getY() + "" + ecke.pos);
     }
 
-    public static void stadtBauen(Spieler spieler, Ecke ecke)
+    static void stadtBauen(Spieler spieler, Ecke ecke)
     {
         senden("f" + spieler.id + "" + ecke.getX() + "" + ecke.getY() + "" + ecke.pos);
     }
 
-    public static void entwicklungskarteZiehen(Spieler spieler, int karte)
+    static void entwicklungskarteZiehen(Spieler spieler, int karte)
     {
         senden("g" + spieler.id + "" + karte);
     }
 
-    public static void wuerfel(int wurf)
+    static void wuerfel(int wurf)
     {
         if (wurf == 7)
         {
@@ -447,12 +446,12 @@ public class OnlineInterpreter
     }
 
 
-    public static void entwicklungskarteAusspielen(Spieler spieler, int typ)
+    static void entwicklungskarteAusspielen(Spieler spieler, int typ)
     {
         senden("i" + spieler.id + "" + typ);
     }
 
-    public static void raeuberVersetzen(Feld feld)
+    static void raeuberVersetzen(Feld feld)
     {
         senden("j" + feld.getX() + "" + feld.getY());
     }
@@ -462,7 +461,7 @@ public class OnlineInterpreter
         senden("l" + haefen);
     }
 
-    public static void spielStarten()
+    static void spielStarten()
     {
         if (Main.lokal)
         {
@@ -473,12 +472,12 @@ public class OnlineInterpreter
         }
     }
 
-    public static void spielVerlassen()
+    static void spielVerlassen()
     {
         senden("?e");
     }
 
-    public static void bezahlen(Spieler spieler, int[] inv)
+    static void bezahlen(Spieler spieler, int[] inv)
     {
         if (inv.length != 5)
         {
@@ -492,7 +491,7 @@ public class OnlineInterpreter
         senden(tmp.toString());
     }
 
-    public static void bekommen(Spieler spieler, int[] inv)
+    static void bekommen(Spieler spieler, int[] inv)
     {
         if (inv.length != 5)
         {
@@ -518,12 +517,12 @@ public class OnlineInterpreter
         senden("q" + nachricht + "#" + titel);
     }
 
-    public static void privatPopup(Spieler spieler, String titel, String nachricht)
+    static void privatPopup(Spieler spieler, @SuppressWarnings("SameParameterValue") String titel, String nachricht)
     {
         senden("r" + spieler.id + nachricht + "#" + titel);
     }
 
-    public static void setInventar(Spieler spieler, int[] inv)
+    static void setInventar(Spieler spieler, int[] inv)
     {
         if (inv.length != 5)
         {
@@ -537,26 +536,21 @@ public class OnlineInterpreter
         senden(tmp.toString());
     }
 
-    public static void spielerHandel(Spieler s1, Spieler s2, int[] inv)
+    static void spielerHandel(Spieler s1, Spieler s2, int[] inv)
     {
         invToMsg(inv);
         senden("t" + s1 + "" + s2 + invToMsg(inv));
     }
 
     @SuppressWarnings("WeakerAccess")
-    public static void spielErstellen(String name, int maxAnzahlSpieler)
+    static void spielErstellen(String name, int maxAnzahlSpieler)
     {
         senden("?b" + maxAnzahlSpieler + name);
     }
 
     @SuppressWarnings("WeakerAccess")
-    public static void spielBeitreten(int ID)
+    static void spielBeitreten(int ID)
     {
         senden("?c" + ID);
-    }
-
-    public static void fruehBeenden()
-    {
-        senden("v");
     }
 }

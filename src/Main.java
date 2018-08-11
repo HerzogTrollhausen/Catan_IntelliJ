@@ -25,6 +25,7 @@ public class Main
     static JFrame fenster;
     static Hauptmenue hauptmenue;
     static boolean starter = false;
+    static boolean testmodus = false;
 
     public static void main(String[] args)
     {
@@ -53,11 +54,7 @@ public class Main
         {
             ex.printStackTrace();
         }
-        spieler = new Spieler[anzahlSpieler];
-        for (byte i = 0; i < anzahlSpieler; i++)
-        {
-            spieler[i] = new Spieler(i);
-        }
+
         fenster = new JFrame(Nuz.HAUPTTITEL);
         fenster.addWindowListener(new WindowListener()
         {
@@ -285,6 +282,11 @@ public class Main
 
     public static void start()
     {
+        spieler = new Spieler[anzahlSpieler];
+        for (byte i = 0; i < anzahlSpieler; i++)
+        {
+            spieler[i] = new Spieler(i);
+        }
         bildschirm = new Bildschirm(fenster);
         //Client.senden("b"+Welt.stapelZahlen("Feld"));
         Welt.initWelt(3);

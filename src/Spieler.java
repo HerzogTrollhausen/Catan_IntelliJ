@@ -2,24 +2,21 @@ import javax.swing.*;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class Spieler
-{
+public class Spieler {
     Inventar inv;
     ArrayList<Siedlung> siedlungen = new ArrayList<>();
     Color farbe;
     Inventar letzteErnte;
     byte id;//0 == rot, 1 == blau, 2 == weiß, 3 == orange
     int anzahlSiedlungen, anzahlStaedte, anzahlStrassen, anzahlGelegteRitter;
-    public int rittermachtSiegpunkte = 0;
+    int rittermachtSiegpunkte = 0;
     @SuppressWarnings("WeakerAccess")
     public int handelsstrasse = 0;
     ArrayList<Kante> strassen = new ArrayList<>();
 
-    public Spieler(byte id)
-    {
+    public Spieler(byte id) {
         this.id = id;
-        switch (id)
-        {
+        switch (id) {
             case 0:
                 farbe = new Color(255, 0, 0);
                 break;
@@ -32,73 +29,59 @@ public class Spieler
             case 3:
                 farbe = new Color(255, 140, 0);
         }
-        inv = new Inventar(Inventar.Inventararten.TEST, this);
+        inv = new Inventar(Main.testmodus ? Inventar.Inventararten.TEST : Inventar.Inventararten.START,
+                this);
     }
 
 
-
-    public void ernte(int wuerfel)
-    {
+    void ernte(int wuerfel) {
         letzteErnte = new Inventar();
-        for (Siedlung aSiedlungen : siedlungen)
-        {
+        for (Siedlung aSiedlungen : siedlungen) {
             int[] tmp = aSiedlungen.ernte(wuerfel);
             inv.hinzu(tmp);
             letzteErnte.hinzu(tmp);
         }
     }
 
-    public int anzahlEntwicklungskarten(int typ)
-    {
+    int anzahlEntwicklungskarten(int typ) {
         return inv.anzahlEntwicklungskarten(typ);
     }
 
-    static int randomRohstoff(int[] inv)
-    {
+    static int randomRohstoff(int[] inv) {
         int rand = (int) (Math.random() * sumOfArray(inv));
         int untergrenze = 0;
-        for (int j = 0; j < 5; j++)
-        {
-            if (rand >= untergrenze && rand <= untergrenze - 1 + inv[j])
-            {
+        for (int j = 0; j < 5; j++) {
+            if (rand >= untergrenze && rand <= untergrenze - 1 + inv[j]) {
                 return j;
-            } else
-            {
+            } else {
                 untergrenze += inv[j];
             }
         }
         return -1;
     }
 
-    private static int sumOfArray(int[] a)
-    {
+    private static int sumOfArray(int[] a) {
         int tmp = 0;
-        for (int anA : a)
-        {
+        for (int anA : a) {
             tmp += anA;
         }
         return tmp;
     }
 
-    public void ziehEntwicklungskarte(int nr)
-    {
+    void ziehEntwicklungskarte(int nr) {
         int typ = Entwicklungskarten.stapel.get(nr, true).intInhalt;
         inv.entwicklungskarten[typ]++;
     }
 
 
-    public int siegPunkte()
-    {
+    int siegPunkte() {
         return anzahlSiedlungen + 2 * anzahlStaedte + anzahlEntwicklungskarten(1) + rittermachtSiegpunkte + handelsstrasse;
     }
 
-    public void handelsStrasseErmitteln()
-    {
+    public void handelsStrasseErmitteln() {
         int tmp = 0;
-        for(Kante aKante : strassen)
-        {
-            for(Kante bKante : strassen)
-            {
+        for (Kante aKante : strassen) {
+            for (Kante bKante : strassen) {
                 bKante.abgelaufen = false;
             }
             int tmpTiefe = aKante.tiefeFinden();
@@ -108,8 +91,7 @@ public class Spieler
         JOptionPane.showMessageDialog(Bildschirm.getF(), tmp);
     }
 
-    public String toString()
-    {
+    public String toString() {
         return Nuz.spielerToString(id);
     }
 }

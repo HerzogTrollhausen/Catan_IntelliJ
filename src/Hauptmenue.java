@@ -1,11 +1,11 @@
 import javax.swing.*;
 import java.io.*;
+import java.util.List;
 
 /**
  * TODO: Das ganze sehr, sehr viel hübscher machen, "Zurück"-Knöpfe etc., Settings
  */
-public class Hauptmenue extends JPanel
-{
+class Hauptmenue extends JPanel {
 
     private static final String standardhost = "localhost";
     private static final int standardport = 6677;
@@ -13,8 +13,7 @@ public class Hauptmenue extends JPanel
     private static int port;
     JButton starten = new JButton(Nuz.HAUPTMENUE_SPIELSTARTEN);
 
-    Hauptmenue()
-    {
+    Hauptmenue() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JButton local = new JButton(Nuz.HAUPTMENUE_LOKALBUTTON);
         local.addActionListener(e ->
@@ -24,18 +23,19 @@ public class Hauptmenue extends JPanel
             int wahl = JOptionPane.showOptionDialog(Main.fenster, "Willst du ein neues Spiel starten oder ein altes laden?",
                     "Neues Spiel?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                     options[0]);
-            if (wahl == 0)
-            {
+            if (wahl == 0) {
                 Main.starter = true;
                 OnlineInterpreter.spielStarten();
-            } else
-            {
+            } else {
                 JFileChooser chooser = new JFileChooser();
                 chooser.setCurrentDirectory(new File(Nuz.SAVEGAME_LOCATION));
                 int fileChooserReturn = chooser.showOpenDialog(Main.fenster);
-                if(fileChooserReturn == JFileChooser.APPROVE_OPTION)
-                {
-                    OnlineInterpreter.readSaveFile(chooser.getSelectedFile());
+                if (fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+                    List<String> list = OnlineInterpreter.readSaveFile(chooser.getSelectedFile());
+                    for(String aString : list)
+                    {
+                        Client.senden(aString);
+                    }
                 }
             }
         });
@@ -47,15 +47,12 @@ public class Hauptmenue extends JPanel
             host = (String) JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.HAUPTMENUE_HOSTPOPUP_FRAGE, Nuz.HAUPTMENUE_HOSTPOPUP_TITEL,
                     JOptionPane.QUESTION_MESSAGE, null, null, standardhost);
             boolean erfolgreich = false;
-            while (!erfolgreich)
-            {
-                try
-                {
+            while (!erfolgreich) {
+                try {
                     port = Integer.parseInt((String) JOptionPane.showInputDialog(Bildschirm.getF(), Nuz.HAUPTMENUE_PORTNUMMER_FRAGE, Nuz.HAUPTMENUE_PORTNUMMER_TITEL,
                             JOptionPane.QUESTION_MESSAGE, null, null, standardport));
                     erfolgreich = true;
-                } catch (NumberFormatException ex)
-                {
+                } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(Bildschirm.getF(), Nuz.HAUPTMENUE_PORT_NUMBERFORMAT_FRAGE, Nuz.FEHLER, JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -72,10 +69,16 @@ public class Hauptmenue extends JPanel
             OnlineInterpreter.spielStarten();
         });
 
-        add(local);
+        JCheckBox testModeBox = new JCheckBox("Testmodus", false);
+        testModeBox.addActionListener(e ->
+                {
+                    Main.testmodus = testModeBox.isSelected();
+                });
+
+                add(local);
         add(online);
         add(quit);
-
+        add(testModeBox);
         /*new Timer((int)100/6, new ActionListener()
         {
             public void actionPerformed(ActionEvent e)

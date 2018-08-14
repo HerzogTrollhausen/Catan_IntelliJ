@@ -128,7 +128,7 @@ public class Eckpanel extends JPanel
         return kante.ecke1 == Main.letzteSiedlung || kante.ecke2 == Main.letzteSiedlung;
     }
 
-    public void leerEcke(Ecke ecke)
+    void leerEcke(Ecke ecke)
     {
         String exString = "";
         removeAll();

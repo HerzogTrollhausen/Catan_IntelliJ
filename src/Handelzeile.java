@@ -2,6 +2,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.*;
 
 public class Handelzeile extends JPanel
 {
@@ -11,6 +12,7 @@ public class Handelzeile extends JPanel
     {
         normal(s1, gut);
         betrag = new JSpinner(new SpinnerNumberModel(0, -1 * s1.inv.rohstoffe[gut], s2.inv.rohstoffe[gut], 1));
+        betrag.setMinimumSize(new Dimension(100, 50));
         add(betrag);
         JLabel rechtslabel = new JLabel("" + s2.inv.rohstoffe[gut]);
         add(rechtslabel);
@@ -31,6 +33,7 @@ public class Handelzeile extends JPanel
         {
             betrag = new JSpinner();//new SpinnerNumberModel(0, -1 * Main.spieler().inv.rohstoffe[gut], 0, 1));
         }
+        betrag.setMinimumSize(new Dimension(100, 50));
         add(betrag);
     }
 

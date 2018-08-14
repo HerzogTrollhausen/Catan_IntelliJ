@@ -33,7 +33,7 @@ public class Zahlplatte extends RectangleImage
         button.setBounds((int)rechteck.getX(), (int)rechteck.getY(), (int)rechteck.getWidth(), (int)rechteck.getHeight());
         button.addActionListener(e ->
         {
-            if(Bandit.amSetzen)
+            if(Bandit.amSetzen && feld != Bandit.feld)
             {
                 Bandit.hinsetzen(feld);
             }

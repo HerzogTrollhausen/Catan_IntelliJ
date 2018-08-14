@@ -3,21 +3,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
-public class Anderepanel extends JPanel
+class Anderepanel extends JPanel
 {
     private Spieler spieler;
     private JLabel[] rohstoffe;
     private JLabel siegpunkte;
     private JButton handel;
-    public static int width = 250;
-    public static int height = 200;
     Anderepanel(Spieler spieler)
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.spieler = spieler;
         JPanel farbe = new JPanel();
-        farbe.setMinimumSize(new Dimension(width, 50));
-        farbe.setMaximumSize(new Dimension(width, 50));
+        farbe.setMinimumSize(new Dimension(Guz.andereX(), 50));
+        farbe.setMaximumSize(new Dimension(Guz.andereX(), 50));
         farbe.setBackground(spieler.farbe);
         
         farbe.setLayout(new BoxLayout(farbe, BoxLayout.Y_AXIS));
@@ -40,9 +38,9 @@ public class Anderepanel extends JPanel
         add(siegpunkte);
     }
     
-    public void updateRohstoffe()
+    void updateRohstoffe()
     {
-        handel.setVisible(spieler != Main.ich() && (spieler == Main.spieler() || Main.spieler() == Main.ich()));
+        handel.setVisible(!Main.frueh && spieler != Main.ich() && (spieler == Main.spieler() || Main.spieler() == Main.ich()));
         for(int i = 0; i < 5; i++)
         {
             rohstoffe[i].setText(Nuz.rohstoffName(i, true)+" : "+spieler.inv.rohstoffe[i] + (spieler.letzteErnte == null || spieler.letzteErnte.rohstoffe[i] == 0

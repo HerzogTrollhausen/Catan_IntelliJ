@@ -26,6 +26,7 @@ public class Main
     static Hauptmenue hauptmenue;
     static boolean starter = false;
     static boolean testmodus = false;
+    static int sWurf;
 
     public static void main(String[] args)
     {
@@ -46,16 +47,17 @@ public class Main
                 ex.printStackTrace();
             }
         }
+
+        fenster = new JFrame(Nuz.HAUPTTITEL);
+        fenster.setExtendedState( fenster.getExtendedState()|JFrame.MAXIMIZED_BOTH );
+        System.out.println(fenster.getWidth());
         try
         {
             ImagesLaden();
-            Buz.init();
         } catch (IOException ex)
         {
             ex.printStackTrace();
         }
-
-        fenster = new JFrame(Nuz.HAUPTTITEL);
         fenster.addWindowListener(new WindowListener()
         {
             @Override
@@ -104,12 +106,17 @@ public class Main
 
             }
         });
-        fenster.setSize(1600, 900);
+        //fenster.setSize(1600, 900);
         fenster.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         hauptmenue = new Hauptmenue();
         fenster.add(new Hauptmenue());
         fenster.setContentPane(hauptmenue);
         fenster.setVisible(true);
+        try {
+            Buz.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //mitServerVerbinden("localhost", 6677);
     }
 
@@ -131,6 +138,7 @@ public class Main
 
     public static void nextPlayer(int wurf)
     {
+        sWurf = wurf;
         if (!frueh)
         {
             if (Main.spieler().siegPunkte() >= 10)
@@ -139,7 +147,6 @@ public class Main
             }
             spielernr = spielernr == anzahlSpieler - 1 ? 0 : spielernr + 1;
             ernte(wurf);
-            Bildschirm.setSpielerpanelLabelText(Nuz.LETZTER_WURF + wurf);
         } else
         {
             spielernr = spielernr + fruehvor;
@@ -153,11 +160,11 @@ public class Main
                 beendeFrueh();
             }
         }
+        Spielerpanel.akt();
         Bildschirm.setFarbeFarbe(spieler().farbe);
         Bildschirm.setMomentanSpielerLabelText(Nuz.BILDSCHIRM_MOM_SPIELER + spieler().id);
         Bildschirm.clearEckpanel();
         Welt.dunkel();
-        Bildschirm.anderePanelAkt();
         if (lokal)
         {
             ich = spielernr;
@@ -169,6 +176,7 @@ public class Main
         {
             Bildschirm.getNaechster().setEnabled(true);
         }
+        Bildschirm.anderePanelAkt();
     }
 
     static boolean dran()
@@ -178,9 +186,9 @@ public class Main
 
     public static void beendeFrueh()
     {
-        JOptionPane.showMessageDialog(fenster, "Fr\u00fchphase ist vorbei");
         spielernr = 0;
         frueh = false;
+        Spielerpanel.label.setFont(new Font(Font.SERIF, Font.BOLD, 160));
         Bildschirm.getNaechster().setEnabled(true);
         Bildschirm.entwicklung.setEnabled(true);
     }
@@ -228,7 +236,8 @@ public class Main
         Kante.wege = new Image[4];
         for (int i = 0; i < 4; i++)
         {
-            Kante.wege[i] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Kanten/Weg" + i + ".gif"), Bildschirm.kanteb, Bildschirm.kanteh, false);
+            Kante.wege[i] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Kanten/Weg" + i + ".gif"),
+                    Guz.kanteX(), Guz.kanteY(), false);
         }
         Hafen.haefen = new Image[6];
         for (int i = 0; i < 6; i++)

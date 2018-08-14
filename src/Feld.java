@@ -19,7 +19,8 @@ public class Feld extends RectangleImage
 
     public Feld(double x, int y)
     {
-        super(FileManager.createResizedCopy(Buz.FELD_HOLZ, Bildschirm.feldb, Bildschirm.feldh, false), Bildschirm.ox + Bildschirm.feldb * x + y * 0.5 * Bildschirm.feldb, Bildschirm.oy + y * (int) (Bildschirm.feldh * 0.75));
+        super(FileManager.createResizedCopy(Buz.FELD_HOLZ, Guz.feldX(), Guz.feldY(), false),
+                Guz.oX() + Guz.feldX() * x + y * 0.5 * Guz.feldX(), Guz.oY() + y * (int) (Guz.feldY() * 0.75));
         //super(lade(art), Bildschirm.ox+Bildschirm.feldb*x+y*0.5*Bildschirm.feldb, Bildschirm.oy+y*(int)(Bildschirm.feldh*0.75));
         this.x = (int) x;
         this.y = y;
@@ -102,7 +103,9 @@ public class Feld extends RectangleImage
         {
             wert = Welt.plaettchenArray[Welt.plaettchenI];
             Welt.plaettchenI++;
-            Bildschirm.grafikobjekte.add(new Zahlplatte(this, wert, (rechteck.x + (rechteck.width / 2)) - (int) (0.5 * (Bildschirm.feldb / Bildschirm.plattenr)), rechteck.y + rechteck.height / 2 - (int) (0.5 * Bildschirm.feldh / Bildschirm.plattenr)));
+            Bildschirm.grafikobjekte.add(new Zahlplatte(this, wert, (rechteck.x + (rechteck.width / 2)) -
+                    (int) (0.5 * (Guz.feldX()/ Bildschirm.plattenr)), rechteck.y + rechteck.height / 2 -
+                    (int) (0.5 * Guz.feldY() / Bildschirm.plattenr)));
         }
         refreshBild();
     }
@@ -152,9 +155,9 @@ public class Feld extends RectangleImage
                 OnlineInterpreter.bezahlen(spieler, beute);
                 OnlineInterpreter.bekommen(Main.spieler(), beute);
                 OnlineInterpreter.privatPopup(Main.spieler(), Nuz.RAUB_NOTIFICATION_TITLE,
-                        Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_1 + Nuz.rohstoffName(j, true) + Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_2);
+                        Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_1 + Nuz.rohstoffName(j, false) + Nuz.RAUB_ATTACKER_NOTIFICATION_MESSAGE_2);
                 OnlineInterpreter.privatPopup(spieler, Nuz.RAUB_NOTIFICATION_TITLE,
-                        Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_1 + Nuz.rohstoffName(j, true) + Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_2);
+                        Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_1 + Nuz.rohstoffName(j, false) + Nuz.RAUB_DEFENDER_NOTIFICATION_MESSAGE_2);
                 Bildschirm.anderePanelAkt();
                 return;
             } else

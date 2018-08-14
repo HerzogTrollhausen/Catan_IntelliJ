@@ -1,14 +1,11 @@
 import java.awt.Color;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.*;
 
 public class Optionspanel extends JPanel
 {
     Optionspanel()
     {
-        setSize(200, 400);
         setBackground(Color.WHITE);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         JButton speichern = new JButton(Nuz.SPEICHERN_BUTTON);

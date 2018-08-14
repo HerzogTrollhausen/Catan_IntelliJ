@@ -1,34 +1,36 @@
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
-public class Spielerpanel extends JPanel
-{
-    JLabel label;
+import java.awt.*;
 
-    Spielerpanel()
-    {
-        setBackground(Main.ich().farbe);
+class Spielerpanel extends JPanel {
+    static JLabel label;
+
+    Spielerpanel() {
+        if (!Main.lokal) {
+            setBackground(Main.ich().farbe);
+        } else {
+            setBackground(Color.LIGHT_GRAY);
+        }
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         label = new JLabel();
         add(label);
     }
 
-    public static void akt()
-    {
-        if(Main.frueh)
-        {
+    static void akt() {
             Bildschirm.getSpielerpanel().start();
-        }
-        else
-        {
-            System.err.println("Spielerpanel.akt()"+Main.frueh);
-        }
     }
 
-    private void start()
-    {
-        setBackground(Main.ich().farbe);
-        label.setText(Main.fruehsiedlung?Nuz.verbleibendeFruehSiedlungenSpielerpanel((Main.fruehvor+3)/2):Nuz.ECKPANEL_STRASSE_AN_SIEDLUNG);
+    private void start() {
+        if(Main.frueh) {
+            if (!Main.lokal) {
+                setBackground(Main.ich().farbe);
+            }
+            label.setText(Main.fruehsiedlung ? Nuz.verbleibendeFruehSiedlungenSpielerpanel((Main.fruehvor + 3) / 2) : Nuz.ECKPANEL_STRASSE_AN_SIEDLUNG);
+        }
+        else{
+            label.setText(""+Main.sWurf);
+        }
         revalidate();
         setVisible(true);
     }

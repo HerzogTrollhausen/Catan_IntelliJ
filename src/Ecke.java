@@ -46,7 +46,8 @@ public class Ecke extends RectangleImage
                     //System.out.println("Bilder/Siedlungen/"+entwicklungskarteAuspielen+"_"+j+".gif");
                     try
                     {
-                        siedlungen[i][j] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Siedlungen/" + i + "_" + j + ".gif"), Bildschirm.eckeb, Bildschirm.eckeh, false);
+                        siedlungen[i][j] = FileManager.createResizedCopy(FileManager.bildLaden("Bilder/Siedlungen/" + i + "_" + j + ".gif"),
+                                Guz.eckeX(), Guz.eckeY(), false);
                     } catch (IOException e)
                     {
                         e.printStackTrace();//TODO: Das Ganze irgendwie auslagern nach Buz
@@ -77,7 +78,8 @@ public class Ecke extends RectangleImage
             {
                 yr = 1;
             }
-            bewegen((feld.rechteck.getX() + xr * Bildschirm.feldb) - 0.5 * Bildschirm.eckeb, (feld.rechteck.getY() + yr * Bildschirm.feldh) - 0.5 * Bildschirm.eckeh);
+            bewegen((feld.rechteck.getX() + xr * Guz.feldX()) - 0.5 * Guz.eckeX(),
+                    (feld.rechteck.getY() + yr * Guz.feldY()) - 0.5 * Guz.eckeY());
             Bildschirm.grafikobjekte.add(this);
 
             JButton button = new JButton();

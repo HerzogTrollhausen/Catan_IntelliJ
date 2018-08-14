@@ -87,7 +87,7 @@ public class Kante extends RectangleImage
             {
                 yr = 0.5;
             }
-            bewegen((feld.rechteck.getX() + xr * Bildschirm.feldb) - 0.5 * Bildschirm.eckeb, (feld.rechteck.getY() + yr * Bildschirm.feldh) - 0.5 * Bildschirm.eckeh);
+            bewegen((feld.rechteck.getX() + xr * Guz.feldX()) - 0.5 * Guz.eckeX(), (feld.rechteck.getY() + yr * Guz.feldY()) - 0.5 * Guz.eckeY());
             Bildschirm.grafikobjekte.add(this);
 
             buttonStuff();

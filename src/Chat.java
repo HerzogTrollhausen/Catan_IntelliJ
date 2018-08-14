@@ -15,7 +15,7 @@ public class Chat extends JPanel
         area.setAutoscrolls(true);
         JPanel unten = new JPanel();
         field = new JTextField();
-        field.setPreferredSize(new Dimension(200, 40));
+        field.setPreferredSize(new Dimension(150, 40));
         JButton button = new JButton(Nuz.CHAT_SENDEN);
         button.addActionListener(e ->
         {

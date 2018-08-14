@@ -32,8 +32,7 @@ class Hauptmenue extends JPanel {
                 int fileChooserReturn = chooser.showOpenDialog(Main.fenster);
                 if (fileChooserReturn == JFileChooser.APPROVE_OPTION) {
                     List<String> list = OnlineInterpreter.readSaveFile(chooser.getSelectedFile());
-                    for(String aString : list)
-                    {
+                    for (String aString : list) {
                         Client.senden(aString);
                     }
                 }
@@ -71,11 +70,9 @@ class Hauptmenue extends JPanel {
 
         JCheckBox testModeBox = new JCheckBox("Testmodus", false);
         testModeBox.addActionListener(e ->
-                {
-                    Main.testmodus = testModeBox.isSelected();
-                });
+                Main.testmodus = testModeBox.isSelected());
 
-                add(local);
+        add(local);
         add(online);
         add(quit);
         add(testModeBox);

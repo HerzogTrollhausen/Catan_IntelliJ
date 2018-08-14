@@ -5,7 +5,7 @@ public class Inventar
 
     static int[] strasse = {1, 1, 0, 0, 0};
     static int[] siedlung = {1, 1, 1, 1, 0};
-    static int[] stadt = {0, 0, 0, 1, 1};
+    static int[] stadt = {0, 0, 0, 2, 3};
     static int[] entwicklung = {0, 0, 1, 1, 1};
     private static int[] test = {10, 10, 10, 10, 10};
     private static int[] start = {1, 1, 1, 1, 1};
